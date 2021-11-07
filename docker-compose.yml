@@ -1,0 +1,43 @@
+version: '3.5'
+
+services:
+  backend:
+    build: 
+      context: .
+      dockerfile: DockerFile.node
+      args: 
+        WORKING_DIR: /app/
+        PACKAGE_PATH: app/
+    expose: 
+        - "4000"
+    volumes: 
+      - ./app:/app/
+    ports:
+      - "4000:4000"
+    depends_on:
+      - cache
+    command: ["npm", "start"]
+  
+  frontend:
+    build:
+      context: .
+      dockerfile: DockerFile.node
+      args: 
+        PACKAGE_PATH: ./client
+        WORKING_DIR: /app/
+    expose: 
+        - "3000"
+    volumes: 
+      - ./client:/app/client
+    ports:
+      - "3000:3000"
+    environment:
+      - BACKEND=backend:4000
+      - CHOKIDAR_USEPOLLING=true
+    depends_on:
+      - backend
+    command: ["npm", "start"]
+        
+  cache:
+    image: redis:6.2.6
+    command: redis-server
