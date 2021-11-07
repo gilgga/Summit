@@ -1,9 +1,9 @@
-FROM node:12.22.7-alpine
+FROM node:14.17.6-alpine
 
 ARG PACKAGE_PATH=
 ARG WORKING_DIR=
 WORKDIR ${WORKING_DIR}
 COPY ${PACKAGE_PATH} ${WORKING_DIR}
-RUN npm install
+RUN npm install -f
 VOLUME $WORKING_DIR/node_modules
 CMD [ "npm", "start" ]
