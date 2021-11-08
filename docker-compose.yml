@@ -4,10 +4,7 @@ services:
   backend:
     build: 
       context: .
-      dockerfile: DockerFile.node
-      args: 
-        WORKING_DIR: /app/
-        PACKAGE_PATH: backend/
+      dockerfile: backend/DockerFile
     expose: 
         - "4000"
     volumes: 
@@ -23,10 +20,7 @@ services:
   frontend:
     build:
       context: .
-      dockerfile: DockerFile.node
-      args: 
-        PACKAGE_PATH: ./client
-        WORKING_DIR: /app/
+      dockerfile: client/Dockerfile
     expose: 
         - "3000"
     volumes: 
