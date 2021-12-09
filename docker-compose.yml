@@ -4,7 +4,7 @@ services:
   backend:
     build: 
       context: .
-      dockerfile: backend/DockerFile
+      dockerfile: backend/Dockerfile
     expose: 
         - "4000"
     volumes: 
@@ -41,3 +41,10 @@ services:
       - "6379:6379"
     expose: 
       - "6379"
+  mongodb:
+    image: mongo:4.4.10
+    expose: 
+      - "27017"
+    ports:
+      - "27017:27017"
+
