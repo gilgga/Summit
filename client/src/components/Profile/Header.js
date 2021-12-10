@@ -19,7 +19,6 @@ import background from "../../img/background.jpeg"
 
 const useStyles = makeStyles({
     card: {
-        height: 500,
         width: "100%",
         borderRadius: 75,
         margin: 'auto',
@@ -42,7 +41,7 @@ const useStyles = makeStyles({
         backgroundColor: "lightblue"
     },
 });
-const ImageBox = (props) => {
+const Header = (props) => {
     const {user} = props;
     const classes =  useStyles();
     return (
@@ -78,4 +77,4 @@ const ImageBox = (props) => {
     );
 }
 
-export default ImageBox;
+export default Header;
