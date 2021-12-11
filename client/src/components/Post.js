@@ -26,7 +26,7 @@ const Post = (props) => {
               subheader={`Posted by ${post.userPosted} @ ${post.time}`}
             />
             <CardContent>
-              <Typography variant="body2" color="text.secondary">
+              <Typography variant="body2" color="textPrimary">
                 {post.content}
               </Typography>
             </CardContent>

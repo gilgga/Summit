@@ -24,9 +24,6 @@ const useStyles = makeStyles({
         marginLeft:  'auto',
         marginRight: 'auto',
         backgroundColor: "lightblue",
-        boxShadow: '0 19px 38px rgba(0,0,0,0.30), 0 15px 12px rgba(0,0,0,0.22);',
-        backgroundImage: `url(${background})`,
-        backgroundSize: "cover"
     },
     avatar: {
         marginLeft:  'auto',
@@ -45,7 +42,7 @@ const Header = (props) => {
     const classes =  useStyles();
     return (
         <>
-            <Container fixed maxWidth="xl">
+            <Container fixed Width="100%" disableGutters>
                 <Grid
                     container
                     className = {classes.grid}

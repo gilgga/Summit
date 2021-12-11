@@ -3,7 +3,6 @@ import {v4 as uuid} from 'uuid';
 import moment from 'moment';
 import {
     Grid,
-    makeStyles,
     Typography
 } from "@material-ui/core";
 
@@ -14,7 +13,9 @@ import {
 import Courses from './Courses'
 import Posts from './Posts';
 import Header from './Header';
-import Description from './Description'
+import Description from './Description';
+import Topics from './Topics';
+
 
 const exampleUser = {
     _id: 1234,
@@ -65,13 +66,28 @@ const exampleUser = {
     ]
 }
 
-const usertopics = [];
+const usertopics = [
+    {
+        id: uuid(),
+        name: "Stevens discussion",
+        description: "A very positive thread about stevens",
+        usersEnrolled: [exampleUser],
+        posts: ["I'm so happy this school is affordable", "The Computer Engineering degree is so useful!"]
+    },
+    {
+        id: uuid(),
+        name: "Stevens discussion",
+        description: "A very positive thread about stevens",
+        usersEnrolled: [exampleUser],
+        posts: ["I'm so happy this school is affordable", "The Computer Engineering degree is so useful!"]
+    }
+];
 const usercourses = [
     {
         id: uuid(),
         name: "CPE-360",
         description : "A fantastic and well thought out course taught by the amazing Dov Kruger",
-        usersEnrolled: exampleUser,
+        usersEnrolled: [exampleUser],
         posts: ["Wow, I learned so much!", "He answers my questions concisely and quickly!"]// This is supposed to be a subdocument but it is a str for the time being
     },
     {
@@ -90,26 +106,24 @@ const usercourses = [
     },
 ];
 
-const useStyles = makeStyles({
-    box: {
-        width: 500,
-        height: 500,
-        color: "lightblue"
-    },
-});
 
 const ProfilePage = () => {
-    const classes = useStyles();
     const fullName = exampleUser.firstName + " " + exampleUser.lastName;
     return (
         <>
-            <Header user={exampleUser}/>
             <br></br>
             <Container fixed>
+
             <Grid 
                 container 
                 spacing = {5}
             >
+
+                <Grid item xs={12}>
+                    <Header user={exampleUser}/>
+                </Grid>
+
+
                 <Typography
                     align = "left"
                     gutterBottom
@@ -146,8 +160,6 @@ const ProfilePage = () => {
                     <Courses courses = {usercourses}/>
                 </Grid>
 
-                <Grid item xs={12}>
-                </Grid>
                 <Typography
                     align = "left"
                     variant = "h4"
@@ -156,6 +168,7 @@ const ProfilePage = () => {
                     Topics {fullName} follows
                 </Typography>
                 <Grid item xs={12}>
+                    <Topics topics = {usertopics} />
                 </Grid>
             </Grid>
             </Container>
