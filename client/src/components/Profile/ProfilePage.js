@@ -7,7 +7,8 @@ import {
 } from "@material-ui/core";
 
 import {
-    Container
+    Container,
+    Divider
 } from '@mui/material';
 
 import Courses from './Courses'
@@ -122,7 +123,6 @@ const ProfilePage = () => {
                 <Grid item xs={12}>
                     <Header user={exampleUser}/>
                 </Grid>
-
 
                 <Typography
                     align = "left"

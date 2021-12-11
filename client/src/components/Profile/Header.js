@@ -1,7 +1,8 @@
-import react from 'react';
+import {react, useEffect, useState} from 'react';
 import {
     Avatar,
-    Container
+    Container,
+    IconButton
 } from '@mui/material';
 
 import { 
@@ -12,6 +13,10 @@ import {
     makeStyles,
     Typography,
  } from '@material-ui/core';
+
+ import {
+     Edit as EditIcon
+ } from '@mui/icons-material'
 
 import NoImage from "../../img/ProfileImage.jpeg"
 import background from "../../img/background.jpeg"
@@ -40,9 +45,11 @@ const useStyles = makeStyles({
 const Header = (props) => {
     const {user} = props;
     const classes =  useStyles();
+    const [edit, setEdit] = useState(false);    
+
     return (
         <>
-            <Container fixed Width="100%" disableGutters>
+            <Container fixed width="100%" disableGutters>
                 <Grid
                     container
                     className = {classes.grid}
@@ -58,6 +65,9 @@ const Header = (props) => {
                             alt = {user.firstName + " " + user.lastName}
                             src = {NoImage}
                         />
+                        <IconButton onClick={() => setEdit(!edit)}  size="large" aria-label="edit" >
+                            <EditIcon fontSize="inherit"/>
+                        </IconButton>
                         <Typography
                             align = "center"
                             variant="h1"
