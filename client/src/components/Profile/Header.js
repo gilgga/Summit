@@ -1,7 +1,6 @@
 import react from 'react';
 import {
     Avatar,
-    Box,
     Container
 } from '@mui/material';
 

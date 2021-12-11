@@ -2,7 +2,8 @@ import react from "react";
 import {ApolloClient, HttpLink, InMemoryCache, ApolloProvider } from '@apollo/client';
 import { BrowserRouter as Router, Route, Link, Switch } from 'react-router-dom';
 
-import Landing from './components/Landing';
+import Landing     from './components/Landing';
+import NotFound    from  './components/NotFound';
 import ProfilePage from './components/Profile/ProfilePage';
 
 import logo from './logo.svg';
@@ -24,8 +25,10 @@ function App() {
       <Switch>
         <Route exact path="/" component={Landing}/>
         <Route exact path="/user-profile/:id" component={ProfilePage}/>
+        <Route exact path="/*" component={NotFound}/>
       </Switch>
       </Router>
+      {/* Maybe a footer or something */}
     </ApolloProvider>
   );
 }
