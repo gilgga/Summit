@@ -2,9 +2,14 @@ import react from "react";
 import {ApolloClient, HttpLink, InMemoryCache, ApolloProvider } from '@apollo/client';
 import { BrowserRouter as Router, Route, Link, Switch } from 'react-router-dom';
 
-import Landing     from './components/Landing';
-import NotFound    from  './components/NotFound';
-import ProfilePage from './components/Profile/ProfilePage';
+import CourseFeed  from   './components/CourseFeed'
+import Footer      from   './components/Footer';
+import Landing     from   './components/Landing';
+import Navbar      from   './components/Navbar';
+import NotFound    from   './components/NotFound';
+import ProfilePage from   './components/Profile/ProfilePage';
+import TopicFeed   from   './components/TopicFeed';
+
 
 import logo from './logo.svg';
 import './App.css';
@@ -20,15 +25,17 @@ const client = new ApolloClient({
 function App() {
   return (
     <ApolloProvider client={client}>
-      {/* Maybe a navbar or something */}
+      <Navbar/>
       <Router>
       <Switch>
         <Route exact path="/" component={Landing}/>
         <Route exact path="/user-profile/:id" component={ProfilePage}/>
+        <Route exact path="/explore/courses" component={CourseFeed}/>
+        <Route exact path="/explore/topics"  component={TopicFeed} />
         <Route exact path="/*" component={NotFound}/>
       </Switch>
       </Router>
-      {/* Maybe a footer or something */}
+      <Footer/>
     </ApolloProvider>
   );
 }

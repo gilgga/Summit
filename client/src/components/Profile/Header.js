@@ -22,9 +22,7 @@ import {
     Typography,
  } from '@material-ui/core';
 
- import {
-     Edit as EditIcon
- } from '@mui/icons-material'
+ import Edit from '@mui/icons-material/Edit'
 
 import NoImage from "../../img/ProfileImage.jpeg"
 
@@ -147,7 +145,7 @@ const Header = (props) => {
 
     const EditButton = authorized &&
         <>
-            <Button variant="contained" color="primary" startIcon={<EditIcon/>} onClick={() => setEdit(!edit)}>
+            <Button variant="contained" color="primary" startIcon={<Edit/>} onClick={() => setEdit(!edit)}>
                     Edit Profile
             </Button>
         </>
