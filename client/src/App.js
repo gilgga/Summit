@@ -27,19 +27,19 @@ const client = new ApolloClient({
 function App() {
   return (
     <ApolloProvider client={client}>
-      <Navbar/>
-      <Box sx = {{ minHeight : "850px" }}>
         <Router>
-        <Switch>
-          <Route exact path="/" component={Landing}/>
-          <Route exact path="/user-profile/:id" component={ProfilePage}/>
-          <Route exact path="/explore/courses" component={CourseFeed}/>
-          <Route exact path="/explore/topics"  component={TopicFeed} />
-          <Route exact path="/*" component={NotFound}/>
-        </Switch>
-        </Router>
-      </Box>
-      <Footer/>
+        <Navbar/>
+          <Box sx = {{ minHeight : "750px", paddingTop: "50px", paddingBottom: "20px" }}>
+            <Switch>
+              <Route exact path="/" component={Landing}/>
+              <Route exact path="/user-profile/:id" component={ProfilePage}/>
+              <Route exact path="/explore/courses" component={CourseFeed}/>
+              <Route exact path="/explore/topics"  component={TopicFeed} />
+              <Route exact path="/*" component={NotFound}/>
+            </Switch>
+          </Box>
+        <Footer/>
+      </Router>
     </ApolloProvider>
   );
 }
