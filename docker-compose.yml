@@ -3,12 +3,13 @@ version: '3.5'
 services:
   backend:
     build: 
-      context: .
-      dockerfile: backend/Dockerfile
+      context: backend/
+      dockerfile: Dockerfile
     expose: 
         - "4000"
     volumes: 
       - ./backend:/app/
+      - /app/node_modules
     ports:
       - "4000:4000"
     environment:
@@ -19,12 +20,13 @@ services:
   
   frontend:
     build:
-      context: .
-      dockerfile: client/Dockerfile
+      context: client/
+      dockerfile: Dockerfile
     expose: 
         - "3000"
     volumes: 
       - ./client:/app/
+      - /app/node_modules
     ports:
       - "3000:3000"
     environment:
