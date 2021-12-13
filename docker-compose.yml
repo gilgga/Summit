@@ -3,7 +3,7 @@ version: '3.5'
 services:
   backend:
     build: 
-      context: .
+      context: backend/
       dockerfile: backend/Dockerfile
     expose: 
         - "4000"
@@ -19,7 +19,7 @@ services:
   
   frontend:
     build:
-      context: .
+      context: client/
       dockerfile: client/Dockerfile
     expose: 
         - "3000"
