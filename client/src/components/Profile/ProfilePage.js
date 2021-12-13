@@ -86,21 +86,21 @@ const usertopics = [
 const usercourses = [
     {
         id: uuid(),
-        name: "CPE-390",
+        name: "CPE 390",
         description : "A fantastic and well thought out course taught by the amazing Dov Kruger",
         usersEnrolled: [exampleUser],
         posts: ["Wow, I learned so much!", "He answers my questions concisely and quickly!"]// This is supposed to be a subdocument but it is a str for the time being
     },
     {
         id: uuid(),
-        name: "CPE-390",
+        name: "CPE 390",
         description : "A fantastic and well thought out course taught by the amazing Dov Kruger",
         usersEnrolled: exampleUser,
         posts: ["Wow, I learned so much!", "He answers my questions concisely and quickly!"]// This is supposed to be a subdocument but it is a str for the time being
     },
     {
         id: uuid(),
-        name: "CPE-390",
+        name: "CPE 390",
         description : "A fantastic and well thought out course taught by the amazing Dov Kruger",
         usersEnrolled: exampleUser,
         posts: ["Wow, I learned so much!", "He answers my questions concisely and quickly!"]// This is supposed to be a subdocument but it is a str for the time being

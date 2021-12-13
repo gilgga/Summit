@@ -49,7 +49,7 @@ const Topics = (props) => {
                     key = {index} 
                     topic={topic} 
                     maxwidth={350} 
-                    avatarColor = {randomColor}    
+                    avatarColor = {randomColor()}    
                 />
             </Grid>
         )

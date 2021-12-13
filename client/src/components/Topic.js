@@ -21,19 +21,17 @@ import NoImage from "../img/ProfileImage.jpeg"
 const buttonWidth = "160px"
 
 const Topic = (props) => {
-  const {avatarColor} = props;
-  const {topic} = props;
-  const {maxwidth} = props;
+  const {avatarColor, topic, maxwidth} = props;
 
-  const [subscribed, setSubscribed] = useState(true);
+  const [subscribed, setSubscribed] = useState(false);
 
-  function stringAvatar(name) {
+  const stringAvatar = (name) => {
     let delimited = name.split(' ');
     let symbol;
     if (delimited.length == 1) {
       symbol = delimited[0][0];
     } else {
-      symbol = `${delimited[0][0]}${delimited[1][0]}`
+      symbol = `${delimited[0][0]}${delimited[1][0]}`;
     }
     return {
       sx: {
