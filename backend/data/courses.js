@@ -11,12 +11,12 @@ async function addCourse(title, description, topic) {
         topic: topic,
         usersEnrolled: []
     }
-    const courses = await courses()
-    let insertCourse = await courses.insertOne(newCourse);
+    const allCourses = await courses();
+    let insertCourse = await allCourses.insertOne(newCourse);
     let newId = insertCourse.insertedId;
     if (!newId) throw "error adding course";
-    const course = await courses.findOne({_id: newId});
-    topicsData.addCourseToTopic(title, topic)
+    const course = await allCourses.findOne({_id: newId});
+    await topicsData.addCourseToTopic(title, topic)
 
     return course;
 }
