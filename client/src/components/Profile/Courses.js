@@ -2,20 +2,12 @@ import {react, useState, useEffect} from 'react';
 
 import {
     Grid,
-    Typography,
     Button
 } from '@material-ui/core';
 
 import { 
     Container,
-    Card,
-    CardHeader,
-    CardActions,
-    CardContent,
-    Avatar,
 } from '@mui/material';
-
-import NoImage from "../../img/ProfileImage.jpeg"
 
 import Course from '../Course'
 
@@ -49,27 +41,9 @@ const Courses = (props) => {
     }, [expanded]);
 
     const buildCourses = courses && courses.slice(0, numCourses).map((course, index) => {
-        console.log(course);
         return (
-            <Grid key = {index} item >
-                    <Card sx={{ maxWidth: 350}} raised>
-            <CardHeader
-              avatar={
-                <Avatar 
-                  aria-label="profile-picture"
-                  src = {NoImage}
-                />
-              }
-              title={course.name}
-            />
-            <CardContent>
-              <Typography variant="body2" color="text.secondary">
-                {course.description}
-              </Typography>
-            </CardContent>
-            <CardActions disableSpacing>
-            </CardActions>
-          </Card>               
+            <Grid key = {index} item xs={4} >
+                <Course key={index} course={course}/>
             </Grid>
         )
     });

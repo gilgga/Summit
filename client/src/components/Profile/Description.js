@@ -3,30 +3,33 @@ import { Container, Grid } from '@mui/material';
 import { 
     makeStyles,
     Typography,
+    Card,
+    CardContent,
+    CardActions
 } from "@material-ui/core";
 
-const useStyles = makeStyles({
-    box: {
-        width: 500,
-        backgroundColor: "lightblue"
-    },
-});
 
 const Description = (props) => {
  const { user } = props;
- const classes = useStyles();
 
  return (
     <>
     <Container
         fixed
-        className = {classes.box}
     >
         <Grid 
-            className = {classes.grid}
             container
         >
-            <Typography>{user.description}</Typography>
+            <Grid item xs={12}>
+                <Card sx={{ Width: "100%"}} raised>
+                    <CardContent>
+                    <Typography variant="h6" color="textPrimary">
+                        {user.description}
+                    </Typography>
+                    </CardContent>
+                    <CardActions disableSpacing> </CardActions>
+            </Card>   
+        </Grid>    
         </Grid>
     </Container>
     </>

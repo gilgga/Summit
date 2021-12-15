@@ -15,7 +15,7 @@ const Course = (props) => {
         const {course} = props;
         console.log(course);
         return (
-            <Card sx={{ Width: "100%"}} raised>
+          <Card sx={{ maxWidth: 350}} raised>
             <CardHeader
               avatar={
                 <Avatar 
@@ -26,12 +26,11 @@ const Course = (props) => {
               title={course.name}
             />
             <CardContent>
-              <Typography variant="body2" color="text.secondary">
+              <Typography variant="body2" color="textPrimary">
                 {course.description}
               </Typography>
             </CardContent>
-            <CardActions disableSpacing>
-            </CardActions>
+            <CardActions disableSpacing> </CardActions>
           </Card>       
         );
 
