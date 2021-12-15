@@ -5,6 +5,7 @@
   "main": "index.js",
   "scripts": {
     "start": "node index.js",
+    "seed" : "node seed/seed.js",
     "v": "node -v"
   },
   "author": "",

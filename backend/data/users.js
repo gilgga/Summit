@@ -8,7 +8,7 @@ const courses = mongoCollections.courses;
 const saltRounds = 16;
 
 async function createUser(email, password, firstName, lastName) {
-    let invalidCreds = false;
+
     if (!email || !email.trim()) {
         throw "Email required";
     }
@@ -34,6 +34,7 @@ async function createUser(email, password, firstName, lastName) {
         email: email.trim(),
         password: hashedPassword,
         firstName: firstName.trim(),
+        description: "",
         lastName: lastName.trim(),
         topics: [],
         courses: []
@@ -57,7 +58,7 @@ async function loginUser(email, password) {
     if (!password || !password.trim()) {
         throw "Password required";
     }
-
+    console.log(email, password)
     const usersCollection = await users();
     const getUser = await usersCollection.findOne({email: email});
 
@@ -72,7 +73,7 @@ async function loginUser(email, password) {
     return getUser;
 }
 
-async function enrollCourse(userid, courseid) {
+async function enrollCourse(userid, courseid, adding) {
     if (!userid) {
         throw "User id required";
     }
@@ -93,22 +94,44 @@ async function enrollCourse(userid, courseid) {
         throw "Course does not exist";
     }
 
-    const addToUser = await usersCollection.updateOne(
-        {_id: userid}, 
-        {$push : {courses : courseid}},
-        );
-    
-    if (addToUser.modifiedCount != 1) {
-            throw "Could not update user's courses array";
-    }
 
-    const addToTopic = await courseCollection.updateOne(
-        {_id: courseid}, 
-        {$push : {usersEnrolled : userid}},
-        );
+    if (adding) {
+        const addToUser = await usersCollection.updateOne(
+            {_id: userid}, 
+            {$push : {courses : courseid}},
+            );
+        
+        if (addToUser.modifiedCount != 1) {
+                throw "Could not update user's courses array";
+        }
     
-    if (addToTopic.modifiedCount != 1) {
-            throw "Could not update user's courses array";
+        const addToTopic = await courseCollection.updateOne(
+            {_id: courseid}, 
+            {$push : {usersEnrolled : userid}},
+            );
+        
+        if (addToTopic.modifiedCount != 1) {
+                throw "Could not update user's courses array";
+        }    
+    } else {
+        const addToUser = await usersCollection.updateOne(
+            {_id: userid}, 
+            {$pull : {courses : courseid}},
+            );
+        
+        if (addToUser.modifiedCount != 1) {
+                throw "Could not update user's courses array";
+        }
+    
+        const addToTopic = await courseCollection.updateOne(
+            {_id: courseid}, 
+            {$pull : {usersEnrolled : userid}},
+            );
+        
+        if (addToTopic.modifiedCount != 1) {
+                throw "Could not update user's courses array";
+        }
+    
     }
 
     checkExisting = await usersCollection.findOne({_id: userid})
@@ -116,7 +139,7 @@ async function enrollCourse(userid, courseid) {
     return checkExisting;
 }
 
-async function enrollTopic(userid, topicid) {
+async function enrollTopic(userid, topicid, adding) {
     if (!userid) {
         throw "User id required";
     }
@@ -137,24 +160,44 @@ async function enrollTopic(userid, topicid) {
         throw "Course does not exist";
     }
 
-    const addToUser = await usersCollection.updateOne(
-        {_id: userid}, 
-        {$push : {topics : topicid}},
-        );
+    if (adding) {
+        const addToUser = await usersCollection.updateOne(
+            {_id: userid}, 
+            {$push : {topics : topicid}},
+            );
+        
+        if (addToUser.modifiedCount != 1) {
+                throw "Could not update user's courses array";
+        }
     
-    if (addToUser.modifiedCount != 1) {
-            throw "Could not update user's courses array";
-    }
-
-    const addToTopic = await topicCollection.updateOne(
-        {_id: topicid}, 
-        {$push : {usersEnrolled : userid}},
-        );
+        const addToTopic = await topicCollection.updateOne(
+            {_id: topicid}, 
+            {$push : {usersEnrolled : userid}},
+            );
+        
+        if (addToTopic.modifiedCount != 1) {
+                throw "Could not update user's courses array";
+        }
     
-    if (addToTopic.modifiedCount != 1) {
-            throw "Could not update user's courses array";
+    } else {
+        const addToUser = await usersCollection.updateOne(
+            {_id: userid}, 
+            {$pull : {topics : topicid}},
+            );
+        
+        if (addToUser.modifiedCount != 1) {
+                throw "Could not update user's courses array";
+        }
+    
+        const addToTopic = await topicCollection.updateOne(
+            {_id: topicid}, 
+            {$pull : {usersEnrolled : userid}},
+            );
+        
+        if (addToTopic.modifiedCount != 1) {
+                throw "Could not update user's courses array";
+        }    
     }
-
     checkExisting = await usersCollection.findOne({_id: userid})
     delete checkExisting["password"];
     return checkExisting;

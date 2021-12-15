@@ -1,16 +1,3 @@
-/*
-    - Users
-    - Topics
-    - Courses
-    - Posts
-*/
-
-/* 
-    What to seed:
-    - 2 users, 2 topics, 2 courses
-    - 2 Topic Posts, 2 Course Posts
-*/
-
 const uuid = require('uuid') //for generating _id's
 const connection = require('../config/mongoConnection');
 
@@ -22,16 +9,16 @@ const postCollectionFunction = allCollections.posts;
 
 const {topics, courses, users, posts} = require(".");
 
-const main = async () => {
+async function seed() {
     const usersCollection = await usersCollectionFunction();
     const coursesCollection = await coursesCollectionFunction();
     const topicCollection = await topicCollectionFunction();
     const postCollection = await postCollectionFunction();
 
-    usersCollection.deleteMany({});
-    coursesCollection.deleteMany({});
-    topicCollection.deleteMany({});
-    postCollection.deleteMany({});
+    await usersCollection.deleteMany({});
+    await coursesCollection.deleteMany({});
+    await topicCollection.deleteMany({});
+    await postCollection.deleteMany({});
 
     console.log("Adding topics");
     const topic1 =  await topics.addTopic("Data Science", "Everything Data Science");
@@ -68,8 +55,8 @@ const main = async () => {
     console.log("Adding user");
     const user1 = await users.createUser("jdoe@example.com", "password", "John", "Doe")
     console.log("Enrolling user in courses and topics");
-    const user1course1 = await users.enrollCourse(user1._id, course12._id);
-    const user1topic1 = await users.enrollTopic(user1._id, topic1._id);
+    const user1course1 = await users.enrollCourse(user1._id, course12._id, true);
+    const user1topic1 = await users.enrollTopic(user1._id, topic1._id, true);
     
     console.log("Adding posts");
     const post1 = await posts.addPost("IT Security is so interesting!", user1._id, new Date(), "I'm excited to be in this class", course1._id, topic2._id);
@@ -85,8 +72,7 @@ const main = async () => {
     const post0 = await posts.addPost("Must take!", user1._id, new Date(), "I took this course after I messed up my team's branch, it won't happen again!", course9._id, topic2._id);
 
     console.log("Done");
-    process.exit(1);
     return;
 }
 
-main().catch((e) => {console.error(e); process.exit(1);});
+module.exports = seed;

@@ -16,7 +16,7 @@ async function addTopic(title, description) {
     if (!newId) throw "error adding topic";
     const topic = await allTopics.findOne({_id: newId});
 
-    return topic;
+    return await topic;
 }
 
 async function addCourseToTopic(courseid, topicid) {
