@@ -16,6 +16,7 @@ async function addCourse(title, description, topic) {
     let newId = insertCourse.insertedId;
     if (!newId) throw "error adding course";
     const course = await courses.findOne({_id: newId});
+    topicsData.addCourseToTopic(title, topic)
 
     return course;
 }
