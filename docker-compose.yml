@@ -16,6 +16,7 @@ services:
       - CHOKIDAR_USEPOLLING=true
     depends_on:
       - cache
+      - mongodb
     command: ["npm", "start"]
   
   frontend:
