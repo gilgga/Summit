@@ -19,17 +19,41 @@ async function addTopic(title, description) {
     return topic;
 }
 
-async function addCourseToTopic(courseTitle, topicTitle) {
-    if (!courseTitle || !topicTitle) throw "course and topic titles required";
+async function addCourseToTopic(courseid, topicid) {
+    if (!courseid || !topicid) throw "course and topic ids required";
     const allTopics = await topics();
-    const topic = await allTopics.findOne({title: topicTitle});
-    let newCourses = [...topic.courses, courseTitle]
-    const updateTopic = await allTopics.updateOne({_id: topic._id}, {$set: {courses: newCourses}})
+    const topic = await allTopics.findOne({_id: topicid});
+    if (!topic) {
+        throw "Could not find topic";
+    }
+    const updateTopic = await allTopics.updateOne({_id: topic._id}, {$push: {courses: courseid}})
     if (updateTopic.modifiedCount !== 1) throw "Failed to update course to topic list";
-    return await allTopics.findOne({title: topicTitle}); 
+    return await allTopics.findOne({_id: topicid}); 
 }
 
+async function getTopics() {
+    const allTopics = await topics();
+    const topic = await allTopics.find({});
+    return await topic.toArray();
+
+}
+
+async function getTopic(id) {
+    if (!id) {
+        throw "id not provided";
+    }
+    id = ObjectId(id);
+    const allTopics = await topics();
+    const topic = await allTopics.findOne({_id: id});
+    if (!(await topic)) {
+        throw "Topic not found";
+    }
+    return await topic;
+
+}
 module.exports = {
     addTopic,
-    addCourseToTopic
+    addCourseToTopic,
+    getTopic,
+    getTopics
 }

@@ -3,7 +3,7 @@ const {ObjectId} = require('mongodb');
 const mongoCollections = require("../config/mongoCollections");
 const users = mongoCollections.users;
 const topics = mongoCollections.topics;
-const courses = mongoCollections.topics;
+const courses = mongoCollections.courses;
 
 const saltRounds = 16;
 
@@ -41,7 +41,6 @@ async function createUser(email, password, firstName, lastName) {
     let insertData = await usersCollection.insertOne(user);
     let newId = insertData.insertedId;
     if (!newId) {
-        console.log(insertData);
         throw "Error adding user";
     }
     let newUser = await usersCollection.findOne({_id: newId});
@@ -54,61 +53,65 @@ async function loginUser(email, password) {
     if (!email || !email.trim()) {
         throw "Email required";
     }
+    email = email.trim()
     if (!password || !password.trim()) {
         throw "Password required";
     }
+
     const usersCollection = await users();
-    const getUser = await usersCollection.findOne({email: email.trim()});
+    const getUser = await usersCollection.findOne({email: email});
+
     if (!getUser) {
         throw "User not found";
     }
-    let match = await bcrypt.compare(password.trim(), getUser.password);
+    let match = await bcrypt.compare(password, getUser.password);
     if (!match) {
         throw "User not found";
     }
-    delete match.password;
-    return match;
+    delete getUser.password;
+    return getUser;
 }
 
-async function enrollCourse(username, coursename) {
-    if (!username) {
+async function enrollCourse(userid, courseid) {
+    if (!userid) {
         throw "User id required";
     }
-    if (!coursename) {
+    userid = ObjectId(userid);
+    if (!courseid) {
         throw "Course id required";
     }
+    courseid = ObjectId(courseid);
 
     const usersCollection = await users();
-    let checkExisting = await usersCollection.findOne({email: username})
+    let checkExisting = await usersCollection.findOne({_id: userid})
     if (!checkExisting) {
         throw "User does not exist";
     }
-    const coursesCollection = await courses();
-    console.log(coursename)
-    checkExisting = await coursesCollection.findOne({title: coursename});
+    const courseCollection = await courses();
+    checkExisting = await courseCollection.findOne({_id: courseid});
     if (!checkExisting) {
         throw "Course does not exist";
     }
 
     const addToUser = await usersCollection.updateOne(
-        {email: username}, 
-        {$push : {courses : coursename}},
+        {_id: userid}, 
+        {$push : {courses : courseid}},
         );
     
     if (addToUser.modifiedCount != 1) {
             throw "Could not update user's courses array";
     }
 
-    const addToTopic = await topicCollection.updateOne(
-        {title: coursename},
-        {$push : {usersEnrolled : username}},
+    const addToTopic = await courseCollection.updateOne(
+        {_id: courseid}, 
+        {$push : {usersEnrolled : userid}},
         );
     
     if (addToTopic.modifiedCount != 1) {
             throw "Could not update user's courses array";
     }
 
-    checkExisting = await usersCollection.findOne({email: username})
+    checkExisting = await usersCollection.findOne({_id: userid})
     delete checkExisting["password"];
     return checkExisting;
 }
@@ -128,7 +131,7 @@ async function enrollTopic(userid, topicid) {
     if (!checkExisting) {
         throw "User does not exist";
     }
-    const topicCollection = await courses();
+    const topicCollection = await topics();
     checkExisting = await topicCollection.findOne({_id: topicid});
     if (!checkExisting) {
         throw "Course does not exist";
