@@ -27,8 +27,8 @@ const GET_TOPIC = gql`
 `;
 
 const GET_TOPICS = gql`
-    query () {
-        getTopics() {
+    query{
+        getTopics {
             _id
             title
             description
@@ -53,8 +53,8 @@ const GET_COURSE = gql`
 
 
 const GET_COURSES = gql`
-    query () {
-        getCourses() {
+    query {
+        getCourses {
             _id
             title
             description
