@@ -36,6 +36,7 @@ const courseValidationSchema = {
 
 
 let exportedMethods = {
+
     sanitizeId ( id ) {
         if ( typeof id === 'string' ) {
             if ( isHex( id ) && ( Buffer.byteLength( id, 'utf8' ) === 12 || id.length === 24 ) ) {
@@ -49,8 +50,6 @@ let exportedMethods = {
         }
         return id;
     }
-
-
 
 }
 
