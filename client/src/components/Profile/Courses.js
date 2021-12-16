@@ -1,5 +1,7 @@
 import {react, useState, useEffect} from 'react';
 
+import randomColor from 'randomcolor';
+
 import {
     Grid,
     Button
@@ -43,7 +45,12 @@ const Courses = (props) => {
     const buildCourses = courses && courses.slice(0, numCourses).map((course, index) => {
         return (
             <Grid key = {index} item xs={4} >
-                <Course key={index} course={course}/>
+                <Course 
+                    key={index} 
+                    course={course}
+                    maxwidth={350} 
+                    avatarColor = {randomColor()}    
+                />
             </Grid>
         )
     });

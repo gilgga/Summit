@@ -2,9 +2,16 @@ import react from "react";
 import {ApolloClient, HttpLink, InMemoryCache, ApolloProvider } from '@apollo/client';
 import { BrowserRouter as Router, Route, Link, Switch } from 'react-router-dom';
 
-import Landing     from './components/Landing';
-import NotFound    from  './components/NotFound';
-import ProfilePage from './components/Profile/ProfilePage';
+import Box from '@mui/material/Box';
+
+import CourseFeed  from   './components/CourseFeed'
+import Footer      from   './components/Footer';
+import Landing     from   './components/Landing';
+import Navbar      from   './components/Navbar';
+import NotFound    from   './components/NotFound';
+import ProfilePage from   './components/Profile/ProfilePage';
+import TopicFeed   from   './components/TopicFeed';
+
 
 import logo from './logo.svg';
 import './App.css';
@@ -20,15 +27,19 @@ const client = new ApolloClient({
 function App() {
   return (
     <ApolloProvider client={client}>
-      {/* Maybe a navbar or something */}
-      <Router>
-      <Switch>
-        <Route exact path="/" component={Landing}/>
-        <Route exact path="/user-profile/:id" component={ProfilePage}/>
-        <Route exact path="/*" component={NotFound}/>
-      </Switch>
+        <Router>
+        <Navbar/>
+          <Box sx = {{ minHeight : "750px", paddingTop: "50px", paddingBottom: "20px" }}>
+            <Switch>
+              <Route exact path="/" component={Landing}/>
+              <Route exact path="/user-profile/:id" component={ProfilePage}/>
+              <Route exact path="/explore/courses" component={CourseFeed}/>
+              <Route exact path="/explore/topics"  component={TopicFeed} />
+              <Route exact path="/*" component={NotFound}/>
+            </Switch>
+          </Box>
+        <Footer/>
       </Router>
-      {/* Maybe a footer or something */}
     </ApolloProvider>
   );
 }

@@ -1,4 +1,5 @@
 import {react, useState, useEffect} from 'react';
+import randomColor from 'randomcolor';
 import {
     Container,
 } from '@mui/material';
@@ -44,7 +45,12 @@ const Topics = (props) => {
     const buildTopics = topics && topics.slice(0, numTopics).map((topic, index) => {
         return (
             <Grid key = {index} item xs={4}>
-                <Topic key = {index} topic={topic}/>
+                <Topic 
+                    key = {index} 
+                    topic={topic} 
+                    maxwidth={350} 
+                    avatarColor = {randomColor()}    
+                />
             </Grid>
         )
     });

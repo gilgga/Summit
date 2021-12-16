@@ -70,37 +70,37 @@ const exampleUser = {
 const usertopics = [
     {
         id: uuid(),
-        name: "Stevens discussion",
+        name: "Stevens Discussion",
         description: "A very positive thread about stevens",
-        usersEnrolled: [exampleUser],
+        usersEnrolled: 53,
         posts: ["I'm so happy this school is affordable", "The Computer Engineering degree is so useful!"]
     },
     {
         id: uuid(),
-        name: "Stevens discussion",
+        name: "Stevens Discussion",
         description: "A very positive thread about stevens",
-        usersEnrolled: [exampleUser],
+        usersEnrolled: 24,
         posts: ["I'm so happy this school is affordable", "The Computer Engineering degree is so useful!"]
     }
 ];
 const usercourses = [
     {
         id: uuid(),
-        name: "CPE-360",
+        name: "CPE 390",
         description : "A fantastic and well thought out course taught by the amazing Dov Kruger",
         usersEnrolled: [exampleUser],
         posts: ["Wow, I learned so much!", "He answers my questions concisely and quickly!"]// This is supposed to be a subdocument but it is a str for the time being
     },
     {
         id: uuid(),
-        name: "CPE-360",
+        name: "CPE 390",
         description : "A fantastic and well thought out course taught by the amazing Dov Kruger",
         usersEnrolled: exampleUser,
         posts: ["Wow, I learned so much!", "He answers my questions concisely and quickly!"]// This is supposed to be a subdocument but it is a str for the time being
     },
     {
         id: uuid(),
-        name: "CPE-360",
+        name: "CPE 390",
         description : "A fantastic and well thought out course taught by the amazing Dov Kruger",
         usersEnrolled: exampleUser,
         posts: ["Wow, I learned so much!", "He answers my questions concisely and quickly!"]// This is supposed to be a subdocument but it is a str for the time being
