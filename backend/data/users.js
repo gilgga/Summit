@@ -12,6 +12,8 @@ const courses = mongoCollections.courses;
 const errorChecking = require('./errors');
 
 // Schema-Inspector Schemas
+const inspector = require('schema-inspector');
+
 const userSanitizationSchema = {
     type: "object",
     strict: true,

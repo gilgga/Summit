@@ -3,10 +3,7 @@ const httpCodes = require('http-codes')
 const ObjectId = require('mongodb').ObjectId
 const isHex = require('is-hex')
 
-const isPositiveInteger = require('is-positive-integer')
-
-let inspector = require('schema-inspector');
-
+// const isPositiveInteger = require('is-positive-integer')
 
 const postSanitizationSchema = {
     
@@ -31,8 +28,6 @@ const courseSanitizationSchema = {
 const courseValidationSchema = {
 
 };
-
-
 
 
 let exportedMethods = {
