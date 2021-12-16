@@ -1,4 +1,8 @@
+const httpCodes = require('http-codes')
+
 const bcrypt = require('bcrypt');
+
+
 const {ObjectId} = require('mongodb');
 const mongoCollections = require("../config/mongoCollections");
 const users = mongoCollections.users;
@@ -7,42 +11,123 @@ const courses = mongoCollections.courses;
 
 const saltRounds = 16;
 
+// Schema-Inspector Schemas
+const userSanitizationSchema = {
+    type: "object",
+    strict: true,
+    properties: {
+        email: {
+            type: "string",
+            optional: false,
+            rules: ["trim", "lower"],
+            minLength: 1
+        },
+        password: {
+            type: "string",
+            optional: false,
+            rules: ["trim"],
+            minLength: 1
+        },
+        description: {
+            type: "string"
+        },
+        firstName: {
+            type: "string",
+            optional: false,
+            rules: ["trim", "capitalize"],
+            minLength: 1
+        },
+        lastName: {
+            type: "string",
+            optional: false,
+            rules: ["trim", "capitalize"],
+            minLength: 1
+        },
+        topics: {
+            type: "array"
+        },
+        courses: {
+            type: "array"
+        }
+    }
+};
+const userValidationSchema = {
+    type: "object",
+    strict: true,
+    properties: {
+        email: {
+            type: "string",
+            optional: false,
+            pattern: "email"
+        },
+        password: {
+            type: "string",
+            optional: false
+        },
+        description: {
+            type: "string"
+        },
+        firstName: {
+            type: "string",
+            optional: false,
+            minLength: 1
+        },
+        lastName: {
+            type: "string",
+            optional: false, 
+            minLength: 1
+        },
+        topics: {
+            type: "array",
+            uniqueness: true
+        },
+        courses: {
+            type: "array",
+            uniqueness: true
+        }
+    }
+};
+
 async function createUser(email, password, firstName, lastName) {
-
-    if (!email || !email.trim()) {
-        throw "Email required";
-    }
-    if (!password || !password.trim()) {
-        throw "password required";
-    }
-    if (!firstName || !firstName.trim()) {
-        throw "firstName required";
-    }
-    if (!lastName || !lastName.trim()) {
-        throw "lastName required";
-    }
-    const usersCollection = await users();
-
-    let checkEmail = await usersCollection.findOne({email: email.trim()});
-    if (checkEmail) {
-        throw "Account with email already exists";
-    }
-
     const hashedPassword = await bcrypt.hash(password.trim(), saltRounds);
     
-    user = {
-        email: email.trim(),
+    let newUserInput = {
+        email: email,
         password: hashedPassword,
-        firstName: firstName.trim(),
+        firstName: firstName,
         description: "",
-        lastName: lastName.trim(),
+        lastName: lastName,
         topics: [],
         courses: []
     }
-    let insertData = await usersCollection.insertOne(user);
+
+    const sanitizedNewUserInput = inspector.sanitize( userSanitizationSchema, newUserInput );
+    const validatedNewUserInput = inspector.validate( userValidationSchema, sanitizedNewUserInput );
+
+    if ( !validatedNewUserInput.valid ) {
+        throw {
+            status: httpCodes.BAD_REQUEST,
+            message: validatedNewUserInput.format()
+        };
+    }
+    
+    const usersCollection = await users();
+
+    let checkEmail = await usersCollection.findOne({email: validatedNewUserInput.email});
+    if (checkEmail) {
+        throw {
+            status: httpCodes.BAD_REQUEST,
+            message: "Account with email already exists"
+        }; 
+    }
+
+    let insertData = await usersCollection.insertOne(validatedNewUserInput);
     let newId = insertData.insertedId;
     if (!newId) {
-        throw "Error adding user";
+        throw {
+        status: httpCodes.INTERNAL_SERVER_ERROR,
+        message: "Error adding user"
+        }
     }
     let newUser = await usersCollection.findOne({_id: newId});
     delete newUser.password;
