@@ -16,6 +16,7 @@ const postCache = "postCache";
 const topicCache = "topicCache";
 const courseCache = "courseCache"
 
+
 const typeDefs = gql`
 
   type User {
@@ -59,6 +60,8 @@ const typeDefs = gql`
     getCourses: [Course]
     getCourse(id: ID!) : Course
     getTopic(id: ID!)  : Topic
+    getPost(id: ID!) : Post
+    getPosts: [Post]
     loginUser(
       email: String!
       password: String!
@@ -92,60 +95,51 @@ const typeDefs = gql`
 
   type Mutation {
     createPost(
-      Title: String!, 
-      User_Posted: String!, 
-      Content: String!,
-      Course: Id!): Post
+      title: String!, 
+      user: String!, 
+      content: String!,
+      course: ID!
+    ): Post
     createTopic(
-      Topicname: String!, 
-      Description: String!): Topic
+      title: String!, 
+      description: String!
+    ): Topic
     createCourse(
-      Coursename: String!, 
-      Description: String!): Course
+      title: String!, 
+      description: String!
+    ): Course
     updatePost(
-      Post_Id: Id!, 
-      Title: String!,
-      User_Posted: String!,
-      Time: String,
-      Content: String!,
-      Topic: Id,
-      Course: Id!): Post
-    updateTopic(
-      Topic_Id: Id!,
-      Topicname: String!,
-      Description: String!,
-      Users_Enrolled: [Id],
-      Courses: [Strings]): Topic
-    updateCourse(
-      Course_Id: Id!,
-      Coursename: String!,
-      Description: String!,
-      Users_Enrolled: [Id],
-      Topic: String!): Course
+      _id: ID!, 
+      title: String!,
+      user: String!,
+      time: String,
+      content: String!
+    ): Post
     deletePost(Post_Id: Id!): Post
-    deleteTopic(Topic_Id: Id!): Topic
-    deleteCourse(Course_Id: Id!): Course
   }
 `;
 
 
 const resolvers = {
     Query: {
-      getTopics: async(_, args) => {
+      getPost: async (_, args) => {
+        return [];
+      },
+      getTopics: async (_, args) => {
         return await topics.getTopics();
       },
-      getCourses: async(_, args) => {
+      getCourses: async (_, args) => {
         return await courses.getCourses();
       },
-      getCourse: async(_, args) => {
+      getCourse: async (_, args) => {
         let id = args.id;
         return await courses.getCourse(id);
       },
-      getTopic: async(_, args) => {
+      getTopic: async (_, args) => {
         let id = args.id;
         return await topics.getTopic(id);
       },
-      loginUser: async(_, args) => {
+      loginUser: async (_, args) => {
         const {email, password} = args;
         return await users.loginUser(email, password);
       }
