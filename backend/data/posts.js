@@ -23,6 +23,31 @@ async function addPost(title, user, time, content, topic, course){
     return post;
 }
 
+async function getCoursePosts(courseid) {
+    if (!courseid) {
+        throw "Course id required";
+    }
+    const postsCollection = await posts();
+    const coursePosts = await postsCollection.find({
+        course: courseid
+    });
+    return coursePosts.toArray();
+}
+
+
+async function getTopicPosts(topicid) {
+    if (!topicid) {
+        throw "topic id required";
+    }
+    const postsCollection = await posts();
+    const topicPosts = await postsCollection.find({
+        topic: topicid
+    });
+    return topicPosts.toArray();
+}
+
 module.exports = {
-    addPost
+    addPost,
+    getCoursePosts,
+    getTopicPosts
 }

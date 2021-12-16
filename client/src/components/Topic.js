@@ -78,10 +78,10 @@ const Topic = (props) => {
         avatar={
           <Avatar 
             aria-label="profile-picture"
-            {...stringAvatar(topic.name)}
+            {...stringAvatar(topic.title)}
           />
         }
-        title={topic.name}
+        title={topic.title}
         subheader={`${topic.usersEnrolled} students subscribed`}
       />
       <CardContent>
@@ -95,7 +95,7 @@ const Topic = (props) => {
           direction="row"
         >
         {actionButton}
-        <Link to="/explore/topics">
+        <Link to={"/topic-feed/" + topic._id}>
           <Button
             variant="outlined"
             color="primary"

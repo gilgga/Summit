@@ -79,10 +79,10 @@ const Course = (props) => {
         avatar={
           <Avatar 
             aria-label="profile-picture"
-            {...stringAvatar(course.name)}
+            {...stringAvatar(course.title)}
           />
         }
-        title={course.name}
+        title={course.title}
       />
       <CardContent>
         <Typography variant="body2" color="textPrimary">
@@ -95,7 +95,7 @@ const Course = (props) => {
           direction="row"
         >
         {actionButton}
-        <Link to="/explore/courses">
+        <Link to={"/course-feed/" + course._id}>
           <Button
             variant="outlined"
             color="primary"

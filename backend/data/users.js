@@ -1,6 +1,7 @@
 const bcrypt = require('bcrypt');
 const {ObjectId} = require('mongodb');
 const mongoCollections = require("../config/mongoCollections");
+const { addImage, getUserImage } = require('./image');
 const users = mongoCollections.users;
 const topics = mongoCollections.topics;
 const courses = mongoCollections.courses;
@@ -69,6 +70,8 @@ async function loginUser(email, password) {
     if (!match) {
         throw "User not found";
     }
+    const userImage = await getUserImage(userid);
+    getUser.image = userImage;
     delete getUser.password;
     return getUser;
 }
@@ -203,9 +206,63 @@ async function enrollTopic(userid, topicid, adding) {
     return checkExisting;
 }
 
+async function editDescription(id, description) {
+    if (!id) {
+        throw "userid required";
+    }
+    id = ObjectId(id);
+
+    if (!description || !description.trim()) {
+        throw "New description required"
+    }
+    description = description.trim();
+
+    const usersCollection = await users();
+    let checkExisting = await usersCollection.findOne({_id: id})
+    if (!checkExisting) {
+        throw "User does not exist";
+    }
+    let newDescription = await usersCollection.updateOne(
+        {_id: id},
+        {$set: {
+            description: description
+        }}
+    );
+
+    if (newDescription.modifiedCount != 1) {
+        throw "Could not change user's description";
+    }
+    checkExisting = await usersCollection.findOne({_id: id});
+    delete checkExisting["password"];
+    return checkExisting;
+}
+
+async function editProfile(id, description, image) {
+    if (!id) {
+        throw "userid not provided";
+    }
+    let user;
+    if (description) {
+        user = await editDescription(id, description);
+    } else {
+        id = ObjectId(id);
+        const usersCollection = await users();
+        user = await usersCollection.findOne({_id: id})
+        if (!user) {
+            throw "User does not exist";
+        }        
+    }
+    if (image) {
+        let uploadedImage = await addImage(id, image);
+        user.image = uploadedImage;            
+    }
+    return user;
+}
+
 module.exports = {
     createUser,
     loginUser,
     enrollCourse,
-    enrollTopic
+    enrollTopic,
+    editProfile
 }

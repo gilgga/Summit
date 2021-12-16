@@ -12,8 +12,6 @@ import NotFound    from   './components/NotFound';
 import ProfilePage from   './components/Profile/ProfilePage';
 import TopicFeed   from   './components/TopicFeed';
 
-
-import logo from './logo.svg';
 import './App.css';
 
 const client = new ApolloClient({
