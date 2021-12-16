@@ -4,12 +4,12 @@ const {topics, courses, users, posts} = require("./data");
 const seed = require("./data/seed");
 
 // For Redis Caching
-const bluebird = require('bluebird');
-const redis = require('redis');
-const client = redis.createClient();
+// const bluebird = require('bluebird');
+// const redis = require('redis');
+// const client = redis.createClient();
 
-bluebird.promisifyAll(redis.RedisClient.prototype);
-bluebird.promisifyAll(redis.Multi.prototype);
+// bluebird.promisifyAll(redis.RedisClient.prototype);
+// bluebird.promisifyAll(redis.Multi.prototype);
 
 const userCache = "userCache";
 const postCache = "postCache";
@@ -115,7 +115,7 @@ const typeDefs = gql`
       time: String,
       content: String!
     ): Post
-    deletePost(Post_Id: Id!): Post
+    deletePost(Post_Id: ID!): Post
   }
 `;
 
