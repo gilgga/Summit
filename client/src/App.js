@@ -11,7 +11,8 @@ import Navbar      from   './components/Navbar';
 import NotFound    from   './components/NotFound';
 import ProfilePage from   './components/Profile/ProfilePage';
 import TopicFeed   from   './components/TopicFeed';
-
+import Login from './components/Login';
+import SignUp from './components/SignUp';
 
 import logo from './logo.svg';
 import './App.css';
@@ -32,6 +33,8 @@ function App() {
           <Box sx = {{ minHeight : "750px", paddingTop: "50px", paddingBottom: "20px" }}>
             <Switch>
               <Route exact path="/" component={Landing}/>
+              <Route exact path="/login" component={Login}/>
+              <Route exact path="/sign-up" component={SignUp}/>
               <Route exact path="/user-profile/:id" component={ProfilePage}/>
               <Route exact path="/explore/courses" component={CourseFeed}/>
               <Route exact path="/explore/topics"  component={TopicFeed} />
