@@ -114,16 +114,22 @@ async function getTopics() {
 
 async function getTopic(id) {
     if (!id) {
-        throw "id not provided";
+        throw {
+            status: httpCodes.BAD_REQUEST,
+            message: "id not provided"
+        }
     }
-    
+
     id = errorChecking.sanitizeId( id );
 
     const allTopics = await topics();
     
     const topic = await allTopics.findOne({_id: id});
     if (!(await topic)) {
-        throw "Topic not found";
+        throw {
+            status: httpCodes.NOT_FOUND,
+            message: "Topic not found"
+        }
     }
     return await topic;
 
