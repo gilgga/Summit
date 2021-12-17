@@ -211,7 +211,7 @@ async function enrollCourse(userid, courseid, adding) {
     let checkExisting = await usersCollection.findOne({_id: sanitizedUserId})
     if (!checkExisting) {
         throw {
-            status: httpCodes.BAD_REQUEST,
+            status: httpCodes.NOT_FOUND,
             message: "User does not exist"
         }
     }
@@ -219,7 +219,7 @@ async function enrollCourse(userid, courseid, adding) {
     checkExisting = await courseCollection.findOne({_id: sanitizedCourseId});
     if (!checkExisting) {
         throw {
-            status: httpCodes.BAD_REQUEST,
+            status: httpCodes.NOT_FOUND,
             message: "Course does not exist"
         }
     }

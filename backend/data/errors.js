@@ -5,33 +5,9 @@ const isHex = require('is-hex')
 
 // const isPositiveInteger = require('is-positive-integer')
 
-const postSanitizationSchema = {
-    
-};
-
-const postValidationSchema = {
-
-};
-
-const topicSanitizationSchema = {
-
-};
-
-const topicValidationSchema = {
-
-};
-
-const courseSanitizationSchema = {
-    
-};
-
-const courseValidationSchema = {
-
-};
-
-
 let exportedMethods = {
 
+    // For Error Checking and Converting MongoDB ObjectIDs
     sanitizeId ( id ) {
         if ( typeof id === 'string' ) {
             if ( isHex( id ) && ( Buffer.byteLength( id, 'utf8' ) === 12 || id.length === 24 ) ) {
