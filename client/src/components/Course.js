@@ -83,6 +83,7 @@ const Course = (props) => {
           />
         }
         title={course.title}
+        subheader={`${course.usersEnrolled.length} students subscribed`}
       />
       <CardContent>
         <Typography variant="body2" color="textPrimary">

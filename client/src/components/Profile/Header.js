@@ -67,7 +67,7 @@ const Header = (props) => {
     const [formValues, setFormValues] = useState(defaultValues);
     const [invalidEdits, setInvalidEdits] = useState(true);
     const [formChange, setFormChange] = useState(false);
-
+    const [testImage, setTestImage] = useState(null);
     const [editDescription] = useMutation(queries.EDIT_DESCRIPTION);
     
     const handleInputChange = (e) => {
@@ -135,8 +135,9 @@ const Header = (props) => {
     const handleSubmit = async(e) => {
         e.preventDefault();
         try {
-            const data = await editDescription({variables: {id: "61bbeb5cd69217865b8abf6b", description: formValues.description, image: formValues.image.encoded}});
+            const {data }= await editDescription({variables: {id: "61bca759d6471ee0af05987e", description: formValues.description, image: formValues.image.encoded}});
             console.log(data);
+            setTestImage(data && data.editDescription.image);
         } catch (e) {
             console.log(e);
         }
@@ -249,7 +250,7 @@ const Header = (props) => {
                                 className = {classes.avatar}
                                 sx={{ width: 150, height: 150 }}
                                 alt = {user.firstName + " " + user.lastName}
-                                src={NoImage}
+                                src={testImage ? testImage : NoImage}
                             />
                             <Typography
                                 align = "center"

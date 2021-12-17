@@ -71,7 +71,6 @@ const Topic = (props) => {
     </Button>;
 
   actionButton = subscribed ? unsubButton : subButton;
-
   return (
       <Card sx={{ maxWidth: maxwidth}} raised>
       <CardHeader
@@ -82,7 +81,7 @@ const Topic = (props) => {
           />
         }
         title={topic.title}
-        subheader={`${topic.usersEnrolled} students subscribed`}
+        subheader={`${topic.usersEnrolled.length} students subscribed`}
       />
       <CardContent>
         <Typography variant="body2" color="textPrimary">
