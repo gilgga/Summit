@@ -20,5 +20,6 @@ module.exports = {
     users: getCollectionFn("users"),
     posts: getCollectionFn("posts"),
     topics: getCollectionFn("topics"),
-    courses: getCollectionFn("courses")
+    courses: getCollectionFn("courses"),
+    images : getCollectionFn("image")
 };

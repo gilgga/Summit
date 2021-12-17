@@ -1,4 +1,5 @@
 const { ApolloServer, gql } = require('apollo-server');
+
 const {topics, courses, users, posts} = require("./data");
 
 const seed = require("./data/seed");
@@ -26,6 +27,7 @@ const typeDefs = gql`
     lastName: String!
     topics: [ID]
     courses: [ID]
+    image: String
   }
 
   type Topic {
@@ -75,6 +77,11 @@ const typeDefs = gql`
       password: String!
       firstName: String!
       lastName: String!
+    ) : User
+    editDescription (
+      id: ID!
+      description : String
+      image: String
     ) : User
     enrollUserCourse (
       id: ID!
@@ -133,10 +140,16 @@ const resolvers = {
         return await users.loginUser(email, password);
       }
     },
+
     Mutation: {
       createUser: async(_, args) => {
           const {email, password, firstName, lastName} = args;
           const newUser = await users.createUser(email, password, firstName, lastName);
+          return newUser;
+      },
+      editDescription: async(_, args) => {
+          const {id, description, image} = args;
+          const newUser = await users.editProfile(id, description, image);
           return newUser;
       },
       enrollUserCourse: async(_, args) => {
@@ -159,7 +172,6 @@ const resolvers = {
         const newUser = await users.enrollTopic(id, topicid, false);
         return newUser;
       },
-
     }
   };
 async function seedDatabase() {
