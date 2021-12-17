@@ -30,7 +30,7 @@ function App() {
     <ApolloProvider client={client}>
         <Router>
         <Navbar/>
-          <Box sx = {{ minHeight : "750px", paddingTop: "50px", paddingBottom: "20px" }}>
+          <Box sx = {{ minHeight : "750px", paddingTop: "50px", backgroundColor: "#f5f9fc" }}>
             <Switch>
               <Route exact path="/" component={Landing}/>
               <Route exact path="/login" component={Login}/>
