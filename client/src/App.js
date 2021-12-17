@@ -14,7 +14,6 @@ import TopicFeed   from   './components/TopicFeed';
 import Login from './components/Login';
 import SignUp from './components/SignUp';
 
-import logo from './logo.svg';
 import './App.css';
 
 const client = new ApolloClient({
@@ -30,7 +29,7 @@ function App() {
     <ApolloProvider client={client}>
         <Router>
         <Navbar/>
-          <Box sx = {{ minHeight : "750px", paddingTop: "50px", backgroundColor: "#f5f9fc" }}>
+          <Box sx = {{ minHeight : "750px", paddingTop: "50px", paddingBottom: "50px", backgroundColor: "#f5f9fc" }}>
             <Switch>
               <Route exact path="/" component={Landing}/>
               <Route exact path="/login" component={Login}/>
