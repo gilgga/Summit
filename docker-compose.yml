@@ -36,6 +36,13 @@ services:
     depends_on:
       - backend
     command: ["npm", "start"]
+    
+  nginx:
+    restart: always
+    build:
+      context: ./nginx
+    ports:
+      - "80:80"
         
   cache:
     image: redis:6.2.6

@@ -135,7 +135,7 @@ const Header = (props) => {
     const handleSubmit = async(e) => {
         e.preventDefault();
         try {
-            const data = await editDescription({variables: {id: "61bbbd3ef3c48c84a02cf1a8", description: formValues.description, image: formValues.image.encoded}});
+            const data = await editDescription({variables: {id: "61bbeb5cd69217865b8abf6b", description: formValues.description, image: formValues.image.encoded}});
             console.log(data);
         } catch (e) {
             console.log(e);

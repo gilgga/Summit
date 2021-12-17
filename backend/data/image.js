@@ -11,6 +11,7 @@ async function addImage(userid, image) {
     if (!userid) {
         throw "userid not provided";
     }
+
     userid = userid.toString();
     await client.setAsync(userid, image);
     return image;

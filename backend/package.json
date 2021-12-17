@@ -16,7 +16,6 @@
     "bluebird": "^3.7.2",
     "dotenv": "^10.0.0",
     "graphql": "^15.7.2",
-    "graphql-upload": "^13.0.0",
     "mongodb": "^4.2.2",
     "node": "14.17.6",
     "node-redis": "^0.1.7",
