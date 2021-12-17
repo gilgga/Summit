@@ -59,8 +59,8 @@ async function addTopic(title, description) {
         usersEnrolled: []
     }
 
-    const sanitizedNewTopicInput = inspector.sanitize( topicSanitizationSchema, newTopicInput );
-    const validatedNewTopicInput = inspector.validate( topicValidationSchema, sanitizedNewTopicInput );
+    inspector.sanitize( topicSanitizationSchema, newTopicInput );
+    const validatedNewTopicInput = inspector.validate( topicValidationSchema, newTopicInput );
 
     if ( !validatedNewTopicInput.valid ) {
         throw {
@@ -71,7 +71,7 @@ async function addTopic(title, description) {
 
     const allTopics = await topics();
 
-    let insertTopic = await allTopics.insertOne(sanitizedNewTopicInput);
+    let insertTopic = await allTopics.insertOne(newTopicInput);
     let newId = insertTopic.insertedId;
     if (!newId) throw "error adding topic";
     const topic = await allTopics.findOne({_id: newId});

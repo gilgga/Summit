@@ -61,8 +61,8 @@ async function addCourse(title, description, topicid) {
         usersEnrolled: []
     }
 
-    const sanitizedNewCourseInput = inspector.sanitize( courseSanitizationSchema, newCourseInput );
-    const validatedNewCourseInput = inspector.validate( courseValidationSchema, sanitizedNewCourseInput );
+    inspector.sanitize( courseSanitizationSchema, newCourseInput );
+    const validatedNewCourseInput = inspector.validate( courseValidationSchema, newCourseInput );
 
     if ( !validatedNewCourseInput.valid ) {
         throw {
@@ -73,7 +73,7 @@ async function addCourse(title, description, topicid) {
     
     const allCourses = await courses();
     
-    let insertCourse = await allCourses.insertOne(sanitizedNewCourseInput);
+    let insertCourse = await allCourses.insertOne(newCourseInput);
     let newId = insertCourse.insertedId;
     if (!newId) {
         throw "error adding course";
