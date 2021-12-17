@@ -1,6 +1,6 @@
 const initalState =
   {
-    id: -1,
+    _id: -1,
     email: '',
     firstName: '',
     lastName: '',
@@ -15,8 +15,8 @@ const userReducer = (state = initalState, action) => {
     switch (type) {
       case 'LOG_IN':
         return {
-            id: payload.id,
-            email: payload.id,
+            _id: payload._id,
+            email: payload.email,
             firstName: payload.firstName,
             lastName: payload.lastName,
             description: payload.description,
@@ -25,7 +25,7 @@ const userReducer = (state = initalState, action) => {
         }
       case 'LOG_OUT':
           return {
-            id: -1,
+            _id: -1,
             email: '',
             firstName: '',
             lastName: '',

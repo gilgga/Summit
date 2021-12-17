@@ -1,8 +1,8 @@
 const logUserIn = (user) => ({
   type: 'LOG_IN',
   payload: {
-    id: user.id,
-    email: user.id,
+    _id: user._id,
+    email: user.email,
     firstName: user.firstName,
     lastName: user.lastName,
     description: user.description,
@@ -14,7 +14,7 @@ const logUserIn = (user) => ({
 const logUserOut = (id) => ({
   type: 'LOG_OUT',
   payload: {
-    id: id
+    _id: id
   }
 });
 

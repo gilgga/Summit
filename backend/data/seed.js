@@ -53,7 +53,7 @@ async function seed() {
         topic3._id);
     
     console.log("Adding user");
-    const user1 = await users.createUser("jdoe@example.com", "password", "John", "Doe")
+    const user1 = await users.createUser("jdoe@example.com", "Password12", "John", "Doe")
     console.log("Enrolling user in courses and topics");
     const user1course1 = await users.enrollCourse(user1._id, course12._id, true);
     const user1topic1 = await users.enrollTopic(user1._id, topic1._id, true);
