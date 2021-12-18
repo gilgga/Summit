@@ -83,7 +83,7 @@ async function addPost(title, user, time, content, topic, course){
 
     inspector.sanitize( postSanitizationSchema, newPostInput );
     const validatedNewPostInput = inspector.validate( postValidationSchema, newPostInput );
-
+    console.log(newPostInput);
     if ( !validatedNewPostInput.valid ) {
         throw {
             status: httpCodes.BAD_REQUEST,

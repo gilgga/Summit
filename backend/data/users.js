@@ -154,7 +154,7 @@ async function createUser(email, password, firstName, lastName) {
         }; 
     }
 
-    let insertData = await usersCollection.insertOne(validatedNewUserInput);
+    let insertData = await usersCollection.insertOne(newUserInput);
     let newId = insertData.insertedId;
     if (!newId) {
         throw {
