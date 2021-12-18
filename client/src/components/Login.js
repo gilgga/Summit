@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from "react-redux";
 import { Redirect, Link } from 'react-router-dom';
 import { useLazyQuery } from "@apollo/client";
@@ -15,6 +15,13 @@ function Login() {
     const currentUser = useSelector((state) => state.user);
     const dispatch = useDispatch();
     const [ login, { loading, error, data }] = useLazyQuery(queries.LOGIN_USER);
+
+
+    useEffect(() => {
+        if (data) {
+            dispatch(actions.logUserIn(data.loginUser));
+        }
+    },[data]);
 
     const logUserIn = async (e) => {
         e.preventDefault();
@@ -41,7 +48,6 @@ function Login() {
     }
 
     if (data) {
-        dispatch(actions.logUserIn(data.loginUser));
         return (<Redirect to={`/user-profile/${data.loginUser._id}`}/>);
     }
 
