@@ -15,7 +15,7 @@ import { gql } from '@apollo/client';
 // `;
 
 const GET_TOPIC = gql`
-    query ($id: String!) {
+    query ($id: ID!) {
         getTopic(id : $id) {
             _id
             title
@@ -40,7 +40,7 @@ const GET_TOPICS = gql`
 
 
 const GET_COURSE = gql`
-    query ($id: String!) {
+    query ($id: ID!) {
         getCourse(id : $id) {
             _id
             title
