@@ -101,31 +101,42 @@ async function addPost(title, user, time, content, topic, course){
     return post;
 }
 
-async function getCoursePosts(courseid) {
-    if (!courseid) {
-        throw "Course id required";
+async function getPostsFromTopic(topicid) {
+    if (!topicid) {
+        throw {
+            status: httpCodes.BAD_REQUEST,
+            message: "topicid not provided"
+        }
     }
-    const postsCollection = await posts();
-    const coursePosts = await postsCollection.find({
-        course: courseid
-    });
-    return coursePosts.toArray();
+
+    topicid = errorChecking.sanitizeId(topicid);
+
+    const allPosts = await posts();
+
+    const post = await allPosts.find({topic : topicid});
+    
+    return await post.toArray();
 }
 
-
-async function getTopicPosts(topicid) {
-    if (!topicid) {
-        throw "topic id required";
+async function getPostsFromCourse(courseid) {
+    if (!courseid) {
+        throw {
+            status: httpCodes.BAD_REQUEST,
+            message: "courseid not provided"
+        }
     }
-    const postsCollection = await posts();
-    const topicPosts = await postsCollection.find({
-        topic: topicid
-    });
-    return topicPosts.toArray();
+
+    courseid = errorChecking.sanitizeId(courseid);
+
+    const allPosts = await posts();
+
+    const post = await allPosts.find({course : courseid});
+    
+    return await post.toArray();
 }
 
 module.exports = {
     addPost,
-    getCoursePosts,
-    getTopicPosts
+    getPostsFromTopic,
+    getPostsFromCourse
 }
