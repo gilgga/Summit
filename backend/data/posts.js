@@ -126,7 +126,7 @@ async function getPost(id) {
             message: "Post not found"
         }
     }
-    return await topic;
+    return await post;
 
 }
 
