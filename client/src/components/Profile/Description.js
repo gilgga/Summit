@@ -1,7 +1,5 @@
-import react from 'react';
 import { Container, Grid } from '@mui/material';
 import { 
-    makeStyles,
     Typography,
     Card,
     CardContent,

@@ -1,5 +1,3 @@
-import react from 'react';
-
 import {
   Card,
   CardHeader,
