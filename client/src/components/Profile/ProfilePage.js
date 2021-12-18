@@ -1,4 +1,3 @@
-import react from 'react';
 import {v4 as uuid} from 'uuid';
 import moment from 'moment';
 import {
@@ -7,8 +6,7 @@ import {
 } from "@material-ui/core";
 
 import {
-    Container,
-    Divider
+    Container
 } from '@mui/material';
 
 import Courses from './Courses'
@@ -45,10 +43,7 @@ const exampleUser = {
             title: "My first post",
             userPosted: "Your Mum",
             time: moment().subtract(10, 'days').format('lll'),
-            content: "loooooooooooooooooooooooooooooooooooooooooooooooo\
-            ooooooooooooooooooooooooooooooooooooooooooooooooooooooooooo\
-            ooooooooooooooooooooooooooooooooooooooooooooooooooooooooooo\
-            oooooooooooooooooooooooooooooooooooooooooooong post"
+            content: "looooooooooooooooooooooooooooooooooooooooooooooong post"
         },
         {
             _id: uuid(),

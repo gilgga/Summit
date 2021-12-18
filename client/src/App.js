@@ -1,6 +1,5 @@
-import react from "react";
 import {ApolloClient, HttpLink, InMemoryCache, ApolloProvider } from '@apollo/client';
-import { BrowserRouter as Router, Route, Link, Switch } from 'react-router-dom';
+import { BrowserRouter as Router, Route, Switch } from 'react-router-dom';
 
 import Box from '@mui/material/Box';
 
@@ -15,7 +14,7 @@ import TopicFeed   from   './components/TopicFeed';
 import Login from './components/Login';
 import SignUp from './components/SignUp';
 
-import CoursePage  from   './components/CoursePage'
+import CoursePage  from   './components/CoursePage/CoursePage'
 
 
 import logo from './logo.svg';
@@ -33,7 +32,7 @@ function App() {
   return (
     <ApolloProvider client={client}>
         <Router>
-        <Navbar/>
+          <Navbar/>
           <Box sx = {{ minHeight : "750px", paddingTop: "50px", paddingBottom: "50px", backgroundColor: "#f5f9fc" }}>
             <Switch>
               <Route exact path="/" component={Landing}/>
@@ -46,7 +45,7 @@ function App() {
               <Route exact path="/*" component={NotFound}/>
             </Switch>
           </Box>
-        <Footer/>
+          <Footer/>
       </Router>
     </ApolloProvider>
   );

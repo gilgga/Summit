@@ -1,5 +1,5 @@
-import {react, useEffect, useState} from 'react';
-import { useQuery, useMutation } from '@apollo/client';
+import {useEffect, useState} from 'react';
+import { useMutation } from '@apollo/client';
 
 import {
     Avatar,
@@ -15,8 +15,6 @@ import {
     Button,
     Card,
     CardContent,
-    CardMedia,
-    FormControl,
     Grid,
     makeStyles,
     TextField,

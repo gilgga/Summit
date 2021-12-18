@@ -1,4 +1,4 @@
-import {react, useState, useEffect} from 'react';
+import {useState, useEffect} from 'react';
 import randomColor from 'randomcolor';
 import {
     Container,
@@ -6,8 +6,6 @@ import {
 
 import {
     Grid,
-    makeStyles,
-    Typography,
     Button
 } from '@material-ui/core';
 
@@ -40,7 +38,7 @@ const Topics = (props) => {
             setNumTopics(maxTopics);
             setButtonText("See More");
         }
-    }, [expanded]);
+    }, [expanded]); // eslint-disable-line
 
     const buildTopics = topics && topics.slice(0, numTopics).map((topic, index) => {
         return (
