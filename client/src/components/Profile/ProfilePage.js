@@ -10,7 +10,7 @@ import {
 } from '@mui/material';
 
 import { useQuery } from '@apollo/client';
-import queries from '../queries';
+import queries from '../../queries';
 
 
 import Courses from './Courses'
@@ -18,8 +18,6 @@ import Posts from './Posts';
 import Header from './Header';
 import Description from './Description';
 import Topics from './Topics';
-
-
 
 
 const exampleUser = {
@@ -112,10 +110,12 @@ const usercourses = [
 const ProfilePage = () => {
 
     const { data: dataU, loading: loadingU, error: errorU } = useQuery(queries.GET_USER);
+    const { data: dataC, loading: loadingC, error: errorC } = useQuery(queries.GET_USER_COURSE_DETAILS);
+    const { data: dataT, loading: loadingT, error: errorT } = useQuery(queries.GET_USER_TOPIC_DETAILS);
     const {data, loading, error} = useQuery(queries.GET_POSTS_FROM_USER);
     
 
-    const fullName = exampleUser.firstName + " " + exampleUser.lastName;
+    const fullName = dataU.firstName + " " + dataU.lastName;
     return (
         <>
             <br></br>
@@ -163,7 +163,7 @@ const ProfilePage = () => {
                     Courses {fullName} follows
                 </Typography>
                 <Grid item xs={12}>
-                    <Courses courses = {dataU['courses']}/>
+                    <Courses courses = {dataC}/>
                 </Grid>
 
                 <Typography
@@ -174,7 +174,7 @@ const ProfilePage = () => {
                     Topics {fullName} follows
                 </Typography>
                 <Grid item xs={12}>
-                    <Topics topics = {dataU['topics']} />
+                    <Topics topics = {dataT} />
                 </Grid>
             </Grid>
             </Container>

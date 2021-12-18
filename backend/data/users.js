@@ -10,6 +10,9 @@ const users = mongoCollections.users;
 const topics = mongoCollections.topics;
 const courses = mongoCollections.courses;
 
+const courseData = require('./courses');
+const topicData = require('./topics');
+
 const errorChecking = require('./errors');
 
 // Schema-Inspector Schemas
@@ -434,11 +437,65 @@ async function getUser(id) {
 
 }
 
+async function getUserCourseDetails(id) {
+    if (!id) {
+        throw {
+            status: httpCodes.BAD_REQUEST,
+            message: "id not provided"
+        }
+    }
+    id = errorChecking.sanitizeId( id );
+
+    const allUsers = await users();
+    
+    const user = await allUsers.findOne({_id: id});
+    if (!user) {
+        throw {
+            status: httpCodes.NOT_FOUND,
+            message: "User not found"
+        }
+    }
+    
+    const promises = user['courses'].map( async (cid) => {
+        return await courseData.getCourse(cid);
+    });
+
+    return await Promise.all(promises);
+}
+
+async function getUserTopicDetails(id) {
+    if (!id) {
+        throw {
+            status: httpCodes.BAD_REQUEST,
+            message: "id not provided"
+        }
+    }
+    id = errorChecking.sanitizeId( id );
+
+    const allUsers = await users();
+    
+    const user = await allUsers.findOne({_id: id});
+    if (!user) {
+        throw {
+            status: httpCodes.NOT_FOUND,
+            message: "User not found"
+        }
+    }
+    
+    const promises = user['topics'].map( async (tid) => {
+        return await topicData.getTopic(tid);
+    });
+
+    return await Promise.all(promises);
+}
+
 module.exports = {
     createUser,
     loginUser,
     enrollCourse,
     enrollTopic,
     editProfile,
-    getUser
+    getUser,
+    getUserCourseDetails,
+    getUserTopicDetails
 }

@@ -233,6 +233,30 @@ const GET_USER = gql`
     }
 `;
 
+const GET_USER_COURSE_DETAILS = gql`
+    query ($userid: String!) {
+        getUserCourseDetails(userid : $userid) {
+            _id
+            title
+            description
+            usersEnrolled
+            topic
+        }
+    }
+`;
+
+const GET_USER_TOPIC_DETAILS = gql`
+    query ($userid: String!) {
+        getUserTopicDetails(userid : $userid) {
+            _id
+            title
+            description
+            usersEnrolled
+            courses
+        }
+    }
+`
+
 let exported = {
     GET_TOPIC,
     GET_TOPICS,
@@ -246,7 +270,9 @@ let exported = {
     ENROLL_TOPIC,
     UNENROLL_TOPIC,
     GET_POSTS_FROM_USER,
-    GET_USER
+    GET_USER,
+    GET_USER_COURSE_DETAILS,
+    GET_USER_TOPIC_DETAILS
 };
 
 export default exported;
