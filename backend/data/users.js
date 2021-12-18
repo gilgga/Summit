@@ -200,7 +200,7 @@ async function loginUser(email, password) {
             message: "User not found"
         }
     }
-    const userImage = await getUserImage(userid);
+    const userImage = await getUserImage(getUser._id);
     getUser.image = userImage;
     delete getUser.password;
     return getUser;
