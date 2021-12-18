@@ -1,20 +1,16 @@
 import {useState} from 'react';
 import { useSelector } from 'react-redux';
-import Link from 'react-router-dom/Link';
+
 import {
-    AppBar,
-    Box,
-    Toolbar,
-    IconButton,
-    Typography,
-    Menu,
-    Container,
-    Button,
-    MenuItem
+  AppBar,
+  Box,
+  Toolbar,
+  Typography,
 } from '@mui/material'
 
-import MenuIcon from '@mui/icons-material/Menu';
+import {makeStyles} from '@material-ui/core'
 
+import { Link } from 'react-router-dom';
 import { ThemeProvider, createTheme } from '@mui/material/styles';
 const darkTheme = createTheme({
   palette: {
@@ -22,148 +18,88 @@ const darkTheme = createTheme({
     primary: {
       main: '#1976d2',
     },
+    action: {
+      active: "white",
+      activeOpacity: 1,
+    }
   },
 });
 
-const unauthenticatedPages = [
-  {
-    name: "Home",
-    link: "/"
-  },
-];
-const authenticatedPages = 
-    [
-        {
-          name: "Home",
-          link: "/"
-        },
-        {
-            name: "Profile",
-            link: "/user-profile/1"
-        },
-        {
-            name: 'Explore Topics',
-            link: "/explore/topics"
-        },
-        {
-            name: 'Explore Courses',
-            link: '/explore/courses'
-        }
-    ];
 
-const unauthenticatedSettings = [
-  {
-    name: 'Login',
-    link: "/login"
-  },
-  {
-    name: "Create an Account",
-    link: "/sign-up"
+export default function NavBar() {
+  const allState = useSelector((state) => state.user);
+  const [authenticated, setAuthenticated] = useState(false);
+  
+  if (allState && allState._id !== -1) {
+    setAuthenticated(true);
   }
-]
 
-const authenticatedSettings = [
-    {
-        name: 'Logout',
-        link: '/logout'
-    }
-];
+  const authPages = 
+    <>
+      <Typography variant="h6" sx={{mr: 2}}>
+        <Link to="/">
+          Home
+        </Link>
+      </Typography>
+      <Typography variant="h6" sx={{mr: 2}}>
+      <Link to={"/user-profile/" + allState._id} style={{ color: '#FFF' }}>
+        Profile
+        </Link>
+      </Typography>
+      <Typography variant="h6" sx={{mr: 2}}>
+          <Link to="/explore/courses" style={{ color: '#FFF' }}>
+            Explore Courses
+          </Link>
+      </Typography>
+      <Typography variant="h6" sx={{ flexGrow: 1 }} >
+          <Link to="/explore/topics" style={{ color: '#FFF' }}>
+            Explore Topics
+          </Link>
+      </Typography>
+    </>
 
+  const unauthPages = 
+    <>
+      <Typography variant="h6" sx={{ flexGrow: 1 }} >
+        <Link to="/" style={{ color: '#FFF' }}>
+          Home
+        </Link>
+      </Typography>
+    </>
 
-const Navbar = () => {
-    const [anchorElNav, setAnchorElNav] =   useState(null);
-    const allState = useSelector((state) => state.userReducers);
-    let pages = unauthenticatedPages;
-    if (allState && allState._id === -1) {
-      pages = authenticatedPages;
-    }
-    let settings = unauthenticatedSettings;
-    if (allState && allState._id === -1) {
-        settings = authenticatedSettings;
-    }
-    
-  const handleOpenNavMenu = (event) => {
-    setAnchorElNav(event.currentTarget);
-  };
-  const handleCloseNavMenu = () => {
-    setAnchorElNav(null);
-  };
+  const unauthSettings = 
+    <>
+      <Typography variant="h6" sx={{mr: 2}}>
+          <Link to="/login" style={{ color: '#FFF' }}>
+            Log in
+          </Link>
+      </Typography>
+      <Typography variant="h6" sx={{mr: 2}}>
+          <Link to="/sign-up" style={{ color: '#FFF' }} >
+            Sign Up
+          </Link>
+      </Typography>
+    </>
 
-return (
-  <ThemeProvider theme={darkTheme}>
-  <AppBar position="static" color="primary">
-    <Container maxWidth="xl" >
-      <Toolbar disableGutters>
+  const authSettings = 
+    <>
+      <Typography variant="h6" sx={{mr: 2}}>
+          <Link to="/logout" style={{ color: '#FFF' }}>
+            Log Out
+          </Link>
+      </Typography>
+    </>
+  return (
+    <ThemeProvider theme={darkTheme}>
+    <Box sx={{ flexGrow: 1 }}>  
+      <AppBar position="static" color="primary">
+        <Toolbar>
+        {authenticated ? authPages : unauthPages}
 
-        <Box sx={{ flexGrow: 1, display: { xs: 'flex', md: 'none' } }} key={"left settings"}>
-          <IconButton
-            size="large"
-            aria-label="account of current user"
-            aria-controls="menu-appbar"
-            aria-haspopup="true"
-            onClick={handleOpenNavMenu}
-            color="inherit"
-          >
-            <MenuIcon />
-          </IconButton>
-          <Menu
-            id="menu-appbar"
-            anchorEl={anchorElNav}
-            anchorOrigin={{
-              vertical: 'bottom',
-              horizontal: 'left',
-            }}
-            keepMounted
-            transformOrigin={{
-              vertical: 'top',
-              horizontal: 'left',
-            }}
-            open={Boolean(anchorElNav)}
-            onClose={handleCloseNavMenu}
-            sx={{
-              display: { xs: 'block', md: 'none' },
-            }}
-          >
-            {pages.map((page) => (
-              <MenuItem key={page.name} onClick={handleCloseNavMenu}>
-                <Typography key={page.name} textAlign="center">{page.name}</Typography>
-              </MenuItem>
-            ))}
-          </Menu>
-        </Box>
-        <Box sx={{ flexGrow: 1, display: { xs: 'none', md: 'flex' } }} key ={"right settings"}>
-          {pages.map((page) => (
-            <Link to={page.link} key={page.name}>
-                <Button
-                key={page.name}
-                onClick={handleCloseNavMenu}
-                sx={{ my: 2, color: 'white', display: 'block' }}
-                >
-                  {page.name}
-                </Button>
-            </Link>
-          ))}
-        </Box>
-
-        <Box sx={{ display: { xs: 'none', md: 'flex' } }} key={"settings"}>
-            {settings.map((setting) => (
-              <MenuItem key={setting.name} >
-                <Link to={setting.link} key={setting.name}>
-                <Button
-                    key={setting.name}
-                    onClick={handleCloseNavMenu}
-                    sx={{ my: 2, color: 'white', display: 'block' }}
-                >
-                    {setting.name}
-                </Button>
-                </Link>
-              </MenuItem>
-            ))}
-        </Box>
-      </Toolbar>
-    </Container>
-  </AppBar>
-  </ThemeProvider>
-);
-};
-export default Navbar;
+        {authenticated ? authSettings : unauthSettings}
+        </Toolbar>
+      </AppBar>
+    </Box>
+    </ThemeProvider>
+  );
+}

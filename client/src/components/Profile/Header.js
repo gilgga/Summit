@@ -3,6 +3,7 @@ import { useMutation } from '@apollo/client';
 
 import {
     Avatar,
+    Box,
     Dialog,
     DialogTitle,
     DialogContent,
@@ -37,7 +38,6 @@ const useStyles = makeStyles({
         margin: 'auto',
         marginLeft:  'auto',
         marginRight: 'auto',
-        backgroundColor: "lightblue",
     },
     avatar: {
         marginLeft:  'auto',
@@ -239,26 +239,25 @@ const Header = (props) => {
                     spacing={2}
                 >
                     <Grid item xs={12}>
-                    <Card className={classes.card} variant="outlined">
-                        <CardContent
-
-                            className = {classes.h1}
+                        <Box
+                            className={classes.card}
                         >
-                            <Avatar 
-                                className = {classes.avatar}
-                                sx={{ width: 150, height: 150 }}
-                                alt = {user.firstName + " " + user.lastName}
-                                src={testImage ? testImage : NoImage}
-                            />
-                            <Typography
-                                align = "center"
-                                variant="h1"
-                                component="h1"
-                            >
-                                {user.firstName + " " + user.lastName}
-                            </Typography>
-                        </CardContent>
-                    </Card>
+                        <Avatar 
+                            className = {classes.avatar}
+                            sx={{ width: 150, height: 150 }}
+                            alt = {user.firstName + " " + user.lastName}
+                            src={testImage ? testImage : NoImage}
+                        />
+                        <br></br>
+                        <Typography
+                            align = "center"
+                            variant="h1"
+                            component="h1"
+                        >
+                            {user.firstName + " " + user.lastName}
+                        </Typography>
+
+                        </Box>
                     </Grid>
                     <Grid item>
                         {EditButton}

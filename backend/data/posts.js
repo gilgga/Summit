@@ -101,6 +101,35 @@ async function addPost(title, user, time, content, topic, course){
     return post;
 }
 
+async function getPosts() {
+    const allPosts = await posts();
+    const post = await allPosts.find({});
+    return await post.toArray();
+}
+
+async function getPost(id) {
+    if (!id) {
+        throw {
+            status: httpCodes.BAD_REQUEST,
+            message: "id not provided"
+        }
+    }
+    
+    id = errorChecking.sanitizeId( id );
+
+    const allPosts = await posts();
+    
+    const post = await allPosts.findOne({_id: id});
+    if (!(await post)) {
+        throw {
+            status: httpCodes.NOT_FOUND,
+            message: "Post not found"
+        }
+    }
+    return await topic;
+
+}
+
 async function getPostsFromTopic(topicid) {
     if (!topicid) {
         throw {
@@ -154,6 +183,8 @@ async function getPostsFromUser(userid) {
 
 module.exports = {
     addPost,
+    getPosts,
+    getPost,
     getPostsFromTopic,
     getPostsFromCourse,
     getPostsFromUser
