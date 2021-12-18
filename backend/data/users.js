@@ -174,8 +174,8 @@ async function loginUser(email, password) {
         password: password
     }
     
-    inspector.sanitize( userSanitizationSchema, loginUserInput );
-    const validatedLoginUserInput = inspector.validate( userValidationSchema, loginUserInput );
+    inspector.sanitize( loginSanitizationSchema, loginUserInput );
+    const validatedLoginUserInput = inspector.validate( loginValidationSchema, loginUserInput );
 
     if ( !validatedLoginUserInput.valid ) {
         throw {
