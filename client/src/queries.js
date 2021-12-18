@@ -204,6 +204,35 @@ const UNENROLL_TOPIC = gql`
 `;
 
 
+const GET_POSTS_FROM_USER = gql`
+    query ($userid: String!) {
+        getPostsFromUser(userid : $userid) {
+            _id
+            title
+            user
+            time
+            content
+            topic
+            course
+        }
+    }
+`;
+
+const GET_USER = gql`
+    query ($userid: String!) {
+        getUser(userid :  $userid) {
+            _id
+            email
+            description
+            firstName
+            lastName
+            topics
+            courses
+            image
+        }
+    }
+`;
+
 let exported = {
     GET_TOPIC,
     GET_TOPICS,
@@ -215,7 +244,9 @@ let exported = {
     ENROLL_COURSE,
     UNENROLL_COURSE,
     ENROLL_TOPIC,
-    UNENROLL_TOPIC
+    UNENROLL_TOPIC,
+    GET_POSTS_FROM_USER,
+    GET_USER
 };
 
 export default exported;

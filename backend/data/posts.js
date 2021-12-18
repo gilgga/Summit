@@ -83,7 +83,7 @@ async function addPost(title, user, time, content, topic, course){
 
     inspector.sanitize( postSanitizationSchema, newPostInput );
     const validatedNewPostInput = inspector.validate( postValidationSchema, newPostInput );
-    console.log(newPostInput);
+
     if ( !validatedNewPostInput.valid ) {
         throw {
             status: httpCodes.BAD_REQUEST,
@@ -135,8 +135,26 @@ async function getPostsFromCourse(courseid) {
     return await post.toArray();
 }
 
+async function getPostsFromUser(userid) {
+    if (!userid) {
+        throw {
+            status: httpCodes.BAD_REQUEST,
+            message: "userid not provided"
+        }
+    }
+
+    userid = errorChecking.sanitizeId(userid);
+
+    const allPosts = await posts();
+
+    const post = await allPosts.find({user : userid});
+    
+    return await post.toArray();
+}
+
 module.exports = {
     addPost,
     getPostsFromTopic,
-    getPostsFromCourse
+    getPostsFromCourse,
+    getPostsFromUser
 }

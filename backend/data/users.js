@@ -412,10 +412,33 @@ async function editProfile(id, description, image) {
     return user;
 }
 
+async function getUser(id) {
+    if (!id) {
+        throw {
+            status: httpCodes.BAD_REQUEST,
+            message: "id not provided"
+        }
+    }
+    id = errorChecking.sanitizeId( id );
+
+    const allUsers = await users();
+    
+    const user = await allUsers.findOne({_id: id});
+    if (!user) {
+        throw {
+            status: httpCodes.NOT_FOUND,
+            message: "User not found"
+        }
+    }
+    return user;
+
+}
+
 module.exports = {
     createUser,
     loginUser,
     enrollCourse,
     enrollTopic,
-    editProfile
+    editProfile,
+    getUser
 }

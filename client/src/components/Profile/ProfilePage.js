@@ -9,11 +9,17 @@ import {
     Container
 } from '@mui/material';
 
+import { useQuery } from '@apollo/client';
+import queries from '../queries';
+
+
 import Courses from './Courses'
 import Posts from './Posts';
 import Header from './Header';
 import Description from './Description';
 import Topics from './Topics';
+
+
 
 
 const exampleUser = {
@@ -104,6 +110,11 @@ const usercourses = [
 
 
 const ProfilePage = () => {
+
+    const { data: dataU, loading: loadingU, error: errorU } = useQuery(queries.GET_USER);
+    const {data, loading, error} = useQuery(queries.GET_POSTS_FROM_USER);
+    
+
     const fullName = exampleUser.firstName + " " + exampleUser.lastName;
     return (
         <>
@@ -116,7 +127,7 @@ const ProfilePage = () => {
             >
 
                 <Grid item xs={12}>
-                    <Header user={exampleUser}/>
+                    <Header user={dataU}/>
                 </Grid>
 
                 <Typography
@@ -129,7 +140,7 @@ const ProfilePage = () => {
                 </Typography>
 
                 <Grid item xs={12} >
-                    <Description user={exampleUser}/>
+                    <Description user={dataU}/>
                 </Grid>
 
                 <Typography
@@ -140,7 +151,7 @@ const ProfilePage = () => {
                     {fullName}'s Posts
                 </Typography>
                 <Grid item xs={12}>
-                    <Posts user={exampleUser}/>
+                    <Posts user={data}/>
                 </Grid>
 
 
@@ -152,7 +163,7 @@ const ProfilePage = () => {
                     Courses {fullName} follows
                 </Typography>
                 <Grid item xs={12}>
-                    <Courses courses = {usercourses}/>
+                    <Courses courses = {dataU['courses']}/>
                 </Grid>
 
                 <Typography
@@ -163,7 +174,7 @@ const ProfilePage = () => {
                     Topics {fullName} follows
                 </Typography>
                 <Grid item xs={12}>
-                    <Topics topics = {usertopics} />
+                    <Topics topics = {dataU['topics']} />
                 </Grid>
             </Grid>
             </Container>
