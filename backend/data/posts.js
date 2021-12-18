@@ -81,8 +81,8 @@ async function addPost(title, user, time, content, topic, course){
         course: course
     }
 
-    const sanitizedNewPostInput = inspector.sanitize( postSanitizationSchema, newPostInput );
-    const validatedNewPostInput = inspector.validate( postValidationSchema, sanitizedNewPostInput );
+    inspector.sanitize( postSanitizationSchema, newPostInput );
+    const validatedNewPostInput = inspector.validate( postValidationSchema, newPostInput );
 
     if ( !validatedNewPostInput.valid ) {
         throw {
@@ -93,7 +93,7 @@ async function addPost(title, user, time, content, topic, course){
 
     const postsCollection = await posts();
     
-    let insertPost = await postsCollection.insertOne(sanitizedNewPostInput);
+    let insertPost = await postsCollection.insertOne(newPostInput);
     let newId = insertPost.insertedId;
     if (!newId) throw "error adding post";
     const post = await postsCollection.findOne({_id: newId});
@@ -189,7 +189,7 @@ async function getPostsFromCourse(courseid) {
 module.exports = {
     addPost,
     getCoursePosts,
-    getTopicPosts
+    getTopicPosts,
     getPosts,
     getPost,
     getPostsFromTopic,

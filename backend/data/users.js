@@ -134,8 +134,8 @@ async function createUser(email, password, firstName, lastName) {
         courses: []
     }
 
-    const sanitizedNewUserInput = inspector.sanitize( userSanitizationSchema, newUserInput );
-    const validatedNewUserInput = inspector.validate( userValidationSchema, sanitizedNewUserInput );
+    inspector.sanitize( userSanitizationSchema, newUserInput );
+    const validatedNewUserInput = inspector.validate( userValidationSchema, newUserInput );
 
     if ( !validatedNewUserInput.valid ) {
         throw {
@@ -146,7 +146,7 @@ async function createUser(email, password, firstName, lastName) {
     
     const usersCollection = await users();
 
-    let checkEmail = await usersCollection.findOne({email: sanitizedNewUserInput.email});
+    let checkEmail = await usersCollection.findOne({email: newUserInput.email});
     if (checkEmail) {
         throw {
             status: httpCodes.BAD_REQUEST,
@@ -174,8 +174,8 @@ async function loginUser(email, password) {
         password: password
     }
     
-    const sanitizedLoginUserInput = inspector.sanitize( userSanitizationSchema, loginUserInput );
-    const validatedLoginUserInput = inspector.validate( userValidationSchema, sanitizedLoginUserInput );
+    inspector.sanitize( loginSanitizationSchema, loginUserInput );
+    const validatedLoginUserInput = inspector.validate( loginValidationSchema, loginUserInput );
 
     if ( !validatedLoginUserInput.valid ) {
         throw {
@@ -185,7 +185,7 @@ async function loginUser(email, password) {
     }
 
     const usersCollection = await users();
-    const getUser = await usersCollection.findOne({email: sanitizedLoginUserInput.email});
+    const getUser = await usersCollection.findOne({email: loginUserInput.email});
 
     if (!getUser) {
         throw {
@@ -193,7 +193,7 @@ async function loginUser(email, password) {
             message: "User not found"
         }
     }
-    let match = await bcrypt.compare(sanitizedLoginUserInput.password, getUser.password);
+    let match = await bcrypt.compare(loginUserInput.password, getUser.password);
     if (!match) {
         throw {
             status: httpCodes.UNAUTHORIZED,

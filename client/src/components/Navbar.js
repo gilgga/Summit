@@ -1,20 +1,32 @@
 import {react, useState} from 'react';
+import { useSelector } from 'react-redux';
 import Link from 'react-router-dom/Link';
-import AppBar from '@mui/material/AppBar';
-import Box from '@mui/material/Box';
-import Toolbar from '@mui/material/Toolbar';
-import IconButton from '@mui/material/IconButton';
-import Typography from '@mui/material/Typography';
-import Menu from '@mui/material/Menu';
-import MenuIcon from '@mui/icons-material/Menu';
-import Container from '@mui/material/Container';
-import Avatar from '@mui/material/Avatar';
-import Button from '@mui/material/Button';
-import Tooltip from '@mui/material/Tooltip';
-import MenuItem from '@mui/material/MenuItem';
+import {
+    AppBar,
+    Box,
+    Toolbar,
+    IconButton,
+    Typography,
+    Menu,
+    Container,
+    Button,
+    MenuItem
+} from '@mui/material'
 
-const pages = 
+import MenuIcon from '@mui/icons-material/Menu';
+
+const unauthenticatedPages = [
+  {
+    name: "Home",
+    link: "/"
+  },
+];
+const authenticatedPages = 
     [
+        {
+          name: "Home",
+          link: "/"
+        },
         {
             name: "Profile",
             link: "/user-profile/1"
@@ -28,7 +40,19 @@ const pages =
             link: '/explore/courses'
         }
     ];
-const settings = [
+
+const unauthenticatedSettings = [
+  {
+    name: 'Login',
+    link: "/login"
+  },
+  {
+    name: "Create an Account",
+    link: "/sign-up"
+  }
+]
+
+const authenticatedSettings = [
     {
         name: 'Logout',
         link: '/logout'
@@ -38,13 +62,22 @@ const settings = [
 
 const Navbar = () => {
     const [anchorElNav, setAnchorElNav] =   useState(null);
+    const allState = useSelector((state) => state.userReducers);
+    let pages = unauthenticatedPages;
+    if (allState && allState._id == -1) {
+      pages = authenticatedPages;
+    }
+    let settings = unauthenticatedSettings;
+    if (allState && allState._id == -1) {
+        settings = authenticatedSettings;
+    }
     
-const handleOpenNavMenu = (event) => {
-  setAnchorElNav(event.currentTarget);
-};
-const handleCloseNavMenu = () => {
-  setAnchorElNav(null);
-};
+  const handleOpenNavMenu = (event) => {
+    setAnchorElNav(event.currentTarget);
+  };
+  const handleCloseNavMenu = () => {
+    setAnchorElNav(null);
+  };
 
 return (
   <AppBar position="static">
@@ -101,7 +134,7 @@ return (
           ))}
         </Box>
 
-        <Box sx={{ flexGrow: 0 }} key={"settings"}>
+        <Box sx={{ display: { xs: 'none', md: 'flex' } }} key={"settings"}>
             {settings.map((setting) => (
               <MenuItem key={setting.name} >
                 <Link to={setting.link} key={setting.name}>
