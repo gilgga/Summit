@@ -72,13 +72,13 @@ const authenticatedSettings = [
 
 const Navbar = () => {
     const [anchorElNav, setAnchorElNav] =   useState(null);
-    const allState = useSelector((state) => state.userReducers);
+    const allState = useSelector((state) => state.user);
     let pages = unauthenticatedPages;
-    if (allState && allState._id === -1) {
+    if (allState && allState._id !== -1) {
       pages = authenticatedPages;
     }
     let settings = unauthenticatedSettings;
-    if (allState && allState._id === -1) {
+    if (allState && allState._id !== -1) {
         settings = authenticatedSettings;
     }
     
