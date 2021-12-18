@@ -101,6 +101,28 @@ async function addPost(title, user, time, content, topic, course){
     return post;
 }
 
+async function getCoursePosts(courseid) {
+    if (!courseid) {
+        throw "Course id required";
+    }
+    const postsCollection = await posts();
+    const coursePosts = await postsCollection.find({
+        course: courseid
+    });
+    return coursePosts.toArray();
+}
+
+
+async function getTopicPosts(topicid) {
+    if (!topicid) {
+        throw "topic id required";
+    }
+    const postsCollection = await posts();
+    const topicPosts = await postsCollection.find({
+        topic: topicid
+    });
+    return topicPosts.toArray();
+}
 async function getPosts() {
     const allPosts = await posts();
     const post = await allPosts.find({});
@@ -166,6 +188,8 @@ async function getPostsFromCourse(courseid) {
 
 module.exports = {
     addPost,
+    getCoursePosts,
+    getTopicPosts
     getPosts,
     getPost,
     getPostsFromTopic,

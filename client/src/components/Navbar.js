@@ -48,10 +48,10 @@ const handleCloseNavMenu = () => {
 
 return (
   <AppBar position="static">
-    <Container maxWidth="xl">
+    <Container maxWidth="xl" >
       <Toolbar disableGutters>
 
-        <Box sx={{ flexGrow: 1, display: { xs: 'flex', md: 'none' } }}>
+        <Box sx={{ flexGrow: 1, display: { xs: 'flex', md: 'none' } }} key={"left settings"}>
           <IconButton
             size="large"
             aria-label="account of current user"
@@ -82,29 +82,29 @@ return (
           >
             {pages.map((page) => (
               <MenuItem key={page.name} onClick={handleCloseNavMenu}>
-                <Typography textAlign="center">{page.name}</Typography>
+                <Typography key={page.name} textAlign="center">{page.name}</Typography>
               </MenuItem>
             ))}
           </Menu>
         </Box>
-        <Box sx={{ flexGrow: 1, display: { xs: 'none', md: 'flex' } }}>
+        <Box sx={{ flexGrow: 1, display: { xs: 'none', md: 'flex' } }} key ={"right settings"}>
           {pages.map((page) => (
-            <Link to={page.link}>
+            <Link to={page.link} key={page.name}>
                 <Button
                 key={page.name}
                 onClick={handleCloseNavMenu}
                 sx={{ my: 2, color: 'white', display: 'block' }}
                 >
-                {page.name}
+                  {page.name}
                 </Button>
             </Link>
           ))}
         </Box>
 
-        <Box sx={{ flexGrow: 0 }}>
+        <Box sx={{ flexGrow: 0 }} key={"settings"}>
             {settings.map((setting) => (
               <MenuItem key={setting.name} >
-                <Link to={setting.link}>
+                <Link to={setting.link} key={setting.name}>
                 <Button
                     key={setting.name}
                     onClick={handleCloseNavMenu}
