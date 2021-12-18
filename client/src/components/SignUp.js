@@ -3,7 +3,6 @@ import { useDispatch, useSelector } from "react-redux";
 import { Redirect, Link } from 'react-router-dom';
 import { useMutation } from "@apollo/client";
 import { Button, CircularProgress, Grid, TextField, Typography } from '@mui/material';
-import { Paper } from '@material-ui/core';
 import { Alert } from '@mui/lab';
 
 import queries from '../queries';
@@ -80,7 +79,6 @@ function SignUp() {
             justifyContent="center"
             style={{ minHeight: '65vh' }}
         >
-            <Paper elevation={10} style={{padding:20,height:'50vh',width:280, margin:"20px auto"}}>
                 <Grid align='center'>
                     <h2>Log In</h2>
                 </Grid>
@@ -95,12 +93,11 @@ function SignUp() {
                 {passError && <Alert severity="error">Password must contain at least 8 characters long with at least 1 uppercase letter, lowercase letter, and number.</Alert>}
                 {error && <Alert severity="error">Could not create account with given email.</Alert>}
                 <Typography > Already have an account? 
-                     <Link href="/login" >
+                     <Link to="/login" >
                         Log in 
                     </Link>
                 </Typography>
-            </Paper>
-        </Grid>
+            </Grid>
     )
 }
 

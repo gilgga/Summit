@@ -12,7 +12,6 @@ import {
 import Courses from './Courses'
 import Posts from './Posts';
 import Header from './Header';
-import Description from './Description';
 import Topics from './Topics';
 
 
@@ -132,7 +131,9 @@ const ProfilePage = () => {
                 </Typography>
 
                 <Grid item xs={12} >
-                    <Description user={exampleUser}/>
+                <Typography variant="h6" color="textPrimary">
+                        {exampleUser.description}
+                    </Typography>
                 </Grid>
 
                 <Typography

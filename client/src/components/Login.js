@@ -69,8 +69,8 @@ function Login() {
             justifyContent="center"
             style={{ minHeight: '65vh' }}
         >
-            <Paper elevation={10} style={{padding:20,height:'50vh',width:280, margin:"20px auto"}}>
-                <Grid align='center'>
+            
+                    <Grid align='center'>
                     <h2>Log In</h2>
                 </Grid>
                 <form id='login-form' onSubmit={logUserIn}>
@@ -79,12 +79,11 @@ function Login() {
                     <Button type='submit' color='primary' variant="contained" style={{margin:'8px 0'}} fullWidth>Login</Button>
                 </form>
                 {(loginError || error) && <Alert severity="error">Your login credentials could not be verified, please try again.</Alert>}
-                <Typography > Don't have an account? 
+                <Typography > Don't have an account? {" "}
                      <Link to="/sign-up" >
-                        Sign Up 
+                        Sign Up here
                     </Link>
                 </Typography>
-            </Paper>
         </Grid>
     )
 }
