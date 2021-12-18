@@ -1,4 +1,4 @@
-import {react, useState, useEffect} from 'react';
+import {useState, useEffect} from 'react';
 
 import randomColor from 'randomcolor';
 
@@ -40,7 +40,7 @@ const Courses = (props) => {
             setNumCourses(maxCourses);
             setButtonText("See More");
         }
-    }, [expanded]);
+    }, [expanded]); // eslint-disable-line
 
     const buildCourses = courses && courses.slice(0, numCourses).map((course, index) => {
         return (

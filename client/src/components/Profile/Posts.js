@@ -1,12 +1,10 @@
-import {react, useState, useEffect} from 'react';
+import {useState, useEffect} from 'react';
 import {
     Container,
 } from '@mui/material';
 
 import {
     Grid,
-    makeStyles,
-    Typography,
     Button
 } from '@material-ui/core';
 
@@ -40,7 +38,7 @@ const Posts = (props) => {
             setNumPosts(maxPosts);
             setButtonText("See More");
         }
-    }, [expanded]);
+    }, [expanded]); // eslint-disable-line
 
     const buildPosts = posts && posts.slice(0, numPosts).map((post, index) => {
         return (

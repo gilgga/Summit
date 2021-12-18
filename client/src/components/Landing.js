@@ -1,6 +1,3 @@
-import react, { useEffect } from 'react';
-import {  useQuery, useMutation } from '@apollo/client';
-import queries from '../queries';
 import logo from '../img/Summit.jpg';
 
 

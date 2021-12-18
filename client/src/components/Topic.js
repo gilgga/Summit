@@ -1,4 +1,4 @@
-import {react, useEffect, useState} from 'react';
+import {useState} from 'react';
 import Link from 'react-router-dom/Link';
 
 import {
@@ -16,7 +16,6 @@ import BookmarkAddIcon from '@mui/icons-material/BookmarkAdd';
 import BookmarkRemoveIcon from '@mui/icons-material/BookmarkRemove';
 import PeopleAltIcon from '@mui/icons-material/PeopleAlt';
 
-import NoImage from "../img/ProfileImage.jpeg"
 
 const buttonWidth = "160px"
 
@@ -28,7 +27,7 @@ const Topic = (props) => {
   const stringAvatar = (name) => {
     let delimited = name.split(' ');
     let symbol;
-    if (delimited.length == 1) {
+    if (delimited.length === 1) {
       symbol = delimited[0][0];
     } else {
       symbol = `${delimited[0][0]}${delimited[1][0]}`;

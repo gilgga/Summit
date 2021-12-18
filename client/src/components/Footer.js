@@ -1,4 +1,3 @@
-import react from 'react';
 import { Box, Container, Grid } from '@material-ui/core';
 
 const Footer = (props) => {

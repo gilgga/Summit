@@ -13,7 +13,6 @@ import actions from '../actions';
 function SignUp() {
     const [ emailError, setEmailError ]=useState(false);
     const [ passError, setPassError ]=useState(false);
-    const [ userEmail, setUserEmail ] = useState('');
     const currentUser = useSelector((state) => state.user);
     const dispatch = useDispatch();
     const [ createUser, { data, loading, error }] = useMutation(queries.CREATE_USER);
@@ -46,7 +45,6 @@ function SignUp() {
         // Authenticate user
         email = email.toLowerCase();
         createUser({ variables: { email: email, password: password, firstName: firstName, lastName: lastName }})
-        setUserEmail(email);
     }
 
     if (currentUser._id !== -1) {
