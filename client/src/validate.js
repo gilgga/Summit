@@ -1,4 +1,4 @@
-const emailValidator = require("deep-email-validator");
+// const emailValidator = require("deep-email-validator");
 const exportedMethods = {
     password(password) {
         if (!password || typeof password !== "string" || password.trim().length === 0) {
@@ -34,9 +34,10 @@ const exportedMethods = {
         if (!email.match(emailPattern)) {
             return false;
         }
-        //Check if the email is valid, double check if it works
-        const isValid = await emailValidator.validate(email);
-        return isValid.valid;
+        // //Check if the email is valid, double check if it works
+        // const isValid = await emailValidator.validate(email);
+        // return isValid.valid;
+        return true;
     }
 };
 
