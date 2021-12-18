@@ -26,7 +26,7 @@ const darkTheme = createTheme({
 });
 
 
-export default function BasicBar() {
+export default function NavBar() {
   const allState = useSelector((state) => state.user);
   const [authenticated, setAuthenticated] = useState(false);
   

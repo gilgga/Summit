@@ -42,10 +42,7 @@ const exampleUser = {
             title: "My first post",
             userPosted: "Your Mum",
             time: moment().subtract(10, 'days').format('lll'),
-            content: "loooooooooooooooooooooooooooooooooooooooooooooooo\
-            ooooooooooooooooooooooooooooooooooooooooooooooooooooooooooo\
-            ooooooooooooooooooooooooooooooooooooooooooooooooooooooooooo\
-            oooooooooooooooooooooooooooooooooooooooooooong post"
+            content: "looooooooooooooooooooooooooooooooooooooooooooooong post"
         },
         {
             _id: uuid(),

@@ -12,9 +12,8 @@ import NotFound    from   './components/NotFound';
 import ProfilePage from   './components/Profile/ProfilePage';
 import TopicFeed   from   './components/TopicFeed';
 import Login from './components/Login';
+import Logout from './components/Logout';
 import SignUp from './components/SignUp';
-
-import './App.css';
 
 const client = new ApolloClient({
   cache: new InMemoryCache(),
@@ -33,6 +32,7 @@ function App() {
             <Switch>
               <Route exact path="/" component={Landing}/>
               <Route exact path="/login" component={Login}/>
+              <Route exact path="/logout" component={Logout}/>
               <Route exact path="/sign-up" component={SignUp}/>
               <Route exact path="/user-profile/:id" component={ProfilePage}/>
               <Route exact path="/explore/courses" component={CourseFeed}/>
