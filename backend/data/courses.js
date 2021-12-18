@@ -1,23 +1,83 @@
+const httpCodes = require('http-codes')
+
+const {ObjectId} = require('mongodb');
 const mongoCollections = require("../config/mongoCollections")
 const courses = mongoCollections.courses
-const {ObjectId} = require('mongodb');
+
 const topicsData = require('./topics.js')
 
+const errorChecking = require('./errors');
+
+// Schema-Inspector Schemas
+const inspector = require('schema-inspector');
+
+const courseSanitizationSchema = {
+    type: "object",
+    strict: true,
+    properties: {
+        title: {
+            type: "string",
+            optional: false,
+            minLength: 1
+        },
+        description: {
+            type: "string"
+        },
+        usersEnrolled: {
+            type: "array"
+        },
+        topic: {
+            type: "string"
+        }
+    }
+};
+
+const courseValidationSchema = {
+    type: "object",
+    strict: true,
+    properties: {
+        title: {
+            type: "string",
+            optional: false,
+            minLength: 1
+        },
+        description: {
+            type: "string"
+        },
+        usersEnrolled: {
+            type: "array"
+        },
+        topic: {
+            type: "string"
+        }
+    }
+};
+
 async function addCourse(title, description, topicid) {
-    if (!title || !description || !topicid) throw "title, description, and topicid required";
-    let newCourse = {
+    let newCourseInput = {
         title: title,
         description: description,
         topic: topicid,
         usersEnrolled: []
     }
+
+    const sanitizedNewCourseInput = inspector.sanitize( courseSanitizationSchema, newCourseInput );
+    const validatedNewCourseInput = inspector.validate( courseValidationSchema, sanitizedNewCourseInput );
+
+    if ( !validatedNewCourseInput.valid ) {
+        throw {
+            status: httpCodes.BAD_REQUEST,
+            message: validatedNewCourseInput.format()
+        }
+    }
+    
     const allCourses = await courses();
-    let insertCourse = await allCourses.insertOne(newCourse);
+    
+    let insertCourse = await allCourses.insertOne(sanitizedNewCourseInput);
     let newId = insertCourse.insertedId;
     if (!newId) {
         throw "error adding course";
     }
-    
 
     const course = await allCourses.findOne({_id: newId});
     
@@ -28,20 +88,28 @@ async function addCourse(title, description, topicid) {
 
 async function getCourses() {
     const allCourses = await courses();
+    
     const course = await allCourses.find({});
     return course.toArray();
-
 }
 
 async function getCourse(id) {
     if (!id) {
-        throw "id not provided";
+        throw {
+            status: httpCodes.BAD_REQUEST,
+            message: "id not provided"
+        }
     }
-    id = ObjectId(id);
+    id = errorChecking.sanitizeId( id );
+
     const allCourses = await courses();
+    
     const course = await allCourses.findOne({_id: id});
     if (!course) {
-        throw "Course not found";
+        throw {
+            status: httpCodes.NOT_FOUND,
+            message: "Course not found"
+        }
     }
     return course;
 

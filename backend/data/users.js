@@ -1,48 +1,165 @@
+const httpCodes = require('http-codes')
+
 const bcrypt = require('bcrypt');
+const saltRounds = 16;
+
 const {ObjectId} = require('mongodb');
 const mongoCollections = require("../config/mongoCollections");
 const users = mongoCollections.users;
 const topics = mongoCollections.topics;
 const courses = mongoCollections.courses;
 
-const saltRounds = 16;
+const errorChecking = require('./errors');
+
+// Schema-Inspector Schemas
+const inspector = require('schema-inspector');
+
+const userSanitizationSchema = {
+    type: "object",
+    strict: true,
+    properties: {
+        email: {
+            type: "string",
+            optional: false,
+            rules: ["trim", "lower"],
+            minLength: 1
+        },
+        password: {
+            type: "string",
+            optional: false,
+            rules: ["trim"],
+            minLength: 1
+        },
+        description: {
+            type: "string"
+        },
+        firstName: {
+            type: "string",
+            optional: false,
+            rules: ["trim", "capitalize"],
+            minLength: 1
+        },
+        lastName: {
+            type: "string",
+            optional: false,
+            rules: ["trim", "capitalize"],
+            minLength: 1
+        },
+        topics: {
+            type: "array"
+        },
+        courses: {
+            type: "array"
+        }
+    }
+};
+const userValidationSchema = {
+    type: "object",
+    strict: true,
+    properties: {
+        email: {
+            type: "string",
+            optional: false,
+            pattern: "email"
+        },
+        password: {
+            type: "string",
+            optional: false
+        },
+        description: {
+            type: "string"
+        },
+        firstName: {
+            type: "string",
+            optional: false,
+            minLength: 1
+        },
+        lastName: {
+            type: "string",
+            optional: false, 
+            minLength: 1
+        },
+        topics: {
+            type: "array",
+            uniqueness: true
+        },
+        courses: {
+            type: "array",
+            uniqueness: true
+        }
+    }
+};
+
+const loginSanitizationSchema = {
+    type: "object",
+    strict: true,
+    properties: {
+        email: {
+            type: "string",
+            optional: false,
+            rules: ["trim", "lower"],
+            minLength: 1
+        },
+        password: {
+            type: "string",
+            optional: false,
+            rules: ["trim"],
+            minLength: 1
+        }
+    }
+};
+const loginValidationSchema = {
+    email: {
+        type: "string",
+        optional: false,
+        pattern: "email"
+    },
+    password: {
+        type: "string",
+        optional: false
+    }
+};
 
 async function createUser(email, password, firstName, lastName) {
-
-    if (!email || !email.trim()) {
-        throw "Email required";
-    }
-    if (!password || !password.trim()) {
-        throw "password required";
-    }
-    if (!firstName || !firstName.trim()) {
-        throw "firstName required";
-    }
-    if (!lastName || !lastName.trim()) {
-        throw "lastName required";
-    }
-    const usersCollection = await users();
-
-    let checkEmail = await usersCollection.findOne({email: email.trim()});
-    if (checkEmail) {
-        throw "Account with email already exists";
-    }
-
     const hashedPassword = await bcrypt.hash(password.trim(), saltRounds);
     
-    user = {
-        email: email.trim(),
+    let newUserInput = {
+        email: email,
         password: hashedPassword,
-        firstName: firstName.trim(),
+        firstName: firstName,
         description: "",
-        lastName: lastName.trim(),
+        lastName: lastName,
         topics: [],
         courses: []
     }
-    let insertData = await usersCollection.insertOne(user);
+
+    const sanitizedNewUserInput = inspector.sanitize( userSanitizationSchema, newUserInput );
+    const validatedNewUserInput = inspector.validate( userValidationSchema, sanitizedNewUserInput );
+
+    if ( !validatedNewUserInput.valid ) {
+        throw {
+            status: httpCodes.BAD_REQUEST,
+            message: validatedNewUserInput.format()
+        };
+    }
+    
+    const usersCollection = await users();
+
+    let checkEmail = await usersCollection.findOne({email: sanitizedNewUserInput.email});
+    if (checkEmail) {
+        throw {
+            status: httpCodes.BAD_REQUEST,
+            message: "Account with email already exists"
+        }; 
+    }
+
+    let insertData = await usersCollection.insertOne(validatedNewUserInput);
     let newId = insertData.insertedId;
     if (!newId) {
-        throw "Error adding user";
+        throw {
+            status: httpCodes.INTERNAL_SERVER_ERROR,
+            message: "Error adding user"
+        }
     }
     let newUser = await usersCollection.findOne({_id: newId});
     delete newUser.password;
@@ -51,154 +168,190 @@ async function createUser(email, password, firstName, lastName) {
 }
 
 async function loginUser(email, password) {
-    if (!email || !email.trim()) {
-        throw "Email required";
+    let loginUserInput = {
+        email: email,
+        password: password
     }
-    email = email.trim()
-    if (!password || !password.trim()) {
-        throw "Password required";
+    
+    const sanitizedLoginUserInput = inspector.sanitize( userSanitizationSchema, loginUserInput );
+    const validatedLoginUserInput = inspector.validate( userValidationSchema, sanitizedLoginUserInput );
+
+    if ( !validatedLoginUserInput.valid ) {
+        throw {
+            status: httpCodes.BAD_REQUEST,
+            message: validatedLoginUserInput.format()
+        };
     }
-    console.log(email, password)
+
     const usersCollection = await users();
-    const getUser = await usersCollection.findOne({email: email});
+    const getUser = await usersCollection.findOne({email: sanitizedLoginUserInput.email});
 
     if (!getUser) {
-        throw "User not found";
+        throw {
+            status: httpCodes.UNAUTHORIZED,
+            message: "User not found"
+        }
     }
-    let match = await bcrypt.compare(password, getUser.password);
+    let match = await bcrypt.compare(sanitizedLoginUserInput.password, getUser.password);
     if (!match) {
-        throw "User not found";
+        throw {
+            status: httpCodes.UNAUTHORIZED,
+            message: "User not found"
+        }
     }
     delete getUser.password;
     return getUser;
 }
 
 async function enrollCourse(userid, courseid, adding) {
-    if (!userid) {
-        throw "User id required";
-    }
-    userid = ObjectId(userid);
-    if (!courseid) {
-        throw "Course id required";
-    }
-    courseid = ObjectId(courseid);
+    const sanitizedUserId = errorChecking.sanitizeId( userid );
+    const sanitizedCourseId = errorChecking.sanitizeId( courseid ); 
 
     const usersCollection = await users();
-    let checkExisting = await usersCollection.findOne({_id: userid})
+    let checkExisting = await usersCollection.findOne({_id: sanitizedUserId})
     if (!checkExisting) {
-        throw "User does not exist";
+        throw {
+            status: httpCodes.NOT_FOUND,
+            message: "User does not exist"
+        }
     }
     const courseCollection = await courses();
-    checkExisting = await courseCollection.findOne({_id: courseid});
+    checkExisting = await courseCollection.findOne({_id: sanitizedCourseId});
     if (!checkExisting) {
-        throw "Course does not exist";
+        throw {
+            status: httpCodes.NOT_FOUND,
+            message: "Course does not exist"
+        }
     }
-
 
     if (adding) {
         const addToUser = await usersCollection.updateOne(
-            {_id: userid}, 
-            {$push : {courses : courseid}},
+            {_id: sanitizedUserId}, 
+            {$push : {courses : sanitizedCourseId}},
             );
         
         if (addToUser.modifiedCount != 1) {
-                throw "Could not update user's courses array";
+            throw {
+                status: httpCodes.INTERNAL_SERVER_ERROR,
+                message: "Could not update user's courses array"
+            }
         }
     
         const addToTopic = await courseCollection.updateOne(
-            {_id: courseid}, 
-            {$push : {usersEnrolled : userid}},
+            {_id: sanitizedCourseId}, 
+            {$push : {usersEnrolled : sanitizedUserId}},
             );
         
         if (addToTopic.modifiedCount != 1) {
-                throw "Could not update user's courses array";
+            throw {
+                status: httpCodes.INTERNAL_SERVER_ERROR,
+                message: "Could not update user's courses array"
+            }
         }    
     } else {
         const addToUser = await usersCollection.updateOne(
-            {_id: userid}, 
-            {$pull : {courses : courseid}},
+            {_id: sanitizedUserId}, 
+            {$pull : {courses : sanitizedCourseId}},
             );
         
         if (addToUser.modifiedCount != 1) {
-                throw "Could not update user's courses array";
+            throw {
+                status: httpCodes.INTERNAL_SERVER_ERROR,
+                message: "Could not update user's courses array"
+            }
         }
     
         const addToTopic = await courseCollection.updateOne(
-            {_id: courseid}, 
-            {$pull : {usersEnrolled : userid}},
+            {_id: sanitizedCourseId}, 
+            {$pull : {usersEnrolled : sanitizedUserId}},
             );
         
         if (addToTopic.modifiedCount != 1) {
-                throw "Could not update user's courses array";
+            throw {
+                status: httpCodes.INTERNAL_SERVER_ERROR,
+                message: "Could not update user's courses array"
+            }
         }
     
     }
 
-    checkExisting = await usersCollection.findOne({_id: userid})
+    checkExisting = await usersCollection.findOne({_id: sanitizedUserId})
     delete checkExisting["password"];
     return checkExisting;
 }
 
 async function enrollTopic(userid, topicid, adding) {
-    if (!userid) {
-        throw "User id required";
-    }
-    userid = ObjectId(userid.toString());
-    if (!topicid) {
-        throw "Course id required";
-    }
-    topicid = ObjectId(topicid.toString());
+    const sanitizedUserId = errorChecking.sanitizeId( userid.toString() );
+    const sanitizedTopicId = errorChecking.sanitizeId( topicid.toString() )
 
     const usersCollection = await users();
-    let checkExisting = await usersCollection.findOne({_id: userid})
+    let checkExisting = await usersCollection.findOne({_id: sanitizedUserId})
     if (!checkExisting) {
-        throw "User does not exist";
+        throw {
+            status: httpCodes.BAD_REQUEST,
+            message: "User does not exist"
+        }
     }
     const topicCollection = await topics();
-    checkExisting = await topicCollection.findOne({_id: topicid});
+    checkExisting = await topicCollection.findOne({_id: sanitizedTopicId});
     if (!checkExisting) {
-        throw "Course does not exist";
+        throw {
+            status: httpCodes.BAD_REQUEST,
+            message: "Course does not exist"
+        }
     }
 
     if (adding) {
         const addToUser = await usersCollection.updateOne(
-            {_id: userid}, 
-            {$push : {topics : topicid}},
+            {_id: sanitizedUserId}, 
+            {$push : {topics : sanitizedTopicId}},
             );
         
         if (addToUser.modifiedCount != 1) {
-                throw "Could not update user's courses array";
+                throw {
+                    status: httpCodes.INTERNAL_SERVER_ERROR,
+                    message: "Could not update user's courses array"
+                }
         }
     
         const addToTopic = await topicCollection.updateOne(
-            {_id: topicid}, 
-            {$push : {usersEnrolled : userid}},
+            {_id: sanitizedTopicId}, 
+            {$push : {usersEnrolled : sanitizedUserId}},
             );
         
         if (addToTopic.modifiedCount != 1) {
-                throw "Could not update user's courses array";
+                throw {
+                    status: httpCodes.INTERNAL_SERVER_ERROR,
+                    message: "Could not update user's courses array"
+                }
         }
     
     } else {
         const addToUser = await usersCollection.updateOne(
-            {_id: userid}, 
-            {$pull : {topics : topicid}},
+            {_id: sanitizedUserId}, 
+            {$pull : {topics : sanitizedTopicId}},
             );
         
         if (addToUser.modifiedCount != 1) {
-                throw "Could not update user's courses array";
+                throw {
+                    status: httpCodes.INTERNAL_SERVER_ERROR,
+                    message: "Could not update user's courses array"
+                }
         }
     
         const addToTopic = await topicCollection.updateOne(
-            {_id: topicid}, 
-            {$pull : {usersEnrolled : userid}},
+            {_id: sanitizedTopicId}, 
+            {$pull : {usersEnrolled : sanitizedUserId}},
             );
         
         if (addToTopic.modifiedCount != 1) {
-                throw "Could not update user's courses array";
+                throw {
+                    status: httpCodes.INTERNAL_SERVER_ERROR,
+                    message: "Could not update user's courses array"
+                }
         }    
     }
-    checkExisting = await usersCollection.findOne({_id: userid})
+    checkExisting = await usersCollection.findOne({_id: sanitizedUserId})
     delete checkExisting["password"];
     return checkExisting;
 }

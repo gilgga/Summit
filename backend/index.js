@@ -3,6 +3,19 @@ const {topics, courses, users, posts} = require("./data");
 
 const seed = require("./data/seed");
 
+// For Redis Caching
+// const bluebird = require('bluebird');
+// const redis = require('redis');
+// const client = redis.createClient();
+
+// bluebird.promisifyAll(redis.RedisClient.prototype);
+// bluebird.promisifyAll(redis.Multi.prototype);
+
+const userCache = "userCache";
+const postCache = "postCache";
+const topicCache = "topicCache";
+const courseCache = "courseCache"
+
 const typeDefs = gql`
 
   type User {
@@ -37,20 +50,23 @@ const typeDefs = gql`
     user: String!
     time: String!
     content: String
-    topic: [ID]
-    course: [ID]
+    topic: ID
+    course: ID
   }
 
-
   type Query {
+    getPosts: [Post]
+    getPost(id: ID!) : Post
+    getPostsFromTopic(topicid: ID!) : [Post]
+    getPostsFromCourse(courseid: ID!) : [Post]
+    getTopic(id: ID!)  : Topic
     getTopics: [Topic]
     getCourses: [Course]
     getCourse(id: ID!) : Course
-    getTopic(id: ID!)  : Topic
     loginUser(
       email: String!
       password: String!
-      ) : User
+    ) : User
   }
 
   type Mutation {
@@ -77,26 +93,42 @@ const typeDefs = gql`
       topicid: ID!
     ) : User
   }
+
 `;
 
 
 const resolvers = {
     Query: {
-      getTopics: async(_, args) => {
+      getPosts: async (_, args) => {
+        return await posts.getPosts();
+      },
+      getPost: async (_, args) => {
+        let id = args.id;
+        return await posts.getPost(id);
+      },
+      getPostsFromTopic: async (_, args) => {
+        let topicid = args.topicid;
+        return await posts.getPostsFromTopic(topicid);
+      },
+      getPostsFromCourse: async (_, args) => {
+        let courseid = args.courseid;
+        return await posts.getPostsFromCourse(courseid);
+      },
+      getTopics: async (_, args) => {
         return await topics.getTopics();
       },
-      getCourses: async(_, args) => {
-        return await courses.getCourses();
-      },
-      getCourse: async(_, args) => {
-        let id = args.id;
-        return await courses.getCourse(id);
-      },
-      getTopic: async(_, args) => {
+      getTopic: async (_, args) => {
         let id = args.id;
         return await topics.getTopic(id);
       },
-      loginUser: async(_, args) => {
+      getCourses: async (_, args) => {
+        return await courses.getCourses();
+      },
+      getCourse: async (_, args) => {
+        let id = args.id;
+        return await courses.getCourse(id);
+      },
+      loginUser: async (_, args) => {
         const {email, password} = args;
         return await users.loginUser(email, password);
       }
