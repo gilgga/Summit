@@ -13,8 +13,6 @@ import TopicFeed   from   './components/TopicFeed';
 import Login from './components/Login';
 import SignUp from './components/SignUp';
 
-import './App.css';
-
 const client = new ApolloClient({
   cache: new InMemoryCache(),
   link: new HttpLink({
