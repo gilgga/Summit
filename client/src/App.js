@@ -11,8 +11,12 @@ import Navbar      from   './components/Navbar';
 import NotFound    from   './components/NotFound';
 import ProfilePage from   './components/Profile/ProfilePage';
 import TopicFeed   from   './components/TopicFeed';
+
 import Login from './components/Login';
 import SignUp from './components/SignUp';
+
+import CoursePage  from   './components/CoursePage'
+
 
 import logo from './logo.svg';
 import './App.css';
@@ -38,6 +42,7 @@ function App() {
               <Route exact path="/user-profile/:id" component={ProfilePage}/>
               <Route exact path="/explore/courses" component={CourseFeed}/>
               <Route exact path="/explore/topics"  component={TopicFeed} />
+              <Route exact path="/courses/:id"  component={CoursePage} />
               <Route exact path="/*" component={NotFound}/>
             </Switch>
           </Box>
