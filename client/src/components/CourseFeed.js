@@ -1,5 +1,7 @@
 import randomColor from 'randomcolor';
 import { useQuery } from '@apollo/client';
+import { useSelector } from "react-redux";
+import { Redirect } from 'react-router-dom';
 
 import {
     Container
@@ -17,6 +19,8 @@ import queries from '../queries';
 
 const CourseFeed = (props) => {
     const {data, loading, error} = useQuery(queries.GET_COURSES);
+    const currentUser = useSelector((state) => state.user);
+
     const buildCourses = data && data.getCourses && data.getCourses.map((course, index) => {
         return (
             <Grid key = {index} item xs={12}>
@@ -29,6 +33,10 @@ const CourseFeed = (props) => {
             </Grid>
         )
     });
+
+    if (currentUser._id === -1) {
+        return (<Redirect to='/login'/>);
+    }
     
     if ( loading ) {
         return (

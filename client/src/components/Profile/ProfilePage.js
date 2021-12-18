@@ -1,4 +1,6 @@
 import {v4 as uuid} from 'uuid';
+import { useSelector } from "react-redux";
+import { Redirect } from 'react-router-dom';
 import moment from 'moment';
 import {
     Grid,
@@ -104,6 +106,12 @@ const usercourses = [
 
 const ProfilePage = () => {
     const fullName = exampleUser.firstName + " " + exampleUser.lastName;
+    const currentUser = useSelector((state) => state.user);
+
+    if (currentUser._id === -1) {
+        return (<Redirect to='/login'/>);
+    }
+
     return (
         <>
             <br></br>
