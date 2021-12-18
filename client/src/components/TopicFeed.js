@@ -1,5 +1,3 @@
-import {react } from 'react';
-import { v4 as uuid} from 'uuid';
 import randomColor from 'randomcolor';
 import { useQuery } from '@apollo/client';
 
@@ -8,35 +6,14 @@ import {
 } from '@mui/material';
 
 import {
-    Grid,
-    Button,
+    Grid
 } from '@material-ui/core';
+
+import CircularProgress from '@mui/material/CircularProgress';
+import Alert from '@mui/material/Alert';
 
 import Topic from './Topic';
 import queries from '../queries';
-
-
-const exampleTopics = [
-    {
-        id: uuid(),
-        name: "Computer Science",
-        description: "Everything Computer Science",
-        usersEnrolled: 54,
-    },
-    {
-        id: uuid(),
-        name: "Computer Engineering",
-        description: "Everything Computer Engineering",
-        usersEnrolled: 35,
-    },
-    {
-        id: uuid(),
-        name: "Cybersecurity",
-        description: "Everything Cybersecurity",
-        usersEnrolled: 420,
-    },
-
-];
 
 
 const TopicFeed = (props) => {
@@ -54,16 +31,30 @@ const TopicFeed = (props) => {
         )
     });
     
-    return (
-        <Container fixed>
-            <Grid
-                container
-                spacing = {4}
-            >
-                {buildTopics}
-            </Grid>
-        </Container>
-    )
+    if ( loading ) {
+        return (
+            <Container fixed>
+                <CircularProgress />
+            </Container>
+        )
+    } else if ( error ) {
+        return (
+            <Container fixed>
+                <Alert severity="error">Error: 404 Not Found</Alert>
+            </Container>
+        )
+    } else {
+        return (
+            <Container fixed>
+                <Grid
+                    container
+                    spacing = {4}
+                >
+                    {buildTopics}
+                </Grid>
+            </Container>
+        )
+    }
 };
 
 export default TopicFeed;

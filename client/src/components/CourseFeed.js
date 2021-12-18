@@ -1,5 +1,3 @@
-import {react, useState } from 'react';
-import { v4 as uuid} from 'uuid';
 import randomColor from 'randomcolor';
 import { useQuery } from '@apollo/client';
 
@@ -8,9 +6,10 @@ import {
 } from '@mui/material';
 
 import {
-    Grid,
-    Button,
+    Grid
 } from '@material-ui/core';
+import CircularProgress from '@mui/material/CircularProgress';
+import Alert from '@mui/material/Alert';
 
 import Course from './Course';
 import queries from '../queries';
@@ -31,16 +30,30 @@ const CourseFeed = (props) => {
         )
     });
     
-    return (
-        <Container fixed>
-            <Grid
-                container
-                spacing = {4}
-            >
-                {buildCourses}
-            </Grid>
-        </Container>
-    )
+    if ( loading ) {
+        return (
+            <Container fixed>
+                <CircularProgress />
+            </Container>
+        )
+    } else if ( error ) {
+        return (
+            <Container fixed>
+                <Alert severity="error">Error: 404 Not Found</Alert>
+            </Container>
+        )
+    } else {
+        return (
+            <Container fixed>
+                <Grid
+                    container
+                    spacing = {4}
+                >
+                    {buildCourses}
+                </Grid>
+            </Container>
+        )
+    }
 };
 
 export default CourseFeed;

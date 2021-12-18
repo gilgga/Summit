@@ -1,4 +1,3 @@
-import react from 'react';
 import {v4 as uuid} from 'uuid';
 import moment from 'moment';
 import {
@@ -7,8 +6,7 @@ import {
 } from "@material-ui/core";
 
 import {
-    Container,
-    Divider
+    Container
 } from '@mui/material';
 
 import Courses from './Courses'

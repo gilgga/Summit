@@ -1,4 +1,4 @@
-import {react, useState} from 'react';
+import {useState} from 'react';
 import { useSelector } from 'react-redux';
 import Link from 'react-router-dom/Link';
 import {
@@ -14,6 +14,16 @@ import {
 } from '@mui/material'
 
 import MenuIcon from '@mui/icons-material/Menu';
+
+import { ThemeProvider, createTheme } from '@mui/material/styles';
+const darkTheme = createTheme({
+  palette: {
+    mode: 'dark',
+    primary: {
+      main: '#1976d2',
+    },
+  },
+});
 
 const unauthenticatedPages = [
   {
@@ -64,11 +74,11 @@ const Navbar = () => {
     const [anchorElNav, setAnchorElNav] =   useState(null);
     const allState = useSelector((state) => state.userReducers);
     let pages = unauthenticatedPages;
-    if (allState && allState._id == -1) {
+    if (allState && allState._id === -1) {
       pages = authenticatedPages;
     }
     let settings = unauthenticatedSettings;
-    if (allState && allState._id == -1) {
+    if (allState && allState._id === -1) {
         settings = authenticatedSettings;
     }
     
@@ -80,7 +90,8 @@ const Navbar = () => {
   };
 
 return (
-  <AppBar position="static">
+  <ThemeProvider theme={darkTheme}>
+  <AppBar position="static" color="primary">
     <Container maxWidth="xl" >
       <Toolbar disableGutters>
 
@@ -152,6 +163,7 @@ return (
       </Toolbar>
     </Container>
   </AppBar>
+  </ThemeProvider>
 );
 };
 export default Navbar;

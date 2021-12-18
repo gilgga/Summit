@@ -1,4 +1,3 @@
-// const emailValidator = require("deep-email-validator");
 const exportedMethods = {
     password(password) {
         if (!password || typeof password !== "string" || password.trim().length === 0) {
@@ -30,13 +29,11 @@ const exportedMethods = {
             return false;
         }
         //Checks if email is of valid format
-        let emailPattern = /^([a-z0-9_\.\+-]+)@([\da-z\.-]+)\.([a-z\.]{2,6})$/;
+        let emailPattern = /^([a-z0-9_\.\+-]+)@([\da-z\.-]+)\.([a-z\.]{2,6})$/; // eslint-disable-line
         if (!email.match(emailPattern)) {
             return false;
         }
-        // //Check if the email is valid, double check if it works
-        // const isValid = await emailValidator.validate(email);
-        // return isValid.valid;
+
         return true;
     }
 };

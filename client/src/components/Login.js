@@ -12,7 +12,6 @@ import actions from '../actions';
 
 function Login() {
     const [ loginError, setLoginError ]=useState(false);
-    const [ userEmail, setUserEmail ] = useState('');
     const currentUser = useSelector((state) => state.user);
     const dispatch = useDispatch();
     const [ login, { loading, error, data }] = useLazyQuery(queries.LOGIN_USER);
@@ -34,7 +33,7 @@ function Login() {
         // Authenticate user
         email = email.toLowerCase();
         login({ variables: { email: email, password: password }});
-        setUserEmail(email);
+        
     }
 
     if (currentUser._id !== -1) {
