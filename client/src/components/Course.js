@@ -32,10 +32,10 @@ const Course = (props) => {
   const [unenrollCourse] = useMutation(queries.UNENROLL_COURSE);
 
   const enrollUser = async() => {
-    const data = await enrollCourse({variables: {id : allState._id, courseid : course._id}})
+    await enrollCourse({variables: {id : allState._id, courseid : course._id}})
   };
   const unenrollUser = async() => {
-    const data = await unenrollCourse({variables: {id : allState._id, courseid : course._id}})
+    await unenrollCourse({variables: {id : allState._id, courseid : course._id}})
   }
 
   useEffect(() => {

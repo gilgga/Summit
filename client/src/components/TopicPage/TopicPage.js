@@ -1,4 +1,4 @@
-import {react, useState, useEffect} from 'react';
+import {useState} from 'react';
 import { useQuery } from '@apollo/client';
 import { useParams, Link } from 'react-router-dom'
 import queries from '../../queries.js';
@@ -14,7 +14,7 @@ import Posts from './Posts'
 import Header from './Header'
 
 
-const TopicPage = (props) => {
+const TopicPage = () => {
     const [courseData, setCourseData] = useState(null);
     const [postsData, setPostsData] = useState(null);
     const [topicData, setTopicData] = useState(null)

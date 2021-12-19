@@ -1,19 +1,6 @@
 import { Box, Container, Grid } from '@material-ui/core';
-import { ThemeProvider, createTheme } from '@mui/material/styles';
-const darkTheme = createTheme({
-  palette: {
-    mode: 'dark',
-    primary: {
-      main: '#121212',
-    },
-    action: {
-      active: "white",
-      activeOpacity: 1,
-    }
-  },
-});
 
-const Footer = (props) => {
+const Footer = () => {
     return (
         <footer style={{backgroundColor: "#121212"}}>
             <Box px={{ xs: 3 }} py={{ xs: 3 }} >
