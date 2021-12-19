@@ -1,7 +1,7 @@
 import { gql } from '@apollo/client';
 
 const GET_TOPIC = gql`
-    query ($id: String!) {
+    query ($id: ID!) {
         getTopic(id : $id) {
             _id
             title
@@ -26,7 +26,7 @@ const GET_TOPICS = gql`
 
 
 const GET_COURSE = gql`
-    query ($id: String!) {
+    query ($id: ID!) {
         getCourse(id : $id) {
             _id
             title
@@ -50,6 +50,19 @@ const GET_COURSES = gql`
     }
 `;
 
+const GET_POSTS = gql`
+    query {
+        getPosts {
+            _id
+            title
+            user
+            time
+            content
+            topic
+            course
+        }
+    }
+`;
 
 const LOGIN_USER = gql`
     query(
@@ -236,6 +249,7 @@ let exported = {
     GET_TOPICS,
     GET_COURSE,
     GET_COURSES,
+    GET_POSTS,
     CREATE_USER,
     CREATE_POST,
     LOGIN_USER,

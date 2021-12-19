@@ -39,6 +39,11 @@ export default function NavBar() {
         Profile
         </Link>
       </Typography>
+      <Typography variant="h6" sx={{ mr: 2 }} >
+          <Link to="/all-posts" style={{ color: '#FFF' }}>
+            All Posts
+          </Link>
+      </Typography>
       <Typography variant="h6" sx={{mr: 2}}>
           <Link to="/explore/courses" style={{ color: '#FFF' }}>
             Explore Courses
