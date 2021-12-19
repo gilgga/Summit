@@ -86,13 +86,13 @@ const ProfilePage = () => {
                     align = "left"
                     gutterBottom
                     variant = "h4"
-                    component = "h4"
+                    component = "h2"
                 >
                     Description
                 </Typography>
 
                 <Grid item xs={12} >
-                <Typography variant="h6" color="textPrimary">
+                <Typography variant="h6" component="h3" color="textPrimary">
                         {dataU.getUser.description ? dataU.getUser.description : `${dataU.getUser.firstName} hasn't added a description yet!`}
                     </Typography>
                 </Grid>

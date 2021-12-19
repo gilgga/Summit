@@ -38,7 +38,7 @@ const TopicFeed = (props) => {
                     topic={topic}
                     user = {data_user.getUser} 
                     maxwidth = {"100%"}
-                    avatarColor = {randomColor()}
+                    avatarColor = {randomColor({luminosity: "dark"})}
                 />
             </Grid>
         )

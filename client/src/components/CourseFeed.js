@@ -38,7 +38,7 @@ const CourseFeed = (props) => {
                         user = {data_user.getUser}
                         course={course} 
                         maxwidth = {"100%"}
-                        avatarColor = {randomColor()}
+                        avatarColor = {randomColor({luminosity: "dark"})}
                     />
                 </Grid>
             )
