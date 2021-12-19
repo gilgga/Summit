@@ -15,10 +15,10 @@ import Login from './components/Login';
 import SignUp from './components/SignUp';
 
 import CoursePage  from   './components/CoursePage/CoursePage'
+import TopicPage  from   './components/TopicPage/TopicPage'
 
 
 import logo from './logo.svg';
-import './App.css';
 
 const client = new ApolloClient({
   cache: new InMemoryCache(),
@@ -42,6 +42,7 @@ function App() {
               <Route exact path="/explore/courses" component={CourseFeed}/>
               <Route exact path="/explore/topics"  component={TopicFeed} />
               <Route exact path="/courses/:id"  component={CoursePage} />
+              <Route exact path="/topics/:id"  component={TopicPage} />
               <Route exact path="/*" component={NotFound}/>
             </Switch>
           </Box>

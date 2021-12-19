@@ -33,10 +33,10 @@ const postSanitizationSchema = {
             type: "string"
         },
         topic: {
-            type: "string"
+            type: "ObjectId"
         },
         course: {
-            type: "string"
+            type: "ObjectId"
         }
     }
 };
@@ -63,10 +63,10 @@ const postValidationSchema = {
             type: "string"
         },
         topic: {
-            type: "string"
+            type: "ObjectId"
         },
         course: {
-            type: "string"
+            type: "ObjectId"
         }
     }
 };
@@ -130,79 +130,12 @@ async function getPostsFromCourse(courseid) {
 
     const allPosts = await posts();
 
-    const post = await allPosts.find({course : courseid});
-    
-    return await post.toArray();
-}
-async function getPosts() {
-    const allPosts = await posts();
-    const post = await allPosts.find({});
-    return await post.toArray();
-}
-
-async function getPost(id) {
-    if (!id) {
-        throw {
-            status: httpCodes.BAD_REQUEST,
-            message: "id not provided"
-        }
-    }
-    
-    id = errorChecking.sanitizeId( id );
-
-    const allPosts = await posts();
-    
-    const post = await allPosts.findOne({_id: id});
-    if (!(await post)) {
-        throw {
-            status: httpCodes.NOT_FOUND,
-            message: "Post not found"
-        }
-    }
-    return await topic;
-
-}
-
-async function getPostsFromTopic(topicid) {
-    if (!topicid) {
-        throw {
-            status: httpCodes.BAD_REQUEST,
-            message: "topicid not provided"
-        }
-    }
-
-    topicid = errorChecking.sanitizeId(topicid);
-
-    const allPosts = await posts();
-
-    const post = await allPosts.find({topic : topicid});
-    
-    return await post.toArray();
-}
-
-async function getPostsFromCourse(courseid) {
-    if (!courseid) {
-        throw {
-            status: httpCodes.BAD_REQUEST,
-            message: "courseid not provided"
-        }
-    }
-
-    courseid = errorChecking.sanitizeId(courseid);
-
-    const allPosts = await posts();
-
-    const post = await allPosts.find({course : courseid});
-    
+    const post = await allPosts.find({course: courseid});
     return await post.toArray();
 }
 
 module.exports = {
     addPost,
-    getCoursePosts,
-    getTopicPosts,
-    getPosts,
-    getPost,
     getPostsFromTopic,
     getPostsFromCourse
 }

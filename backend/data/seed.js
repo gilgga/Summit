@@ -59,17 +59,17 @@ async function seed() {
     const user1topic1 = await users.enrollTopic(user1._id, topic1._id, true);
     
     console.log("Adding posts");
-    const post1 = await posts.addPost("IT Security is so interesting!", user1._id, new Date(), "I'm excited to be in this class", course1._id, topic2._id);
-    const post2 = await posts.addPost("I just learned how to create a user", user1._id, new Date(), "Sysadmininstration is difficult :(", course3._id, topic2._id);
-    const post3 = await posts.addPost("How do I crop an image?", user1._id, new Date(), "Can I just photoshop my degree?", course12._id, topic3._id);
-    const post4 = await posts.addPost("SELECT * from where 1 = 1", user1._id, new Date(), "Preventing SQL injections are so hard!", course10._id, topic1._id);
-    const post5 = await posts.addPost("This course is super useful", user1._id, new Date(), "Super useful!", course8._id, topic4._id);
+    const post1 = await posts.addPost("IT Security is so interesting!", user1._id, new Date(), "I'm excited to be in this class", topic2._id, course1._id);
+    const post2 = await posts.addPost("I just learned how to create a user", user1._id, new Date(), "Sysadmininstration is difficult :(", topic2._id, course3._id);
+    const post3 = await posts.addPost("How do I crop an image?", user1._id, new Date(), "Can I just photoshop my degree?", topic3._id, course12._id);
+    const post4 = await posts.addPost("SELECT * from where 1 = 1", user1._id, new Date(), "Preventing SQL injections are so hard!", topic1._id, course10._id);
+    const post5 = await posts.addPost("This course is super useful", user1._id, new Date(), "Super useful!", topic4._id, course8._id);
 
-    const post6 = await posts.addPost("Docker help???", user1._id, new Date(), "Docker is such a pain to setup!!!!!", course4._id, topic1._id);
-    const post7 = await posts.addPost("Terrible course", user1._id, new Date(), "This course is just a bunch of buzzwords! Do not recommend.", course2._id, topic1._id);
-    const post8 = await posts.addPost("SQL tip", user1._id, new Date(), "You don't actually have to capitalize operands!", course10._id, topic1._id);
-    const post9 = await posts.addPost("Eh", user1._id, new Date(), "I forgot everything after I watched the video", course7._id, topic4._id);
-    const post0 = await posts.addPost("Must take!", user1._id, new Date(), "I took this course after I messed up my team's branch, it won't happen again!", course9._id, topic2._id);
+    const post6 = await posts.addPost("Docker help???", user1._id, new Date(), "Docker is such a pain to setup!!!!!", topic1._id, course4._id);
+    const post7 = await posts.addPost("Terrible course", user1._id, new Date(), "This course is just a bunch of buzzwords! Do not recommend.", topic1._id, course2._id);
+    const post8 = await posts.addPost("SQL tip", user1._id, new Date(), "You don't actually have to capitalize operands!", topic1._id, course10._id);
+    const post9 = await posts.addPost("Eh", user1._id, new Date(), "I forgot everything after I watched the video", topic4._id, course7._id);
+    const post0 = await posts.addPost("Must take!", user1._id, new Date(), "I took this course after I messed up my team's branch, it won't happen again!", topic2._id, course9._id);
 
     console.log("Done");
     return;
