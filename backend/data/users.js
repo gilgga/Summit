@@ -437,6 +437,9 @@ async function getUser(id) {
             message: "User not found"
         }
     }
+    delete user.password;
+    const im = await getUserImage(id);
+    user.image = im;
     return user;
 
 }

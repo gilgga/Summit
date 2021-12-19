@@ -72,6 +72,7 @@ const postValidationSchema = {
 };
 
 async function addPost(title, user, time, content, topic, course){
+    user= errorChecking.sanitizeId( user);
     let newPostInput = {
         title: title,
         user: user,
@@ -173,7 +174,6 @@ async function getPostsFromUser(userid) {
     userid = errorChecking.sanitizeId(userid);
 
     const allPosts = await posts();
-
     const post = await allPosts.find({user : userid});
     
     return await post.toArray();

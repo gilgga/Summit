@@ -1,6 +1,6 @@
 const { ApolloServer, gql } = require('apollo-server');
 
-const {topics, courses, users, posts} = require("./data");
+const {topics, courses, users, posts, image} = require("./data");
 
 const seed = require("./data/seed");
 

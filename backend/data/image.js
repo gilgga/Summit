@@ -23,7 +23,7 @@ async function getUserImage(userid) {
     }
     userid = userid.toString();
 
-    return await client.getAsync(userid);
+    return  await client.getAsync(userid);
 }
 module.exports = {
     addImage,
