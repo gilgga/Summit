@@ -1,8 +1,9 @@
 import {react, useState, useEffect} from 'react';
 import { useQuery } from '@apollo/client';
-import { useParams } from 'react-router-dom'
+import { useParams, Link } from 'react-router-dom'
 import queries from '../../queries.js';
 import {
+  Button,
   Container
 } from '@mui/material'
 import {
@@ -15,7 +16,6 @@ import Header from './Header'
 
 const TopicPage = (props) => {
     const [courseData, setCourseData] = useState(null);
-    const [courseId, setCourseId] = useState(null);
     const [postsData, setPostsData] = useState(null);
     const [topicData, setTopicData] = useState(null)
     const { id } = useParams();
@@ -66,7 +66,6 @@ const TopicPage = (props) => {
         setCourseData(course_data.getTopicCourses)
     }
 
-
     if(topicData) {
     return (
         <Container fixed>
@@ -80,6 +79,17 @@ const TopicPage = (props) => {
                 <Header courses={courseData} topic={topicData}/>
             </Grid>
 
+            <Grid item xs={12}>
+                <Button
+                    variant="outlined"
+                    color="primary"
+                >   
+                    <Link to="/new-post">
+                    Make a New Post
+                    </Link>
+                </Button>
+            </Grid>
+
             <Typography
                 align = "left"
                 gutterBottom
@@ -91,7 +101,7 @@ const TopicPage = (props) => {
 
             <Grid item xs={12} >
                     <Typography variant="h6" color="textPrimary">
-                        {courseData && courseData.description}
+                        {topicData && topicData.description}
                     </Typography>
             </Grid>
 

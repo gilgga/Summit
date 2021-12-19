@@ -1,13 +1,13 @@
 import { useQuery } from '@apollo/client';
 import { useSelector } from "react-redux";
-import { Redirect } from 'react-router-dom';
-import { useParams } from 'react-router-dom'
+import { Redirect, Link, useParams } from 'react-router-dom';
 import {
     Grid,
     Typography
 } from "@material-ui/core";
 
 import {
+    Button,
     Container
 } from '@mui/material';
 
@@ -104,6 +104,14 @@ const ProfilePage = () => {
                 >
                     {fullName}'s Posts
                 </Typography>
+                <Button
+                    variant="outlined"
+                    color="primary"
+                >   
+                    <Link to="/new-post">
+                    Make a New Post
+                    </Link>
+                </Button>
                 <Grid item xs={12}>
                     <Posts posts={data.getPostsFromUser}/>
                 </Grid>

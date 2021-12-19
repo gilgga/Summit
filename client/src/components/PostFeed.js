@@ -2,7 +2,7 @@ import React from 'react';
 import { useSelector } from "react-redux";
 import { Redirect, Link } from 'react-router-dom';
 import { useQuery } from "@apollo/client";
-import { CircularProgress, Grid, Container } from '@mui/material';
+import { CircularProgress, Grid, Container, Button } from '@mui/material';
 import { Alert } from '@mui/lab';
 
 import queries from '../queries';
@@ -20,9 +20,9 @@ function PostFeed() {
         );
     });
 
-    // if (currentUser._id === -1) {
-    //     return (<Redirect to='/login'/>);
-    // }
+    if (currentUser._id === -1) {
+        return (<Redirect to='/login'/>);
+    }
 
     if (loading) {
 		return (
@@ -50,6 +50,15 @@ function PostFeed() {
     return (
     <Container fixed>
         <h1 style={{textAlign: 'center'}}>All Posts</h1>
+        <Button
+                    variant="outlined"
+                    color="primary"
+                >   
+                    <Link to="/new-post">
+                    Make a New Post
+                    </Link>
+                </Button>
+        <br></br>
         <Grid
             container
             spacing = {4}

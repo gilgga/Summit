@@ -1,8 +1,9 @@
 import {react, useState, useEffect} from 'react';
 import { useQuery } from '@apollo/client';
-import { useParams } from 'react-router-dom'
+import { useParams, Link } from 'react-router-dom'
 import queries from '../../queries.js';
 import {
+    Button,
   Container
 } from '@mui/material'
 import {
@@ -80,6 +81,17 @@ const CoursePage = (props) => {
 
             <Grid item xs={12}>
                 <Header course={courseData} topic={topicData}/>
+            </Grid>
+
+            <Grid item xs={12}>
+                <Button
+                    variant="outlined"
+                    color="primary"
+                >   
+                    <Link to="/new-post">
+                    Make a New Post
+                    </Link>
+                </Button>
             </Grid>
 
             <Typography

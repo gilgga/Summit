@@ -33,18 +33,15 @@ const Topic = (props) => {
 
   useEffect(() => {
     if(user && user.topics.find(element => element === topic._id)){
-      console.log("YIKES")
       setSubscribed(true)
     }
   }, [])
   useEffect(() => {
     const enrollUser = async() => {
       const data = await enrollTopic({variables: {id : allState._id, topicid : topic._id}})
-      console.log(data);
     };
     const unenrollUser = async() => {
       const data = await unenrollTopic({variables: {id : allState._id, topicid : topic._id}})
-      console.log(data);
     }
     if (subscribed) {
       enrollUser();
