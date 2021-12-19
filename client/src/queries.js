@@ -1,7 +1,5 @@
 import { gql } from '@apollo/client';
 
-
-
 const GET_TOPIC = gql`
     query ($id: String!) {
         getTopic(id : $id) {
