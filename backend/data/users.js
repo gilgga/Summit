@@ -10,6 +10,9 @@ const users = mongoCollections.users;
 const topics = mongoCollections.topics;
 const courses = mongoCollections.courses;
 
+const courseData = require('./courses');
+const topicData = require('./topics');
+
 const errorChecking = require('./errors');
 
 // Schema-Inspector Schemas
