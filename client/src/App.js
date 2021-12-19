@@ -15,6 +15,7 @@ import NotFound    from   './components/NotFound';
 import ProfilePage from   './components/Profile/ProfilePage';
 import SignUp      from   './components/SignUp';
 import TopicFeed   from   './components/TopicFeed';
+import PostFeed   from   './components/PostFeed';
 
 import CoursePage  from   './components/CoursePage/CoursePage'
 import TopicPage  from   './components/TopicPage/TopicPage'
@@ -42,6 +43,7 @@ function App() {
               <Route exact path="/logout" component={Logout}/>
               <Route exact path="/sign-up" component={SignUp}/>
               <Route exact path="/new-post" component={NewPost}/>
+              <Route exact path="/all-posts" component={PostFeed}/>
               <Route exact path="/user-profile/:id" component={ProfilePage}/>
               <Route exact path="/explore/courses" component={CourseFeed}/>
               <Route exact path="/explore/topics"  component={TopicFeed} />

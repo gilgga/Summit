@@ -85,6 +85,19 @@ const GET_COURSES = gql`
     }
 `;
 
+const GET_POSTS = gql`
+    query {
+        getPosts {
+            _id
+            title
+            user
+            time
+            content
+            topic
+            course
+        }
+    }
+`;
 
 const LOGIN_USER = gql`
     query(
@@ -271,6 +284,7 @@ let exported = {
     GET_TOPICS,
     GET_COURSE,
     GET_COURSES,
+    GET_POSTS,
     GET_TOPIC_POSTS,
     GET_TOPIC_COURSES,
     GET_COURSE_POSTS,
