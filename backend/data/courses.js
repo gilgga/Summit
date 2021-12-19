@@ -27,7 +27,7 @@ const courseSanitizationSchema = {
             type: "array"
         },
         topic: {
-            type: "string"
+            type: "ObjectId"
         }
     }
 };
@@ -48,7 +48,7 @@ const courseValidationSchema = {
             type: "array"
         },
         topic: {
-            type: "string"
+            type: "ObjectId"
         }
     }
 };

@@ -66,7 +66,7 @@ const Header = (props) => {
     const [invalidEdits, setInvalidEdits] = useState(true);
     const [formChange, setFormChange] = useState(false);
     const [testImage, setTestImage] = useState(null);
-    const [editDescription] = useMutation(queries.EDIT_DESCRIPTION);
+    const [editProfile] = useMutation(queries.EDIT_PROFILE);
     
     const handleInputChange = (e) => {
         const {name, value } = e.target;
@@ -133,9 +133,9 @@ const Header = (props) => {
     const handleSubmit = async(e) => {
         e.preventDefault();
         try {
-            const {data }= await editDescription({variables: {id: "61bca759d6471ee0af05987e", description: formValues.description, image: formValues.image.encoded}});
+            const {data }= await editProfile({variables: {id: props.match.params.id, description: formValues.description, image: formValues.image.encoded}});
             console.log(data);
-            setTestImage(data && data.editDescription.image);
+            setTestImage(data && data.editProfile.image);
         } catch (e) {
             console.log(e);
         }

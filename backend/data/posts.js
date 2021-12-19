@@ -19,7 +19,7 @@ const postSanitizationSchema = {
             minLength: 1
         },
         user: {
-            type: "string",
+            type: "ObjectId",
             optional: false,
             def: "Anonymous",
             minLength: 1
@@ -33,10 +33,10 @@ const postSanitizationSchema = {
             type: "string"
         },
         topic: {
-            type: "string"
+            type: "ObjectId"
         },
         course: {
-            type: "string"
+            type: "ObjectId"
         }
     }
 };
@@ -51,7 +51,7 @@ const postValidationSchema = {
             minLength: 1
         },
         user: {
-            type: "string",
+            type: "ObjectId",
             optional: false,
             minLength: 1
         },
@@ -63,10 +63,10 @@ const postValidationSchema = {
             type: "string"
         },
         topic: {
-            type: "string"
+            type: "ObjectId"
         },
         course: {
-            type: "string"
+            type: "ObjectId"
         }
     }
 };

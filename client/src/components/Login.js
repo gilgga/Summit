@@ -76,7 +76,7 @@ function Login() {
             style={{ minHeight: '65vh' }}
         >
             
-                    <Grid align='center'>
+                <Grid align='center'>
                     <h2>Log In</h2>
                 </Grid>
                 <form id='login-form' onSubmit={logUserIn}>

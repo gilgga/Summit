@@ -8,8 +8,6 @@ import {
   Typography,
 } from '@mui/material'
 
-import {makeStyles} from '@material-ui/core'
-
 import { Link } from 'react-router-dom';
 import { ThemeProvider, createTheme } from '@mui/material/styles';
 const darkTheme = createTheme({
@@ -28,12 +26,7 @@ const darkTheme = createTheme({
 
 export default function NavBar() {
   const allState = useSelector((state) => state.user);
-  const [authenticated, setAuthenticated] = useState(false);
-  
-  if (allState && allState._id !== -1) {
-    setAuthenticated(true);
-  }
-
+  let authenticated = allState && allState._id !== -1;
   const authPages = 
     <>
       <Typography variant="h6" sx={{mr: 2}}>

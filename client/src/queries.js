@@ -52,6 +52,7 @@ const GET_COURSES = gql`
     }
 `;
 
+
 const LOGIN_USER = gql`
     query(
         $email: String!
@@ -95,14 +96,42 @@ const CREATE_USER = gql`
         }
     }
 `;
+const CREATE_POST = gql`
+    mutation createPost (
+            $user: String!
+            $title: String!
+            $time: String!
+            $content: String!
+            $course: ID!
+            $topic: ID!
+        ) {
+            createPost(
+                user : $user
+                title : $title
+                time : $time
+                content : $content
+                course : $course
+                topic : $topic
+            ) {
+                _id
+                title
+                user
+                time
+                content
+                topic
+                course
+            }
+        }
+`;
 
-const EDIT_DESCRIPTION = gql`
-    mutation newDescription(
+
+const EDIT_PROFILE = gql`
+    mutation newProfile(
         $id: ID!
         $description: String
         $image: String
     ) {
-        editDescription (
+        editProfile (
             id: $id
             description: $description
             image: $image
@@ -210,8 +239,9 @@ let exported = {
     GET_COURSE,
     GET_COURSES,
     CREATE_USER,
+    CREATE_POST,
     LOGIN_USER,
-    EDIT_DESCRIPTION,
+    EDIT_PROFILE,
     ENROLL_COURSE,
     UNENROLL_COURSE,
     ENROLL_TOPIC,
