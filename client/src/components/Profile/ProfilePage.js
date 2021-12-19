@@ -78,9 +78,9 @@ const ProfilePage = () => {
                 spacing = {5}
             >
 
-                {/* <Grid item xs={12}>
+                { <Grid item xs={12}>
                     <Header user={dataU.getUser}/>
-                </Grid> */}
+                </Grid> }
 
                 <Typography
                     align = "left"
@@ -117,7 +117,7 @@ const ProfilePage = () => {
                     Courses {fullName} follows
                 </Typography>
                 <Grid item xs={12}>
-                    <Courses courses = {dataC.getUserCourseDetails}/>
+                    <Courses courses = {dataC.getUserCourseDetails} user = {dataU.getUser}/>
                 </Grid>
 
                 <Typography
@@ -128,7 +128,7 @@ const ProfilePage = () => {
                     Topics {fullName} follows
                 </Typography>
                 <Grid item xs={12}>
-                    <Topics topics = {dataT.getUserTopicDetails} />
+                    <Topics topics = {dataT.getUserTopicDetails} user = {dataU.getUser}/>
                 </Grid>
             </Grid>
             </Container>

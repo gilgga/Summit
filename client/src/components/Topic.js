@@ -32,6 +32,12 @@ const Topic = (props) => {
   const [unenrollTopic] = useMutation(queries.UNENROLL_TOPIC);
 
   useEffect(() => {
+    if(user && user.topics.find(element => element === topic._id)){
+      console.log("YIKES")
+      setSubscribed(true)
+    }
+  }, [])
+  useEffect(() => {
     const enrollUser = async() => {
       const data = await enrollTopic({variables: {id : allState._id, topicid : topic._id}})
       console.log(data);

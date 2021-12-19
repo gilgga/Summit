@@ -14,7 +14,7 @@ import {
 import Course from '../Course'
 
 const Courses = (props) => {
-    const {courses} = props;
+    const {courses, user} = props;
 
     const maxCourses = 3;
 
@@ -49,7 +49,8 @@ const Courses = (props) => {
                     key={index} 
                     course={course}
                     maxwidth={350} 
-                    avatarColor = {randomColor({luminosity: "dark"})}    
+                    avatarColor = {randomColor({luminosity: "dark"})}
+                    user = {user}    
                 />
             </Grid>
         )

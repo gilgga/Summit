@@ -39,6 +39,13 @@ const Course = (props) => {
     const data = await unenrollCourse({variables: {id : allState._id, courseid : course._id}})
     console.log(data);
   }
+
+  useEffect(() => {
+    if(user && user.courses.find(element => element === course._id)){
+      setSubscribed(true)
+    }
+  }, [])
+
   useEffect(() => {
     if (subscribed) {
       enrollUser();
