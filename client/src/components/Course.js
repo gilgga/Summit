@@ -23,7 +23,7 @@ import queries from '../queries';
 const buttonWidth = "160px"
 
 const Course = (props) => {
-  const {avatarColor, course, maxwidth} = props;        
+  const {avatarColor, course, maxwidth, user} = props;        
   const allState = useSelector((state) => state.user);
 
   const [subscribed, setSubscribed] = useState(false);
@@ -31,18 +31,18 @@ const Course = (props) => {
   const [enrollCourse] = useMutation(queries.ENROLL_COURSE);
   const [unenrollCourse] = useMutation(queries.UNENROLL_COURSE);
 
+  const enrollUser = async() => {
+    const data = await enrollCourse({variables: {id : allState._id, courseid : course._id}})
+    console.log(data);
+  };
+  const unenrollUser = async() => {
+    const data = await unenrollCourse({variables: {id : allState._id, courseid : course._id}})
+    console.log(data);
+  }
   useEffect(() => {
-    const enrollUser = async() => {
-      const data = await enrollCourse({variables: {id : allState._id, courseid : course._id}})
-      console.log(data);
-    };
-    const unenrollUser = async() => {
-      const data = await unenrollCourse({variables: {id : allState._id, courseid : course._id}})
-      console.log(data);
-    }
     if (subscribed) {
       enrollUser();
-    } else {
+    } else if(user && user.courses.find(element => element === course._id)){
       unenrollUser();
     }
   }, [subscribed]);
@@ -117,7 +117,7 @@ const Course = (props) => {
           direction="row"
         >
         {actionButton}
-        <Link to={"/course-feed/" + course._id}>
+        <Link to={"/courses/" + course._id}>
           <Button
             variant="outlined"
             color="primary"

@@ -23,7 +23,7 @@ import queries from '../queries';
 const buttonWidth = "160px"
 
 const Topic = (props) => {
-  const {avatarColor, topic, maxwidth} = props;
+  const {avatarColor, topic, maxwidth, user} = props;
   const allState = useSelector((state) => state.user);
 
   const [subscribed, setSubscribed] = useState(false);
@@ -42,7 +42,7 @@ const Topic = (props) => {
     }
     if (subscribed) {
       enrollUser();
-    } else {
+    } else if(user && user.topics.find(element => element === topic._id)){
       unenrollUser();
     }
   }, [subscribed]);
@@ -116,7 +116,7 @@ const Topic = (props) => {
           direction="row"
         >
         {actionButton}
-        <Link to={"/topic-feed/" + topic._id}>
+        <Link to={"/topics/" + topic._id}>
           <Button
             variant="outlined"
             color="primary"

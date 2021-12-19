@@ -87,7 +87,7 @@ const Header = (props) => {
     const [invalidEdits, setInvalidEdits] = useState(true);
     const [formChange, setFormChange] = useState(false);
     const [testImage, setTestImage] = useState(null);
-    const [editDescription] = useMutation(queries.EDIT_DESCRIPTION);
+    //const [editDescription] = useMutation(queries.EDIT_DESCRIPTION);
     
     const handleInputChange = (e) => {
         const {name, value } = e.target;
@@ -151,7 +151,7 @@ const Header = (props) => {
         formValues.image = null;
     }
 
-    const handleSubmit = async(e) => {
+    /*const handleSubmit = async(e) => {
         e.preventDefault();
         try {
             const {data }= await editDescription({variables: {id: "61bca759d6471ee0af05987e", description: formValues.description, image: formValues.image.encoded}});
@@ -162,7 +162,7 @@ const Header = (props) => {
         }
 
         setFormChange(false);
-    };
+    };*/
 
 
     useEffect(() => {

@@ -20,19 +20,30 @@ import queries from '../queries';
 const CourseFeed = (props) => {
     const {data, loading, error} = useQuery(queries.GET_COURSES);
     const currentUser = useSelector((state) => state.user);
-
-    const buildCourses = data && data.getCourses && data.getCourses.map((course, index) => {
-        return (
-            <Grid key = {index} item xs={12}>
-                <Course 
-                    key = {index} 
-                    course={course} 
-                    maxwidth = {"100%"}
-                    avatarColor = {randomColor()}
-                />
-            </Grid>
-        )
-    });
+    const {data: data_user, loading: loading_user, error: error_user} = useQuery(queries.GET_USER, {
+        variables: {userid: currentUser._id},
+        skip: !currentUser,
+        fetchPolicy: "network-only"
+    })
+    let buildCourses = null;
+    if (loading_user){}
+    if (error_user){}
+    if(data_user){
+        console.log(data_user)
+        buildCourses = data && data.getCourses && data.getCourses.map((course, index) => {
+            return (
+                <Grid key = {index} item xs={12}>
+                    <Course 
+                        key = {index} 
+                        user = {data_user.getUser}
+                        course={course} 
+                        maxwidth = {"100%"}
+                        avatarColor = {randomColor()}
+                    />
+                </Grid>
+            )
+        });
+    }
 
     if (currentUser._id === -1) {
         return (<Redirect to='/login'/>);

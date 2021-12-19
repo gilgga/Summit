@@ -21,19 +21,29 @@ import queries from '../queries';
 const TopicFeed = (props) => {
     const {data, loading, error} = useQuery(queries.GET_TOPICS);
     const currentUser = useSelector((state) => state.user);
-
-    const buildTopics = data && data.getTopics.map((topic, index) => {
+    const {data: data_user, loading: loading_user, error: error_user} = useQuery(queries.GET_USER, {
+        variables: {userid: currentUser._id},
+        skip: !currentUser,
+        fetchPolicy: "network-only"
+    })
+    let buildTopics = null;
+    if (loading_user){}
+    if (error_user){}
+    if(data_user){
+    buildTopics = data && data.getTopics.map((topic, index) => {
         return (
             <Grid key = {index} item xs={12}>
                 <Topic 
                     key = {index} 
-                    topic={topic} 
+                    topic={topic}
+                    user = {data_user.getUser} 
                     maxwidth = {"100%"}
                     avatarColor = {randomColor()}
                 />
             </Grid>
         )
     });
+}
 
     if (currentUser._id === -1) {
         return (<Redirect to='/login'/>);

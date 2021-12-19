@@ -320,7 +320,7 @@ async function enrollTopic(userid, topicid, adding) {
         if (addToUser.modifiedCount != 1) {
                 throw {
                     status: httpCodes.INTERNAL_SERVER_ERROR,
-                    message: "Could not update user's courses array"
+                    message: "Could not update user's topics array"
                 }
         }
     
@@ -332,7 +332,7 @@ async function enrollTopic(userid, topicid, adding) {
         if (addToTopic.modifiedCount != 1) {
                 throw {
                     status: httpCodes.INTERNAL_SERVER_ERROR,
-                    message: "Could not update user's courses array"
+                    message: "Could not update user's topics array"
                 }
         }
     
@@ -345,7 +345,7 @@ async function enrollTopic(userid, topicid, adding) {
         if (addToUser.modifiedCount != 1) {
                 throw {
                     status: httpCodes.INTERNAL_SERVER_ERROR,
-                    message: "Could not update user's courses array"
+                    message: "Could not update user's topics array"
                 }
         }
     
@@ -357,7 +357,7 @@ async function enrollTopic(userid, topicid, adding) {
         if (addToTopic.modifiedCount != 1) {
                 throw {
                     status: httpCodes.INTERNAL_SERVER_ERROR,
-                    message: "Could not update user's courses array"
+                    message: "Could not update user's topics array"
                 }
         }    
     }
