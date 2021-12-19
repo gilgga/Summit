@@ -1,5 +1,7 @@
 import randomColor from 'randomcolor';
 import { useQuery } from '@apollo/client';
+import { useSelector } from "react-redux";
+import { Redirect } from 'react-router-dom';
 
 import {
     Container
@@ -18,6 +20,8 @@ import queries from '../queries';
 
 const TopicFeed = (props) => {
     const {data, loading, error} = useQuery(queries.GET_TOPICS);
+    const currentUser = useSelector((state) => state.user);
+
     const buildTopics = data && data.getTopics.map((topic, index) => {
         return (
             <Grid key = {index} item xs={12}>
@@ -30,6 +34,10 @@ const TopicFeed = (props) => {
             </Grid>
         )
     });
+
+    if (currentUser._id === -1) {
+        return (<Redirect to='/login'/>);
+    }
     
     if ( loading ) {
         return (
