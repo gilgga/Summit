@@ -72,10 +72,15 @@ const NewPost = (props) => {
             topic:  topicSelect,
             user: allState._id
         }
-        console.log(values);
         newPost({variables: values}).then((data, err) => {
             if (data) {
                 setOpen(true);
+                setcourseSelect('');
+                settopicSelect('');
+                setFormValues(defaultValues);
+                setContent('');
+                setTitle('');
+                setValidForm(false);
             } else if (err) {
                 console.log(err);
             }

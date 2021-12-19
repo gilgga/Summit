@@ -1,5 +1,6 @@
 import {useEffect, useState} from 'react';
 import { useMutation } from '@apollo/client';
+import { useSelector } from 'react-redux';
 
 import {
     Avatar,
@@ -57,17 +58,19 @@ const Header = (props) => {
         description: "",
         image: null,
     };
-    const authorized = true;
-
+    console.log(user)
     const classes =  useStyles();
+    const allState = useSelector((state) => state.user);
 
     const [edit, setEdit] = useState(false);    
     const [formValues, setFormValues] = useState(defaultValues);
     const [invalidEdits, setInvalidEdits] = useState(true);
     const [formChange, setFormChange] = useState(false);
-    const [testImage, setTestImage] = useState(null);
+    const [testImage, setTestImage] = useState(user && user.image);
     const [editProfile] = useMutation(queries.EDIT_PROFILE);
     
+    const authorized = user._id === allState._id;
+
     const handleInputChange = (e) => {
         const {name, value } = e.target;
         setFormValues({
@@ -134,7 +137,6 @@ const Header = (props) => {
         e.preventDefault();
         try {
             const {data }= await editProfile({variables: {id: user._id, description: formValues.description, image: formValues.image.encoded}});
-            console.log(data);
             setTestImage(data && data.editProfile.image);
         } catch (e) {
             console.log(e);

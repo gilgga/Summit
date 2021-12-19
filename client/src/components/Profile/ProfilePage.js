@@ -78,9 +78,9 @@ const ProfilePage = () => {
                 spacing = {5}
             >
 
-                {/* <Grid item xs={12}>
+                <Grid item xs={12}>
                     <Header user={dataU.getUser}/>
-                </Grid> */}
+                </Grid>
 
                 <Typography
                     align = "left"

@@ -17,11 +17,13 @@ const Post = (props) => {
   const {post} = props;
   const resTopic = useQuery(queries.GET_TOPIC, { variables: { id: post.topic }, fetchPolicy: "network-only"});
   const resCourse = useQuery(queries.GET_COURSE, { variables: { id: post.course }, fetchPolicy: "network-only"});
+  const resUser   = useQuery(queries.GET_USER, {variables: {userid: post.user}, fetchPolicy: "network-only"})
   let topic = '';
   let course = '';
+  let user = {};
   let date = new Date(parseInt(post.time));
 
-  if (resTopic.loading || resCourse.loading) {
+  if (resTopic.loading || resCourse.loading || resUser.loading) {
     <Card sx={{ Width: "100%"}} raised>
       <CardContent>
         <CircularProgress/>
@@ -35,6 +37,9 @@ const Post = (props) => {
   if (resCourse.data) {
     course = `Course: ${resCourse.data.getCourse.title} | `;
   }
+  if (resUser.data) {
+    user = resUser.data.getUser;
+  }
 
   return (
     <Card sx={{ Width: "100%"}} raised>
@@ -42,11 +47,12 @@ const Post = (props) => {
         avatar={
           <Avatar 
             aria-label="profile-picture"
-            src = {NoImage}
+            alt={post.title}
+            src = {user && user.image ? user.image : NoImage}
             />
           }
         title={post.title}
-        subheader={`${topic}${course}Posted by ${post.userPosted} @ ${date}`}
+        subheader={`${topic}${course}Posted by ${user.firstName} ${user.lastName} @ ${date}`}
       />
       <CardContent>
         <Typography variant="body2" color="textPrimary">
