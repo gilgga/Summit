@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from "react-redux";
 import { Redirect, Link } from 'react-router-dom';
 import { useLazyQuery } from "@apollo/client";
@@ -15,6 +15,13 @@ function Login() {
     const currentUser = useSelector((state) => state.user);
     const dispatch = useDispatch();
     const [ login, { loading, error, data }] = useLazyQuery(queries.LOGIN_USER);
+
+
+    useEffect(() => {
+        if (data) {
+            dispatch(actions.logUserIn(data.loginUser));
+        }
+    },[data]);
 
     const logUserIn = async (e) => {
         e.preventDefault();
@@ -41,7 +48,6 @@ function Login() {
     }
 
     if (data) {
-        dispatch(actions.logUserIn(data.loginUser));
         return (<Redirect to={`/user-profile/${data.loginUser._id}`}/>);
     }
 
@@ -69,7 +75,7 @@ function Login() {
             justifyContent="center"
             style={{ minHeight: '65vh' }}
         >
-            <Paper elevation={10} style={{padding:20,height:'50vh',width:280, margin:"20px auto"}}>
+            
                 <Grid align='center'>
                     <h2>Log In</h2>
                 </Grid>
@@ -79,12 +85,11 @@ function Login() {
                     <Button type='submit' color='primary' variant="contained" style={{margin:'8px 0'}} fullWidth>Login</Button>
                 </form>
                 {(loginError || error) && <Alert severity="error">Your login credentials could not be verified, please try again.</Alert>}
-                <Typography > Don't have an account? 
+                <Typography > Don't have an account? {" "}
                      <Link to="/sign-up" >
-                        Sign Up 
+                        Sign Up here
                     </Link>
                 </Typography>
-            </Paper>
         </Grid>
     )
 }

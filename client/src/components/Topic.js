@@ -1,5 +1,7 @@
-import {useState} from 'react';
+import {useState, useEffect} from 'react';
 import Link from 'react-router-dom/Link';
+import { useMutation } from '@apollo/client';
+import { useSelector } from 'react-redux';
 
 import {
   Button,
@@ -16,13 +18,34 @@ import BookmarkAddIcon from '@mui/icons-material/BookmarkAdd';
 import BookmarkRemoveIcon from '@mui/icons-material/BookmarkRemove';
 import PeopleAltIcon from '@mui/icons-material/PeopleAlt';
 
+import queries from '../queries';
 
 const buttonWidth = "160px"
 
 const Topic = (props) => {
   const {avatarColor, topic, maxwidth} = props;
+  const allState = useSelector((state) => state.user);
 
   const [subscribed, setSubscribed] = useState(false);
+
+  const [enrollTopic] = useMutation(queries.ENROLL_TOPIC);
+  const [unenrollTopic] = useMutation(queries.UNENROLL_TOPIC);
+
+  useEffect(() => {
+    const enrollUser = async() => {
+      const data = await enrollTopic({variables: {id : allState._id, topicid : topic._id}})
+      console.log(data);
+    };
+    const unenrollUser = async() => {
+      const data = await unenrollTopic({variables: {id : allState._id, topicid : topic._id}})
+      console.log(data);
+    }
+    if (subscribed) {
+      enrollUser();
+    } else {
+      unenrollUser();
+    }
+  }, [subscribed]);
 
   const stringAvatar = (name) => {
     let delimited = name.split(' ');

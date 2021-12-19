@@ -4,19 +4,6 @@ const {topics, courses, users, posts} = require("./data");
 
 const seed = require("./data/seed");
 
-// For Redis Caching
-// const bluebird = require('bluebird');
-// const redis = require('redis');
-// const client = redis.createClient();
-
-// bluebird.promisifyAll(redis.RedisClient.prototype);
-// bluebird.promisifyAll(redis.Multi.prototype);
-
-const userCache = "userCache";
-const postCache = "postCache";
-const topicCache = "topicCache";
-const courseCache = "courseCache"
-
 const typeDefs = gql`
 
   type User {
@@ -79,7 +66,15 @@ const typeDefs = gql`
       firstName: String!
       lastName: String!
     ) : User
-    editDescription (
+    createPost (
+      user: String!
+      title: String!
+      time: String!
+      content: String!
+      course: ID!
+      topic: ID!
+    ) : Post
+    editProfile (
       id: ID!
       description : String
       image: String
@@ -152,7 +147,7 @@ const resolvers = {
           const newUser = await users.createUser(email, password, firstName, lastName);
           return newUser;
       },
-      editDescription: async(_, args) => {
+      editProfile: async(_, args) => {
           const {id, description, image} = args;
           const newUser = await users.editProfile(id, description, image);
           return newUser;
@@ -177,6 +172,10 @@ const resolvers = {
         const newUser = await users.enrollTopic(id, topicid, false);
         return newUser;
       },
+      createPost: async(_, args) => {
+        const {title, user, time, content, topic, course} = args;
+        return await posts.addPost(title, user, time, content, topic, course);
+      }
     }
   };
 async function seedDatabase() {

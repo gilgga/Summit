@@ -19,7 +19,7 @@ const postSanitizationSchema = {
             minLength: 1
         },
         user: {
-            type: "string",
+            type: "ObjectId",
             optional: false,
             def: "Anonymous",
             minLength: 1
@@ -51,7 +51,7 @@ const postValidationSchema = {
             minLength: 1
         },
         user: {
-            type: "string",
+            type: "ObjectId",
             optional: false,
             minLength: 1
         },
@@ -83,7 +83,7 @@ async function addPost(title, user, time, content, topic, course){
 
     inspector.sanitize( postSanitizationSchema, newPostInput );
     const validatedNewPostInput = inspector.validate( postValidationSchema, newPostInput );
-
+    console.log(newPostInput);
     if ( !validatedNewPostInput.valid ) {
         throw {
             status: httpCodes.BAD_REQUEST,
@@ -99,6 +99,35 @@ async function addPost(title, user, time, content, topic, course){
     const post = await postsCollection.findOne({_id: newId});
 
     return post;
+}
+
+async function getPosts() {
+    const allPosts = await posts();
+    const post = await allPosts.find({});
+    return await post.toArray();
+}
+
+async function getPost(id) {
+    if (!id) {
+        throw {
+            status: httpCodes.BAD_REQUEST,
+            message: "id not provided"
+        }
+    }
+    
+    id = errorChecking.sanitizeId( id );
+
+    const allPosts = await posts();
+    
+    const post = await allPosts.findOne({_id: id});
+    if (!(await post)) {
+        throw {
+            status: httpCodes.NOT_FOUND,
+            message: "Post not found"
+        }
+    }
+    return await post;
+
 }
 
 async function getPostsFromTopic(topicid) {
@@ -136,6 +165,8 @@ async function getPostsFromCourse(courseid) {
 
 module.exports = {
     addPost,
+    getPosts,
+    getPost,
     getPostsFromTopic,
     getPostsFromCourse
 }

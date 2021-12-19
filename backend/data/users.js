@@ -154,7 +154,7 @@ async function createUser(email, password, firstName, lastName) {
         }; 
     }
 
-    let insertData = await usersCollection.insertOne(validatedNewUserInput);
+    let insertData = await usersCollection.insertOne(newUserInput);
     let newId = insertData.insertedId;
     if (!newId) {
         throw {
@@ -200,7 +200,7 @@ async function loginUser(email, password) {
             message: "User not found"
         }
     }
-    const userImage = await getUserImage(userid);
+    const userImage = await getUserImage(getUser._id);
     getUser.image = userImage;
     delete getUser.password;
     return getUser;

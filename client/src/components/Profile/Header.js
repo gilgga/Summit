@@ -3,6 +3,7 @@ import { useMutation } from '@apollo/client';
 
 import {
     Avatar,
+    Box,
     Dialog,
     DialogTitle,
     DialogContent,
@@ -37,7 +38,6 @@ const useStyles = makeStyles({
         margin: 'auto',
         marginLeft:  'auto',
         marginRight: 'auto',
-        backgroundColor: "lightblue",
     },
     avatar: {
         marginLeft:  'auto',
@@ -66,7 +66,7 @@ const Header = (props) => {
     const [invalidEdits, setInvalidEdits] = useState(true);
     const [formChange, setFormChange] = useState(false);
     const [testImage, setTestImage] = useState(null);
-    const [editDescription] = useMutation(queries.EDIT_DESCRIPTION);
+    const [editProfile] = useMutation(queries.EDIT_PROFILE);
     
     const handleInputChange = (e) => {
         const {name, value } = e.target;
@@ -133,9 +133,9 @@ const Header = (props) => {
     const handleSubmit = async(e) => {
         e.preventDefault();
         try {
-            const {data }= await editDescription({variables: {id: "61bca759d6471ee0af05987e", description: formValues.description, image: formValues.image.encoded}});
+            const {data }= await editProfile({variables: {id: props.match.params.id, description: formValues.description, image: formValues.image.encoded}});
             console.log(data);
-            setTestImage(data && data.editDescription.image);
+            setTestImage(data && data.editProfile.image);
         } catch (e) {
             console.log(e);
         }
@@ -239,26 +239,25 @@ const Header = (props) => {
                     spacing={2}
                 >
                     <Grid item xs={12}>
-                    <Card className={classes.card} variant="outlined">
-                        <CardContent
-
-                            className = {classes.h1}
+                        <Box
+                            className={classes.card}
                         >
-                            <Avatar 
-                                className = {classes.avatar}
-                                sx={{ width: 150, height: 150 }}
-                                alt = {user.firstName + " " + user.lastName}
-                                src={testImage ? testImage : NoImage}
-                            />
-                            <Typography
-                                align = "center"
-                                variant="h1"
-                                component="h1"
-                            >
-                                {user.firstName + " " + user.lastName}
-                            </Typography>
-                        </CardContent>
-                    </Card>
+                        <Avatar 
+                            className = {classes.avatar}
+                            sx={{ width: 150, height: 150 }}
+                            alt = {user.firstName + " " + user.lastName}
+                            src={testImage ? testImage : NoImage}
+                        />
+                        <br></br>
+                        <Typography
+                            align = "center"
+                            variant="h1"
+                            component="h1"
+                        >
+                            {user.firstName + " " + user.lastName}
+                        </Typography>
+
+                        </Box>
                     </Grid>
                     <Grid item>
                         {EditButton}
