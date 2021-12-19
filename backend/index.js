@@ -50,6 +50,7 @@ const typeDefs = gql`
     getPostsFromCourse(courseid: ID!) : [Post]
     getTopic(id: ID!)  : Topic
     getTopics: [Topic]
+    getTopicCourses(id: ID!): [Course]
     getCourses: [Course]
     getCourse(id: ID!) : Course
     loginUser(
@@ -122,6 +123,10 @@ const resolvers = {
       getTopic: async (_, args) => {
         let id = args.id;
         return await topics.getTopic(id);
+      },
+      getTopicCourses: async (_, args) => {
+        let id = args.id;
+        return await courses.getTopicCourses(id);
       },
       getCourses: async (_, args) => {
         return await courses.getCourses();

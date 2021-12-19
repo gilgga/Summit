@@ -17,6 +17,12 @@ import SignUp      from   './components/SignUp';
 import TopicFeed   from   './components/TopicFeed';
 import PostFeed   from   './components/PostFeed';
 
+import CoursePage  from   './components/CoursePage/CoursePage'
+import TopicPage  from   './components/TopicPage/TopicPage'
+
+
+import logo from './logo.svg';
+
 const client = new ApolloClient({
   cache: new InMemoryCache(),
   link: new HttpLink({
@@ -41,6 +47,8 @@ function App() {
               <Route exact path="/user-profile/:id" component={ProfilePage}/>
               <Route exact path="/explore/courses" component={CourseFeed}/>
               <Route exact path="/explore/topics"  component={TopicFeed} />
+              <Route exact path="/courses/:id"  component={CoursePage} />
+              <Route exact path="/topics/:id"  component={TopicPage} />
               <Route exact path="/*" component={NotFound}/>
             </Switch>
           </Box>
