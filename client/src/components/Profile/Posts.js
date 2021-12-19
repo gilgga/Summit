@@ -11,15 +11,14 @@ import {
 import Post from '../Post';
 
 const Posts = (props) => {
-    const {user} = props;
-    const {posts} = user;
+    const {posts} = props;
     const maxPosts = 3;
 
     const [expanded, setExpanded] = useState(false);
     const [numPosts, setNumPosts] = useState(maxPosts);
     const [buttonText, setButtonText] = useState("See more");
     
-    let expandButton = posts.length > maxPosts &&  
+    let expandButton = posts && posts.length > maxPosts &&  
             <Grid key="button" item>
                 <Button 
                     variant = "outlined"
@@ -29,6 +28,10 @@ const Posts = (props) => {
                 </Button>
             </Grid>;
         
+
+    useEffect(() => {
+        console.log(posts)
+    }, [])
 
     useEffect(() => {
         if (expanded) {

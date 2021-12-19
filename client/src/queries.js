@@ -279,7 +279,7 @@ const UNENROLL_TOPIC = gql`
 `;
 
 const GET_POSTS_FROM_USER = gql`
-    query ($userid: String!) {
+    query ($userid: ID!) {
         getPostsFromUser(userid : $userid) {
             _id
             title
@@ -293,7 +293,7 @@ const GET_POSTS_FROM_USER = gql`
 `;
 
 const GET_USER = gql`
-    query ($userid: String!) {
+    query ($userid: ID!) {
         getUser(userid :  $userid) {
             _id
             email
@@ -308,7 +308,7 @@ const GET_USER = gql`
 `;
 
 const GET_USER_COURSE_DETAILS = gql`
-    query ($userid: String!) {
+    query ($userid: ID!) {
         getUserCourseDetails(userid : $userid) {
             _id
             title
@@ -320,7 +320,7 @@ const GET_USER_COURSE_DETAILS = gql`
 `;
 
 const GET_USER_TOPIC_DETAILS = gql`
-    query ($userid: String!) {
+    query ($userid: ID!) {
         getUserTopicDetails(userid : $userid) {
             _id
             title

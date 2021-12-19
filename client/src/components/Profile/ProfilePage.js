@@ -1,7 +1,7 @@
 import { useQuery } from '@apollo/client';
 import { useSelector } from "react-redux";
 import { Redirect } from 'react-router-dom';
-
+import { useParams } from 'react-router-dom'
 import {
     Grid,
     Typography
@@ -19,28 +19,70 @@ import Topics from './Topics';
 import queries from '../../queries';
 
 const ProfilePage = () => {
-
-    const { data: dataU, loading: loadingU, error: errorU } = useQuery(queries.GET_USER);   // eslint-disable-line
-    const { data: dataC, loading: loadingC, error: errorC } = useQuery(queries.GET_USER_COURSE_DETAILS);    // eslint-disable-line
-    const { data: dataT, loading: loadingT, error: errorT } = useQuery(queries.GET_USER_TOPIC_DETAILS); // eslint-disable-line
-    const {data, loading, error} = useQuery(queries.GET_POSTS_FROM_USER);   // eslint-disable-line
-
+    const {id} = useParams()
+    const { data: dataU, loading: loadingU, error: errorU } = useQuery(queries.GET_USER, {
+        variables: {userid: id},
+        fetchPolicy: "network-only"
+    });   // eslint-disable-line
+    const { data: dataC, loading: loadingC, error: errorC } = useQuery(queries.GET_USER_COURSE_DETAILS, {
+        variables: {userid: id},
+        fetchPolicy: "network-only"
+    });    // eslint-disable-line
+    const { data: dataT, loading: loadingT, error: errorT } = useQuery(queries.GET_USER_TOPIC_DETAILS, {
+        variables: {userid: id},
+        fetchPolicy: "network-only"
+    }); // eslint-disable-line
+    const {data, loading, error} = useQuery(queries.GET_POSTS_FROM_USER, {
+        variables: {userid: id},
+        fetchPolicy: "network-only"
+    });   // eslint-disable-line
+    const currentState = useSelector((state) => state);
+    
+    if(loadingU){
+        return (
+            <p>Loading...</p>
+        );
+    }
+    if(errorU){
+        console.log(JSON.stringify(errorU, null, 2));
+        return <h2>404: Page Not Found</h2>;
+    }
+    if(loadingC){
+        return (
+            <p>Loading...</p>
+        );
+    }
+    if(errorC){
+        console.log(JSON.stringify(errorC, null, 2));
+        return <h2>404: Page Not Found</h2>;
+    }
+    if(loadingT){
+        return (
+            <p>Loading...</p>
+        );
+    }
+    if(errorT){
+        console.log(JSON.stringify(errorT, null, 2));
+        return <h2>404: Page Not Found</h2>;
+    }
     console.log("U");
+    if(dataU)
     console.log( dataU );
     console.log("C");
+    if(dataC)
     console.log( dataC );
     console.log("T");
+    if(dataT)
     console.log( dataT );
     console.log("D");
     console.log(data);
 
-    const fullName = dataU.firstName + " " + dataU.lastName;
-    const currentUser = useSelector((state) => state.user);
+    const fullName = dataU.getUser.firstName + " " + dataU.getUser.lastName;
 
-    if (currentUser._id === -1) {
+    if (currentState._id === -1) {
         return (<Redirect to='/login'/>);
     }
-
+    if(dataU && dataC && dataT && data)
     return (
         <>
             <br></br>
@@ -52,7 +94,7 @@ const ProfilePage = () => {
             >
 
                 <Grid item xs={12}>
-                    <Header user={dataU}/>
+                    <Header user={dataU.getUser}/>
                 </Grid>
 
                 <Typography
@@ -66,7 +108,7 @@ const ProfilePage = () => {
 
                 <Grid item xs={12} >
                 <Typography variant="h6" color="textPrimary">
-                        {dataU.description}
+                        {dataU.getUser.description}
                     </Typography>
                 </Grid>
 
@@ -78,7 +120,7 @@ const ProfilePage = () => {
                     {fullName}'s Posts
                 </Typography>
                 <Grid item xs={12}>
-                    <Posts user={data}/>
+                    <Posts posts={data.getPostsFromUser}/>
                 </Grid>
 
 
@@ -90,7 +132,7 @@ const ProfilePage = () => {
                     Courses {fullName} follows
                 </Typography>
                 <Grid item xs={12}>
-                    <Courses courses = {dataC}/>
+                    <Courses courses = {dataC.getUserCourseDetails}/>
                 </Grid>
 
                 <Typography
@@ -101,11 +143,16 @@ const ProfilePage = () => {
                     Topics {fullName} follows
                 </Typography>
                 <Grid item xs={12}>
-                    <Topics topics = {dataT} />
+                    <Topics topics = {dataT.getUserTopicDetails} />
                 </Grid>
             </Grid>
             </Container>
         </>
+    )
+    else return (
+        <div>
+
+        </div>
     )
 }
 
