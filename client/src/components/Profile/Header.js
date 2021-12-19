@@ -133,7 +133,7 @@ const Header = (props) => {
     const handleSubmit = async(e) => {
         e.preventDefault();
         try {
-            const {data }= await editProfile({variables: {id: props.match.params.id, description: formValues.description, image: formValues.image.encoded}});
+            const {data }= await editProfile({variables: {id: user._id, description: formValues.description, image: formValues.image.encoded}});
             console.log(data);
             setTestImage(data && data.editProfile.image);
         } catch (e) {

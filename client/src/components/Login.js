@@ -1,16 +1,16 @@
 import React, { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from "react-redux";
-import { Redirect, Link } from 'react-router-dom';
+import { Redirect, Link, useHistory } from 'react-router-dom';
 import { useLazyQuery } from "@apollo/client";
 import { Button, CircularProgress, Grid, TextField, Typography } from '@mui/material';
-import { Paper } from '@material-ui/core';
 import { Alert } from '@mui/lab';
 
 import queries from '../queries';
 import validate from '../validate';
 import actions from '../actions';
 
-function Login() {
+function Login(props) {
+    const history = useHistory();
     const [ loginError, setLoginError ]=useState(false);
     const currentUser = useSelector((state) => state.user);
     const dispatch = useDispatch();
@@ -20,6 +20,7 @@ function Login() {
     useEffect(() => {
         if (data) {
             dispatch(actions.logUserIn(data.loginUser));
+            history.go("/user-profile/" + data.loginUser._id);
         }
     },[data]);
 
@@ -48,7 +49,7 @@ function Login() {
     }
 
     if (data) {
-        return (<Redirect to={`/user-profile/${data.loginUser._id}`}/>);
+        // return (<Redirect to={`/user-profile/${data.loginUser._id}`}/>);
     }
 
     if (loading) {
