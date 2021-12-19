@@ -12,7 +12,7 @@ import {
 import Topic from '../Topic';
 
 const Topics = (props) => {
-    const {topics} = props;
+    const {topics, user} = props;
     const maxTopics = 3;
 
     const [expanded, setExpanded] = useState(false);
@@ -47,7 +47,8 @@ const Topics = (props) => {
                     key = {index} 
                     topic={topic} 
                     maxwidth={350} 
-                    avatarColor = {randomColor()}    
+                    avatarColor = {randomColor()}
+                    user = {user}    
                 />
             </Grid>
         )

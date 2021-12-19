@@ -71,7 +71,6 @@ const CoursePage = (props) => {
     
     if(courseData && topicData) {
     return (
-        <div>
         <Container fixed>
 
         <Grid 
@@ -111,8 +110,6 @@ const CoursePage = (props) => {
 
         </Grid>
         </Container>
-        </div>
-        
     )
     }else return (
         <div>

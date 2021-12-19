@@ -69,7 +69,6 @@ const TopicPage = (props) => {
 
     if(topicData) {
     return (
-        <div>
         <Container fixed>
 
         <Grid 
@@ -109,7 +108,6 @@ const TopicPage = (props) => {
 
         </Grid>
         </Container>
-        </div>
         
     ) 
     } else return (
