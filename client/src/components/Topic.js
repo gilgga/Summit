@@ -33,7 +33,6 @@ const Topic = (props) => {
 
   useEffect(() => {
     if(user && user.topics.find(element => element === topic._id)){
-      console.log("YIKES")
       setSubscribed(true)
     }
   }, [])
