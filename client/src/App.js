@@ -21,8 +21,6 @@ import CoursePage  from   './components/CoursePage/CoursePage'
 import TopicPage  from   './components/TopicPage/TopicPage'
 
 
-import logo from './logo.svg';
-
 const client = new ApolloClient({
   cache: new InMemoryCache(),
   link: new HttpLink({

@@ -44,8 +44,12 @@ const typeDefs = gql`
   }
 
   type Query {
+    getUser(userid: ID!) : User
+    getUserCourseDetails(userid: ID!) : [Course]
+    getUserTopicDetails(userid: ID!) : [Topic]
     getPosts: [Post]
     getPost(id: ID!) : Post
+    getPostsFromUser(userid: ID!) : [Post]
     getPostsFromTopic(topicid: ID!) : [Post]
     getPostsFromCourse(courseid: ID!) : [Post]
     getTopic(id: ID!)  : Topic
@@ -102,12 +106,28 @@ const typeDefs = gql`
 
 const resolvers = {
     Query: {
+      getUser: async (_, args) => {
+        let userid = args.userid;
+        return await users.getUser(userid);
+      },
+      getUserCourseDetails: async (_, args) => {
+        let userid = args.userid;
+        return await users.getUserCourseDetails(userid);
+      },
+      getUserTopicDetails: async (_, args) => {
+        let userid = args.userid;
+        return await users.getUserTopicDetails(userid);
+      },
       getPosts: async (_, args) => {
         return await posts.getPosts();
       },
       getPost: async (_, args) => {
         let id = args.id;
         return await posts.getPost(id);
+      },
+      getPostsFromUser: async (_, args) => {
+        let userid = args.userid;
+        return await posts.getPostsFromUser(userid);
       },
       getPostsFromTopic: async (_, args) => {
         let topicid = args.topicid;

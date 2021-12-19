@@ -105,6 +105,9 @@ const usercourses = [
 
 
 const ProfilePage = () => {
+
+    
+
     const fullName = exampleUser.firstName + " " + exampleUser.lastName;
     const currentUser = useSelector((state) => state.user);
 
