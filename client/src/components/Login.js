@@ -20,7 +20,7 @@ function Login(props) {
     useEffect(() => {
         if (data) {
             dispatch(actions.logUserIn(data.loginUser));
-            history.go(1);
+            history.go("/user-profile/" + data.loginUser._id);
         }
     },[data]);
 

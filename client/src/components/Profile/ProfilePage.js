@@ -44,7 +44,6 @@ const ProfilePage = () => {
         );
     }
     if(errorU){
-        console.log(JSON.stringify(errorU, null, 2));
         return <h2>404: Page Not Found</h2>;
     }
     if(loadingC){
@@ -53,7 +52,6 @@ const ProfilePage = () => {
         );
     }
     if(errorC){
-        console.log(JSON.stringify(errorC, null, 2));
         return <h2>404: Page Not Found</h2>;
     }
     if(loadingT){
@@ -62,27 +60,14 @@ const ProfilePage = () => {
         );
     }
     if(errorT){
-        console.log(JSON.stringify(errorT, null, 2));
         return <h2>404: Page Not Found</h2>;
     }
-    console.log("U");
-    if(dataU)
-    console.log( dataU );
-    console.log("C");
-    if(dataC)
-    console.log( dataC );
-    console.log("T");
-    if(dataT)
-    console.log( dataT );
-    console.log("D");
-    console.log(data);
-
     const fullName = dataU.getUser.firstName + " " + dataU.getUser.lastName;
 
     if (currentState._id === -1) {
         return (<Redirect to='/login'/>);
     }
-    if(dataU && dataC && dataT && data)
+    if(dataU && dataC && dataT && data) {
     return (
         <>
             <br></br>
@@ -93,9 +78,9 @@ const ProfilePage = () => {
                 spacing = {5}
             >
 
-                <Grid item xs={12}>
+                {/* <Grid item xs={12}>
                     <Header user={dataU.getUser}/>
-                </Grid>
+                </Grid> */}
 
                 <Typography
                     align = "left"
@@ -108,7 +93,7 @@ const ProfilePage = () => {
 
                 <Grid item xs={12} >
                 <Typography variant="h6" color="textPrimary">
-                        {dataU.getUser.description}
+                        {dataU.getUser.description ? dataU.getUser.description : `${dataU.getUser.firstName} hasn't added a description yet!`}
                     </Typography>
                 </Grid>
 
@@ -149,7 +134,7 @@ const ProfilePage = () => {
             </Container>
         </>
     )
-    else return (
+    } else return (
         <div>
 
         </div>
