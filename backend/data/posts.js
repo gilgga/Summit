@@ -159,8 +159,7 @@ async function getPostsFromCourse(courseid) {
 
     const allPosts = await posts();
 
-    const post = await allPosts.find({course : courseid});
-    
+    const post = await allPosts.find({course: courseid});
     return await post.toArray();
 }
 

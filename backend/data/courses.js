@@ -10,6 +10,7 @@ const errorChecking = require('./errors');
 
 // Schema-Inspector Schemas
 const inspector = require('schema-inspector');
+const { topics } = require('../config/mongoCollections');
 
 const courseSanitizationSchema = {
     type: "object",
@@ -115,8 +116,37 @@ async function getCourse(id) {
 
 }
 
+async function getTopicCourses(topicid) {
+    if (!topicid) {
+        throw {
+            status: httpCodes.BAD_REQUEST,
+            message: "id not provided"
+        }
+    }
+    topicid = errorChecking.sanitizeId( topicid );
+    const allCourses = await courses();
+    const topic = await topicsData.getTopic(topicid);
+    if (!topic) {
+        throw {
+            status: httpCodes.NOT_FOUND,
+            message: "Could not find topic"
+        }
+    }
+
+    const courseList = [];
+    let thisCourse = null;
+
+    for (let course of topic.courses){
+        thisCourse = await allCourses.findOne({_id: course});
+        courseList.push(thisCourse);
+    }
+    
+    return courseList;
+}
+
 module.exports = {
     addCourse,
     getCourse,
+    getTopicCourses,
     getCourses
 }

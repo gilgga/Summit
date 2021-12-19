@@ -3,7 +3,6 @@ const httpCodes = require('http-codes');
 const {ObjectId} = require('mongodb');
 const mongoCollections = require("../config/mongoCollections")
 const topics = mongoCollections.topics;
-
 const errorChecking = require('./errors');
 
 // Schema-Inspector Schemas
