@@ -163,10 +163,28 @@ async function getPostsFromCourse(courseid) {
     return await post.toArray();
 }
 
+async function getPostsFromUser(userid) {
+    if (!userid) {
+        throw {
+            status: httpCodes.BAD_REQUEST,
+            message: "userid not provided"
+        }
+    }
+
+    userid = errorChecking.sanitizeId(userid);
+
+    const allPosts = await posts();
+
+    const post = await allPosts.find({user : userid});
+    
+    return await post.toArray();
+}
+
 module.exports = {
     addPost,
     getPosts,
     getPost,
     getPostsFromTopic,
-    getPostsFromCourse
+    getPostsFromCourse,
+    getPostsFromUser
 }

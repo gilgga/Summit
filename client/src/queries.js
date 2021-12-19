@@ -278,6 +278,59 @@ const UNENROLL_TOPIC = gql`
     }
 `;
 
+const GET_POSTS_FROM_USER = gql`
+    query ($userid: ID!) {
+        getPostsFromUser(userid : $userid) {
+            _id
+            title
+            user
+            time
+            content
+            topic
+            course
+        }
+    }
+`;
+
+const GET_USER = gql`
+    query ($userid: ID!) {
+        getUser(userid :  $userid) {
+            _id
+            email
+            description
+            firstName
+            lastName
+            topics
+            courses
+            image
+        }
+    }
+`;
+
+const GET_USER_COURSE_DETAILS = gql`
+    query ($userid: ID!) {
+        getUserCourseDetails(userid : $userid) {
+            _id
+            title
+            description
+            usersEnrolled
+            topic
+        }
+    }
+`;
+
+const GET_USER_TOPIC_DETAILS = gql`
+    query ($userid: ID!) {
+        getUserTopicDetails(userid : $userid) {
+            _id
+            title
+            description
+            usersEnrolled
+            courses
+        }
+    }
+`
+
 
 let exported = {
     GET_TOPIC,
@@ -295,7 +348,11 @@ let exported = {
     ENROLL_COURSE,
     UNENROLL_COURSE,
     ENROLL_TOPIC,
-    UNENROLL_TOPIC
+    UNENROLL_TOPIC,
+    GET_POSTS_FROM_USER,
+    GET_USER,
+    GET_USER_COURSE_DETAILS,
+    GET_USER_TOPIC_DETAILS
 };
 
 export default exported;
