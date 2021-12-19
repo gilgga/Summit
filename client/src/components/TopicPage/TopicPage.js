@@ -1,15 +1,8 @@
 import {react, useState, useEffect} from 'react';
-import { Link } from 'react-router-dom';
-import { useQuery, useMutation } from '@apollo/client';
+import { useQuery } from '@apollo/client';
 import { useParams } from 'react-router-dom'
 import queries from '../../queries.js';
 import {
-  Card,
-  CardHeader,
-  CardActions,
-  CardContent,
-  Avatar,
-  Stack,
   Container
 } from '@mui/material'
 import {
@@ -18,7 +11,6 @@ import {
 } from "@material-ui/core";
 import Posts from './Posts'
 import Header from './Header'
-import Description from './Description';
 
 
 const TopicPage = (props) => {
@@ -39,29 +31,15 @@ const TopicPage = (props) => {
         variables: {id: id.toString()},
         fetchPolicy: "network-only"
     })
-    useEffect (() => {
-        if(courseId){
-            console.log(courseId)
-            console.log(courseId.toString())
-        }
-    },[])
-    useEffect(() => {
-        if(courseData)
-        console.log(courseData);
-        console.log(topicData)
-        console.log(postsData)
-    }, [courseData, topicData, postsData])
     if (loading) {
         return (
             <p>Loading...</p>
         );
     }
     if (error){
-        console.log(JSON.stringify(error, null, 2));
         return <h2>404: Page Not Found</h2>;
     }
     if(data && !topicData){
-        console.log(data)
         setTopicData(data.getTopic)
     }
     if (posts_loading) {
@@ -70,12 +48,9 @@ const TopicPage = (props) => {
         );
     }
     if (posts_error){
-        console.log(courseId)
-        console.log(JSON.stringify(posts_error, null, 2));
         return <h2>404: Page Not Found</h2>;
     }
     if(posts_data && !postsData) {
-        console.log(posts_data)
         setPostsData(posts_data.getPostsFromTopic)
     }
 
@@ -85,17 +60,14 @@ const TopicPage = (props) => {
         );
     }
     if (course_error){
-        console.log(courseId)
-        console.log(JSON.stringify(posts_error, null, 2));
         return <h2>404: Page Not Found</h2>;
     }
     if(course_data && !courseData) {
-        console.log(course_data)
         setCourseData(course_data.getTopicCourses)
     }
 
 
-    if(topicData)
+    if(topicData) {
     return (
         <div>
         <Container fixed>
@@ -119,7 +91,9 @@ const TopicPage = (props) => {
             </Typography>
 
             <Grid item xs={12} >
-                <Description topic={topicData}/>
+                    <Typography variant="h6" color="textPrimary">
+                        {courseData && courseData.description}
+                    </Typography>
             </Grid>
 
             <Typography
@@ -137,8 +111,8 @@ const TopicPage = (props) => {
         </Container>
         </div>
         
-    )
-    else return (
+    ) 
+    } else return (
         <div>
 
         </div>

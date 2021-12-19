@@ -44,10 +44,6 @@ const useStyles = makeStyles({
         marginLeft:  'auto',
         marginRight: 'auto',
     },
-    grid : {
-        justifyContent: "center",
-        alignItems : "center",
-    },
     box : {
         backgroundColor: "lightblue"
     },
@@ -58,7 +54,6 @@ const Header = (props) => {
         description: "",
         image: null,
     };
-    console.log(user)
     const classes =  useStyles();
     const allState = useSelector((state) => state.user);
 
@@ -66,7 +61,7 @@ const Header = (props) => {
     const [formValues, setFormValues] = useState(defaultValues);
     const [invalidEdits, setInvalidEdits] = useState(true);
     const [formChange, setFormChange] = useState(false);
-    const [testImage, setTestImage] = useState(user && user.image);
+    const [UserImage, setUserImage] = useState(user && user.image);
     const [editProfile] = useMutation(queries.EDIT_PROFILE);
     
     const authorized = user._id === allState._id;
@@ -135,13 +130,19 @@ const Header = (props) => {
 
     const handleSubmit = async(e) => {
         e.preventDefault();
-        try {
-            const {data }= await editProfile({variables: {id: user._id, description: formValues.description, image: formValues.image.encoded}});
-            setTestImage(data && data.editProfile.image);
-        } catch (e) {
-            console.log(e);
+            if (formValues.image || formValues.description) {
+            try {
+                if (!formValues.image) {
+                    const {data }= await editProfile({variables: {id: user._id, description: formValues.description}});
+                } else {
+                    const {data }= await editProfile({variables: {id: user._id, description: formValues.description, image: formValues.image.encoded}});
+                    setUserImage(data && data.editProfile.image);   
+                }
+            } catch (e) {
+                console.log(e);
+            }
         }
-
+        setFormValues(defaultValues);
         setFormChange(false);
     };
 
@@ -156,7 +157,7 @@ const Header = (props) => {
 
     const EditForm = authorized && 
         <>
-                    <Dialog
+            <Dialog
                 open={edit}
                 onClose= {() => setEdit(false)}
             >
@@ -248,7 +249,7 @@ const Header = (props) => {
                             className = {classes.avatar}
                             sx={{ width: 150, height: 150 }}
                             alt = {user.firstName + " " + user.lastName}
-                            src={testImage ? testImage : NoImage}
+                            src={UserImage ? UserImage : NoImage}
                         />
                         <br></br>
                         <Typography

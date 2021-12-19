@@ -30,10 +30,6 @@ const Posts = (props) => {
         
 
     useEffect(() => {
-        console.log(posts)
-    }, [])
-
-    useEffect(() => {
         if (expanded) {
             setNumPosts(posts.size);
             setButtonText("See less");
