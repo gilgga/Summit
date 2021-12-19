@@ -106,9 +106,12 @@ const usercourses = [
 
 const ProfilePage = () => {
 
-    
+    const { data: dataU, loading: loadingU, error: errorU } = useQuery(queries.GET_USER);
+    const { data: dataC, loading: loadingC, error: errorC } = useQuery(queries.GET_USER_COURSE_DETAILS);
+    const { data: dataT, loading: loadingT, error: errorT } = useQuery(queries.GET_USER_TOPIC_DETAILS);
+    const {data, loading, error} = useQuery(queries.GET_POSTS_FROM_USER);
 
-    const fullName = exampleUser.firstName + " " + exampleUser.lastName;
+    const fullName = dataU.firstName + " " + dataU.lastName;
     const currentUser = useSelector((state) => state.user);
 
     if (currentUser._id === -1) {
