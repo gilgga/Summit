@@ -73,6 +73,9 @@ const postValidationSchema = {
 
 async function addPost(title, user, time, content, topic, course){
     user= errorChecking.sanitizeId( user);
+    topic= errorChecking.sanitizeId( topic);
+    course= errorChecking.sanitizeId( course);
+
     let newPostInput = {
         title: title,
         user: user,

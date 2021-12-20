@@ -1,33 +1,13 @@
-import {useEffect, useState} from 'react';
-import { useMutation } from '@apollo/client';
 import { Link } from 'react-router-dom';
 import {
-    Avatar,
-    Dialog,
-    DialogTitle,
-    DialogContent,
     Container,
-    IconButton,
-    DialogContentText
 } from '@mui/material';
 
 import { 
-    Button,
-    Card,
-    CardContent,
     Grid,
     makeStyles,
-    TextField,
     Typography,
  } from '@material-ui/core';
-
-import Edit from '@mui/icons-material/Edit'
-import DeleteIcon from '@mui/icons-material/Delete';
-
-import NoImage from "../../img/ProfileImage.jpeg"
-import queries from '../../queries';
-import { blue } from '@material-ui/core/colors';
-import { PaddingOutlined } from '@mui/icons-material';
 
 const useStyles = makeStyles({
     input: {

@@ -15,8 +15,6 @@ import {
 
 import { 
     Button,
-    Card,
-    CardContent,
     Grid,
     makeStyles,
     TextField,
@@ -133,7 +131,7 @@ const Header = (props) => {
             if (formValues.image || formValues.description) {
             try {
                 if (!formValues.image) {
-                    const {data }= await editProfile({variables: {id: user._id, description: formValues.description}});
+                    await editProfile({variables: {id: user._id, description: formValues.description}});
                 } else {
                     const {data }= await editProfile({variables: {id: user._id, description: formValues.description, image: formValues.image.encoded}});
                     setUserImage(data && data.editProfile.image);   

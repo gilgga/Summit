@@ -42,8 +42,6 @@ const Posts = (props) => {
     }, [expanded]); // eslint-disable-line
 
     if (posts){
-        console.log("HEY!")
-        console.log(posts)
         buildPosts = posts && posts.slice(0, numPosts).map((post, index) => {
             return (
                 <Grid key = {index} item xs={12}>

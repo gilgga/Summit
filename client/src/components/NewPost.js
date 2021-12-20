@@ -68,7 +68,7 @@ const NewPost = (props) => {
         const values = {
             ...formValues,
             time: new Date(),
-            course: courseSelect.title,
+            course: courseSelect._id,
             topic:  topicSelect,
             user: allState._id
         }
@@ -181,6 +181,7 @@ const NewPost = (props) => {
                                 >   
                                     {data && data.getCourses.map((course) => {
                                         return <MenuItem key={course._id} value={course}>{course.title}</MenuItem>
+                                            
                                     })}
                                 </Select>
                                 <FormHelperText>Required</FormHelperText>
