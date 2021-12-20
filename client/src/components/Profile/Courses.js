@@ -49,7 +49,7 @@ const Courses = (props) => {
                     key={index} 
                     course={course}
                     maxwidth={350} 
-                    avatarColor = {randomColor({luminosity: "dark"})}
+                    avatarColor = {randomColor()}
                     user = {user}    
                 />
             </Grid>

@@ -1,4 +1,4 @@
-import randomColor from 'randomcolor';
+import randomColor from '../utils/randomColor';
 import { useQuery } from '@apollo/client';
 import { useSelector } from "react-redux";
 import { Redirect } from 'react-router-dom';

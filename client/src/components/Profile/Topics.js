@@ -1,5 +1,5 @@
 import {useState, useEffect} from 'react';
-import randomColor from 'randomcolor';
+import randomColor from '../../utils/randomColor';
 import {
     Container,
 } from '@mui/material';

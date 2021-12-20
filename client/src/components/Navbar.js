@@ -29,28 +29,28 @@ export default function NavBar() {
   let authenticated = allState && allState._id !== -1;
   const authPages = 
     <>
-      <Typography variant="h6" sx={{mr: 2}}>
-        <Link to="/">
+      <Typography sx={{mr: 2}} >
+        <Link to="/" style={{ color: '#FFF', paddingRight: '20px' }}>
           Home
         </Link>
       </Typography>
-      <Typography variant="h6" sx={{mr: 2}}>
-      <Link to={"/user-profile/" + allState._id} style={{ color: '#FFF' }}>
+      <Typography sx={{mr: 2}}>
+      <Link to={"/user-profile/" + allState._id} style={{ color: '#FFF', paddingRight: '20px' }}>
         Profile
         </Link>
       </Typography>
-      <Typography variant="h6" sx={{ mr: 2 }} >
-          <Link to="/all-posts" style={{ color: '#FFF' }}>
+      <Typography sx={{ mr: 2 }} >
+          <Link to="/all-posts" style={{ color: '#FFF', paddingRight: '20px' }}>
             All Posts
           </Link>
       </Typography>
-      <Typography variant="h6" sx={{mr: 2}}>
-          <Link to="/explore/courses" style={{ color: '#FFF' }}>
+      <Typography sx={{mr: 2}}>
+          <Link to="/explore/courses" style={{ color: '#FFF', paddingRight: '20px' }}>
             Explore Courses
           </Link>
       </Typography>
-      <Typography variant="h6" sx={{ flexGrow: 1 }} >
-          <Link to="/explore/topics" style={{ color: '#FFF' }}>
+      <Typography sx={{ flexGrow: 1 }} >
+          <Link to="/explore/topics" style={{ color: '#FFF', paddingRight: '20px' }}>
             Explore Topics
           </Link>
       </Typography>
@@ -58,8 +58,8 @@ export default function NavBar() {
 
   const unauthPages = 
     <>
-      <Typography variant="h6" sx={{ flexGrow: 1 }} >
-        <Link to="/" style={{ color: '#FFF' }}>
+      <Typography sx={{ flexGrow: 1 }} >
+        <Link to="/" style={{ color: '#FFF', paddingRight: '20px' }}>
           Home
         </Link>
       </Typography>
@@ -67,13 +67,13 @@ export default function NavBar() {
 
   const unauthSettings = 
     <>
-      <Typography variant="h6" sx={{mr: 2}}>
-          <Link to="/login" style={{ color: '#FFF' }}>
+      <Typography sx={{mr: 2}}>
+          <Link to="/login" style={{ color: '#FFF', paddingRight: '20px' }}>
             Log in
           </Link>
       </Typography>
-      <Typography variant="h6" sx={{mr: 2}}>
-          <Link to="/sign-up" style={{ color: '#FFF' }} >
+      <Typography sx={{mr: 2}}>
+          <Link to="/sign-up" style={{ color: '#FFF', paddingRight: '20px' }} >
             Sign Up
           </Link>
       </Typography>
@@ -81,8 +81,8 @@ export default function NavBar() {
 
   const authSettings = 
     <>
-      <Typography variant="h6" sx={{mr: 2}}>
-          <Link to="/logout" style={{ color: '#FFF' }}>
+      <Typography sx={{mr: 2}}>
+          <Link to="/logout" style={{ color: '#FFF', paddingRight: '20px' }}>
             Log Out
           </Link>
       </Typography>
