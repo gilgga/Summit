@@ -42,7 +42,8 @@ $ npm start # Frontend running onlocalhost:3000
 $ cd Summit/backend # In terminal 2
 $ npm install
 $ npm start # Backend running on localhost:4000
-$ npm run seed # In terminal 3
+$ cd Summit/backend # In terminal 3
+$ npm run seed 
 ```
 
 ### Setting up services
