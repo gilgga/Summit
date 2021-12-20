@@ -180,7 +180,7 @@ const NewPost = (props) => {
                                     autoWidth
                                 >   
                                     {data && data.getCourses.map((course) => {
-                                        return <MenuItem key={course._id} value={course}>{course.title}</MenuItem>
+                                        return <MenuItem key={course._id} style={{whiteSpace: 'normal'}} value={course}>{course.title}</MenuItem>
                                             
                                     })}
                                 </Select>
